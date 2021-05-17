@@ -1,3 +1,4 @@
+
 LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 def encrypt(key,plaintext):
@@ -9,7 +10,8 @@ def encrypt(key,plaintext):
                 if j+key < 26:
                     pt[i] = LETTERS[j+key]  # need to handle end letter 
                 else:
-                    pt[i] = LETTERS[j+key-26]
+                    keymod = key%26
+                    pt[i] = LETTERS[j+keymod-26]
     return ciphertext.join(pt)
 
 def decrypt(key,ciphertext):
@@ -21,6 +23,8 @@ def decrypt(key,ciphertext):
                 if j+key > 0:
                     ct[i] = LETTERS[j-key]  # need to handle end letter 
                 else:
-                    ct[i] = LETTERS[j-key+26]
+                    keymod = key%26
+                    ct[i] = LETTERS[j-keymod+26]
     return plaintext.join(ct)
+
 
