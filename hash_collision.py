@@ -18,13 +18,13 @@ def hash_collision(k):
         x = os.urandom(2) # 256 bits
         SHA256.update(x)
         hex_x= SHA256.hexdigest()
-        x_bin = bin(int(hex_x,base=16))[2:]
+        x_bin = bin(int(hex_x,base=16))[:]
         
     
         y = os.urandom(2)
         SHA256.update(y)
         hex_y= SHA256.hexdigest()
-        y_bin = bin(int(hex_y,base=16))[2:]
+        y_bin = bin(int(hex_y,base=16))[:]
     
         if x_bin[-k:]==y_bin[-k:] and x !=y:
             return(x,y)
