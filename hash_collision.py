@@ -17,22 +17,17 @@ def hash_collision(k):
     while(True):
         x = os.urandom(1) # 256 bits
         SHA256.update(x)
-        s_x= list(SHA256.hexdigest())
+        hex_x= SHA256.hexdigest()
+        x_bin = bin(int(hex_x,base=16))[2:]
+        
     
         y = os.urandom(1)
         SHA256.update(y)
-        s_y= list(SHA256.hexdigest())
+        hex_y= SHA256.hexdigest()
+        y_bin = bin(int(hex_y,base=16))[2:]
     
-        if(s_x[63-k:63]==s_y[63-k:63]):
-            continue
-    
-#     for i in range(63-k,63):
-#         if(s_x[i]==(s_y[i])):
-#             continue
-#         else:
-#             print('Error')
-        
-    return(x.hex(),y.hex())
+        if x_bin[-k:]==y_bin[-k:] and x !=y:
+            return(x.hex(),y.hex())
     
 
     
