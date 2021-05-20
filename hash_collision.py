@@ -14,16 +14,17 @@ def hash_collision(k):
     #Collision finding code goes here
     
     # generate random bytes / compare SHA256(x)
-    x = os.urandom(10) # 256 bits
-    SHA256.update(x)
-    s_x= list(SHA256.hexdigest())
+    while(True):
+        x = os.urandom(1) # 256 bits
+        SHA256.update(x)
+        s_x= list(SHA256.hexdigest())
     
-    y = os.urandom(10)
-    SHA256.update(y)
-    s_y= list(SHA256.hexdigest())
+        y = os.urandom(1)
+        SHA256.update(y)
+        s_y= list(SHA256.hexdigest())
     
-    if(s_x[63-k:63]==s_y[63-k:63]):
-        return (x.hex(),y.hex())
+        if(s_x[63-k:63]==s_y[63-k:63]):
+            continue
     
 #     for i in range(63-k,63):
 #         if(s_x[i]==(s_y[i])):
@@ -31,7 +32,7 @@ def hash_collision(k):
 #         else:
 #             print('Error')
         
-#         return( s_x, s_y )
+    return(x.hex(),y.hex())
     
 
     
