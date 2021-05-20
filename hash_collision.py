@@ -1,7 +1,6 @@
 import hashlib
 import os
 
-SHA256 = hashlib.sha256()
 
 def hash_collision(k):
     if not isinstance(k,int):
@@ -13,21 +12,22 @@ def hash_collision(k):
    
     #Collision finding code goes here
     
-    # generate random bytes / compare SHA256(x)
+    # generate random bytes and get hashing using SHA256
+    # convert to hex and to binary bits
+    # compare SHA256(x)
     
-    x = os.urandom(1) # 256 bits
-    SHA256.update(x)
-    hex_x= SHA256.hexdigest()
-    #x_bin = bin(int(hex_x,base=16))[:]
-    x_bin = list(hex_x)[:]
+    x = os.urandom(k) # random bytes with size 
     
-    while(True):
-        y = os.urandom(1)
-        SHA256.update(y)
-        hex_y= SHA256.hexdigest()
-        #y_bin = bin(int(hex_y,base=16))[:]
-        y_bin = list(hex_x)[:]
+    hex_x= hashlib.sha256( x ).hexdigest()
+    x_bin = bin(int(hex_x,base=16))[2:]
         
+    while(True):
+        y = os.urandom(k)
+        
+        hex_y= hashlib.sha256( y ).hexdigest()
+        y_bin = bin(int(hex_y,base=16))[2:]
         if x_bin[-k:] == y_bin[-k:] and x !=y:
             return(x,y)
+        else:
+            continue
     
