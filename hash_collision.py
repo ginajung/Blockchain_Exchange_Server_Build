@@ -15,25 +15,17 @@ def hash_collision(k):
     
     # generate random bytes / compare SHA256(x)
     while(True):
-        x = os.urandom(1) # 256 bits
+        x = os.urandom(2) # 256 bits
         SHA256.update(x)
         hex_x= SHA256.hexdigest()
         x_bin = bin(int(hex_x,base=16))[2:]
         
     
-        y = os.urandom(1)
+        y = os.urandom(2)
         SHA256.update(y)
         hex_y= SHA256.hexdigest()
         y_bin = bin(int(hex_y,base=16))[2:]
     
         if x_bin[-k:]==y_bin[-k:] and x !=y:
-            return(x.hex(),y.hex())
+            return(x,y)
     
-
-    
-    
-
-
-
-
-
