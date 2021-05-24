@@ -11,7 +11,6 @@ def hash_preimage(target_string):
     
     while(True):
         k= randint(1,20)
-        size = k
         nonce = os.urandom(k)
     
         hex_nonce= hashlib.sha256( nonce ).hexdigest()

@@ -1,6 +1,6 @@
 import hashlib
 import os
-
+from random import randint
 
 def hash_collision(k):
     if not isinstance(k,int):
@@ -16,18 +16,17 @@ def hash_collision(k):
     # convert to hex and to binary bits
     # compare SHA256(x)
     
-    x = os.urandom(k) # random bytes with size 
-    
+    r_m= randint(1,20)
+    x = os.urandom(r_m) # random bytes with size randomly picked by randint(1,20)
     hex_x= hashlib.sha256( x ).hexdigest()
     x_bin = bin(int(hex_x,base=16))[2:]
         
     while(True):
-        y = os.urandom(k)
-        
+        r_n= randint(1,20)
+        y = os.urandom(r_n)
         hex_y= hashlib.sha256( y ).hexdigest()
         y_bin = bin(int(hex_y,base=16))[2:]
         if x_bin[-k:] == y_bin[-k:] and x !=y:
             return(x,y)
         else:
             continue
-    
