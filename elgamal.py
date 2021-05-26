@@ -6,12 +6,9 @@ from params import g
 # p-1 = 2q
 # g is chosen to have order q , g^q = 1 mod p
 
-def ordermod(g,p):
-    x = pow(g,-1,p)
-    assert (x*g)%p ==1
-    return q
 
-q = ordermod(g,p)
+q = pow(g,-1,p)
+assert (x*g)%p ==1
 
 def keygen():
     # if q is the order of g
