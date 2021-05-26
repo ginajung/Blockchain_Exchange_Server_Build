@@ -11,10 +11,11 @@ def ordermod(g,p):
     assert (x*g)%p ==1
     return q
 
-   
+q = ordermod(g,p)
+
 def keygen():
     # if q is the order of g
-    q = ordermod(g,p)
+    #q = ordermod(g,p)
     a = randint(1,q)
     
     # if q is unknown, (1,p)
@@ -38,3 +39,4 @@ def decrypt(sk,c):
     c2 =c[1]
     m = c2/c1 % p
     return m
+
