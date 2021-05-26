@@ -8,7 +8,7 @@ from params import g
 
 
 q = pow(g,-1,p)
-assert (x*g)%p ==1
+assert (q*g)%p ==1
 
 def keygen():
     # if q is the order of g
