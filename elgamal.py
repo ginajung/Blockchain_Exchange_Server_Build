@@ -33,6 +33,6 @@ def encrypt(pk,m):
 def decrypt(sk,c):
     
     mes = c[1] * pow(c[0],-sk,p) 
-    mes % p
+    m = mes % p
     return m
 
