@@ -3,16 +3,15 @@ from random import randint
 from params import p
 from params import g
 
-# p-1 = 2q
-# g is chosen to have order q , g^q = 1 mod p
 
+# g is chosen to have order q , g^q = 1 mod p
 
 q = pow(g,-1,p)
 assert (q*g)%p ==1
 
 def keygen():
     # if q is the order of g
-    #q = ordermod(g,p)
+    
     a = randint(1,q)
     
     # if q is unknown, (1,p)
@@ -33,7 +32,7 @@ def encrypt(pk,m):
 
 def decrypt(sk,c):
     
-    m =(c[0]**sk)/c[1]%p 
+    m =c[1]%p / pow(c[0],sk,p) 
    
     return m
 
