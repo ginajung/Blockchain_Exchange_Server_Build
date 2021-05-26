@@ -23,17 +23,17 @@ def keygen():
     return pk,sk
 
 def encrypt(pk,m):
+    
     r = randint(1,q)
     c1 = pow(g,r,p)   
-  # c2 = h^r *m mod p
-    mes= (pk**r)*m
-    c2 = mes % p
+    #c2 = (pk**r) *m % p
+    c2= pow(pk,r,p) *m %p
+    
     return [c1,c2]
 
 def decrypt(sk,c):
     
-    c1= c[0]**sk
-    c2 =c[1]
-    m = c2/c1 % p
+    m =pow((c[0]**sk)/c[1],1,p) 
+   
     return m
 
