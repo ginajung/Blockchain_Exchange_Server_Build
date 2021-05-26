@@ -33,7 +33,7 @@ def encrypt(pk,m):
 
 def decrypt(sk,c):
     
-    m =pow((c[0]**sk)/c[1],1,p) 
+    m =(c[0]**sk)/c[1]%p 
    
     return m
 
