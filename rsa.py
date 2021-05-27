@@ -7,8 +7,8 @@ from rsa_util import is_prime
 e = 65537
 
 def RSAKeygen(bitlen):
-    p = random.SystemRandom().randint(1,bitlen)
-    q = random.SystemRandom().randint(1,bitlen)
+    p = random.SystemRandom().randint(1,pow(2,bitlen))
+    q = random.SystemRandom().randint(1,pow(2,bitlen))
     n = p*q
     d = pow(e, -1, (p-1)*(q-1))
     return [n,d]
