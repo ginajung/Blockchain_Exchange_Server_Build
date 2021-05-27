@@ -7,18 +7,19 @@ from rsa_util import is_prime
 e = 65537
 
 def RSAKeygen(bitlen):
-	n = 0
-	d = 0
-	#Code goes here
-	return n,d
+    p = random.SystemRandom().randint(1,bitlen)
+    q = random.SystemRandom().randint(1,bitlen)
+    n = p*q
+    d = pow(e, -1, (p-1)*(q-1))
+    return [n,d]
 
 def RSAEncrypt(n,m):
-	c = m
+	c = pow(m,e,n)
 	#Code goes here
 	return c
 
 def RSADecrypt(n,d,c):
-	m = c
+	m = pow (c,d,n)
 	#Code goes here
 	return m
 
