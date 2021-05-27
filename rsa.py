@@ -11,7 +11,7 @@ def RSAKeygen(bitlen):
     q = random.SystemRandom().randint(1,pow(2,bitlen))
     n = p*q
     d = pow(e, -1, (p-1)*(q-1))
-    return [n,d]
+    return n,d
 
 def RSAEncrypt(n,m):
 	c = pow(m,e,n)
