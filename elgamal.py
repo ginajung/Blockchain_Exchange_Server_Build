@@ -23,14 +23,14 @@ def encrypt(pk,m):
     
     r = random.SystemRandom().randint(1,p)
     c1 = pow(g,r,p)      
-    prec2= pow(pk,r,p)* pow(m,1,p)
-    c2 = pow(prec2,1, p)
+    pre_c2= pow(pk,r,p)* pow(m,1,p)
+    c2 = pow(pre_c2,1, p)
     return c1,c2
 
 def decrypt(sk,c):
     # 𝑚=𝑐2/𝑐1^𝑎 𝑚𝑜𝑑 𝑝
     
-    mes = pow(c[1],1,p)* pow(c[0],p-1-sk,p) 
+    mes = pow(c[1],1,p)* pow(c[0],-sk,p) 
     m=mes%p
     return m
 
