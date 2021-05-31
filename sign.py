@@ -16,7 +16,7 @@ def sign(m):
     d, publick_key = keys.gen_keypair(secp256k1)
     
 	#generate signature
-    r,s = fastecdsa.ecdsa.sign(m, d, secp256k1, sha256)
+    r,s = ecdsa.sign(m, d, secp256k1, sha256)
 
     assert isinstance( public_key, point.Point )
     assert isinstance( r, int)
