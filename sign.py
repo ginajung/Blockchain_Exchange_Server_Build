@@ -13,7 +13,7 @@ def sign(m):
     n = secp256k1.q
     
     #generate private key: d and public key: d*g 
-    d, publick_key = keys.gen_keypair(secp256k1)
+    d, public_key = keys.gen_keypair(secp256k1)
     
 	#generate signature
     r,s = ecdsa.sign(m, d, secp256k1, sha256)
