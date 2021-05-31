@@ -8,7 +8,7 @@ import random
 
 def sign(m):
     G = secp256k1.G
-    n = secp256k1.n
+    n = secp256k1.q
     d = random.SystemRandom().randint(1,n-1)
   
   #generate public key
