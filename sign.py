@@ -17,7 +17,7 @@ def sign(m):
 	#public_key = keys.get_public_key(d,secp256k1)
     
     
-    d, publick_key = keys.gen_keypair(secp256k1)
+    d, public_key = keys.gen_keypair(secp256k1)
     x1=public_key.x
     y1=public_key.y
     
