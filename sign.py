@@ -7,6 +7,7 @@ import random
 
 
 def sign(m):
+    
 	# private key
     #d = random.SystemRandom().randint(1,n-1)
     g = secp256k1.G
@@ -30,8 +31,7 @@ def sign(m):
 # 	s = pow(d,-1,n)* pow(z+rd,1,n)
     
     r,s = fastecdsa.ecdsa.sign(m, d, secp256k1, sha256)
-
-	assert isinstance( public_key, point.Point )
-	assert isinstance( r, int )
-	assert isinstance( s, int )
-	return( public_key, [r,s] )
+    assert isinstance( public_key, point.Point )
+    assert isinstance( r, int )
+    assert isinstance( s, int )
+    return( public_key, [r,s] )
