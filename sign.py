@@ -1,7 +1,8 @@
 from fastecdsa.curve import secp256k1
 from fastecdsa.keys import export_key, gen_keypair
 from fastecdsa import curve, ecdsa, keys, point
-from hashlib import sha265
+import hashlib 
+
 import random
 
 
@@ -24,7 +25,7 @@ def sign(m):
         else: 
             continue
       
-        z = sha256( m )
+        z = hashlibsha256( m )
         s = pow(d,-1,n)* pow(z+rd,1,n)
         if(s==0): 
             d = random.SystemRandom().randint(1,n-1)
