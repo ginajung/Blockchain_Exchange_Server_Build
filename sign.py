@@ -30,7 +30,7 @@ def sign(m):
 #     z = sha256( m )
 # 	s = pow(d,-1,n)* pow(z+rd,1,n)
     
-    r,s = fastecdsa.ecdsa.sign(m, d, secp256k1, sha256)
+    r,s = ecdsa.sign(m, d, secp256k1, sha256)
     assert isinstance( public_key, point.Point )
     assert isinstance( r, int )
     assert isinstance( s, int )
