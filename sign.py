@@ -19,7 +19,7 @@ def sign(m):
  
     
     #generate public key
-	public_key = keys.get_public_key(secp256k1)
+	public_key = keys.get_public_key(d,secp256k1)
     
 #     x1=public_key.x
 #     y1=public_key.y
