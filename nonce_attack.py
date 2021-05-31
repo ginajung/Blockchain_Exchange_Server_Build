@@ -12,11 +12,10 @@ def recoverkey( sig1, sig2, m1, m2, pk ):
         #Your code here
         
         while(True):
-            
             d, public_key = keys.gen_keypair(secp256k1)
             s1 = ecdsa.sign(m1, d, secp256k1, sha256)[1]
             s2 = ecdsa.sign(m2, d, secp256k1, sha256)[1]
-            if(s1 == s2 and s1 == -s2):     
+            if(s1 == s2 or s1 == -s2):     
                 ver1 =ecdsa.verify(sig1, m1, pk, secp256k1, sha256)
                 ver2 = ecdsa.verify(sig2, m2, pk, secp256k1, sha256)
                 if (ver1==True and ver2== True):
