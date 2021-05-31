@@ -16,7 +16,7 @@ def sign(m):
     d = random.SystemRandom().randint(1,n-1)
     
     #generate public key
-	public_key = keys.get_public_key(d, G)
+	public_key = keys.get_public_key(d,G)
     
     x1=public_key.x
     y1=public_key.y
