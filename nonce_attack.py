@@ -6,7 +6,7 @@ from hashlib import sha256
 
 #sig1 and sig2 should be lists of length 2, i.e., sig1 = [r1,s1] and sig2 = [r2,s2]
 def recoverkey( sig1, sig2, m1, m2, pk ):
-    
+        # checking r1 == r2  
         if sig1[0] != sig2[0]:
             print( "Signatures were generated with different nonces" )
         #Your code here
@@ -14,10 +14,9 @@ def recoverkey( sig1, sig2, m1, m2, pk ):
         while(True):
             
             d, public_key = keys.gen_keypair(secp256k1)
-            if(pk == public_key and m1 != m2):
-                
-#                 r1,s1 = ecdsa.sign(m1, d, secp256k1, sha256)
-#                 r2,s2 = ecdsa.sign(m2, d, secp256k1, sha256)
+            s1 = ecdsa.sign(m1, d, secp256k1, sha256)[1]
+            s2 = ecdsa.sign(m2, d, secp256k1, sha256)[1]
+            if(s1 == s2 and s1 == -s2):     
                 ver1 =ecdsa.verify(sig1, m1, pk, secp256k1, sha256)
                 ver2 = ecdsa.verify(sig2, m2, pk, secp256k1, sha256)
                 if (ver1==True and ver2== True):
