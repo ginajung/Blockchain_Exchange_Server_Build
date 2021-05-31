@@ -7,25 +7,22 @@ import random
 
 
 def sign(m):
-	
-    d = random.SystemRandom().randint(1,n-1)
+	# private key
+    #d = random.SystemRandom().randint(1,n-1)
+    g = secp256k1.G
+    n = secp256k1.q
     
-   
-
-	#Your code here
-    #G = secp256k1.G
-    n = secp256k1.n
+    #generate public key d*g
+	#public_key = keys.get_public_key(d,secp256k1)
     
- 
     
-    #generate public key
-	public_key = keys.get_public_key(d,secp256k1)
-    
-#     x1=public_key.x
-#     y1=public_key.y
+    d, publick_key = keys.gen_keypair(secp256k1)
+    x1=public_key.x
+    y1=public_key.y
     
 	#generate signature
 	#Your code here
+    
 # 	r = pow(x1,1,n)
 #     if (r==0):
         
