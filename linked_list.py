@@ -18,13 +18,16 @@ class Block:
 M4BlockChain = []
 
 from datetime import datetime
+
+# create first block and start BlockChain
 def create_genesis_block():
     return Block(0, datetime.now(), "Genesis Block", "0")
     
 M4BlockChain.append(create_genesis_block())
 
-
 # write a function `next_block` to generate a block
+# based on last_block / keep tracking last_block
+
 def next_block(last_block):
     
     # generate block
@@ -34,6 +37,7 @@ def next_block(last_block):
     
 # append 5 blocks to the blockchain
 def app_five(block_list):
+    last_block = M4BlockChain[M4BlockChain.size()+1]
     i = 0
     for i in range (0,5):
         next_node = next_block(last_block)
