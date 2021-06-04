@@ -31,7 +31,7 @@ def recoverkey( sig1, sig2, m1, m2, pk ):
     # recover, k = 'nonce' & d private key
         pre_k =pow((s1-s2),1,n)* pow((z1−z2),−1,n)
         k = pre_k % n
-        pre_d = pow((s1*k-z1),1,n)*pow(r1,-1,n)
+        pre_d = pow((s2*k-z2),1,n)*pow(r2,-1,n)
         d = pre_d % n
 
     # if correct k, then r1 = r2 = kG.x   
