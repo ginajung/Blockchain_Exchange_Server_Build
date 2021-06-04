@@ -18,8 +18,8 @@ def recoverkey( sig1, sig2, m1, m2, pk ):
     # when r1 == r2 , recover k 
     
     # order of g
-    g = secp256k1.G
-    n = secp256k1.q
+    g = curve.G
+    n = curve.q
     r1 = sig1[0]
     r2 = sig2[0]
     s1 = sig1[1]
