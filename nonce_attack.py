@@ -9,11 +9,12 @@ def recoverkey( sig1, sig2, m1, m2, pk ):
     
     # Key generation : private key = d , public key = pk =dG
     # Signature : r = kG.x.  if the same nonce(k) used, then r will be same/ s is different
-    # checking r1 == r2  
+    
     
     if sig1[0] != sig2[0]:
         print( "Signatures were generated with different nonces" )
     
+    # when r1 == r2 , recover k 
     else:
     # order of g
         g = secp256k1.G
@@ -26,8 +27,10 @@ def recoverkey( sig1, sig2, m1, m2, pk ):
         z2 = sha256(m2)
         
     # recover, k = 'nonce' & d private key
-        k =(pow((s1-s2),1,n)*pow((z1−z2),−1,n)) % n
-        d = (pow((s1*k-z1),1,n)* pow(r1,-1,n)) % n
+        k =(pow((s1-s2),1,n)* pow((z1−z2),−1,n)) % n
+        pre_d = (s1 % n)* pow((k-z1),1,n)*pow(r,-1,n)
+        d = pre_d % n
+        
     
     # if correct k, then r1 = r2 = kG.x   
     # (keys.get_public_key(k,secp256k1).x == r1)&&
