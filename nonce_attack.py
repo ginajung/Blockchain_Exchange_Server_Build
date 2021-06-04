@@ -28,7 +28,7 @@ def recoverkey( sig1, sig2, m1, m2, pk ):
         
     # recover, k = 'nonce' & d private key
         k =(pow((s1-s2),1,n)* pow((z1−z2),−1,n)) % n
-        pre_d = (s1 % n)* pow((k-z1),1,n)*pow(r,-1,n)
+        pre_d = (s1 % n)* pow((k-z1),1,n)*pow(r1,-1,n)
         d = pre_d % n
         
     
