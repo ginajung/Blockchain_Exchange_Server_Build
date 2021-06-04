@@ -33,10 +33,10 @@ def recoverkey( sig1, sig2, m1, m2, pk ):
             d = pre_d % n
 
     # if correct k, then r1 = r2 = kG.x   
-            if (keys.get_public_key(k,secp256k1).x - r1==0 or keys.get_public_key(k,secp256k1).x + r1 ==0 ):
+            if ((k*g.x - r1)% n ==0 or (k*g.x + r1)%n ==0 ):
             
     # if correct d, then pk =dG
-                if ((keys.get_public_key(d, secp256k1)-pk)%n ==0):
+                if ((d*g-pk)%n ==0):
                     return d
            
 
