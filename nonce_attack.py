@@ -29,10 +29,12 @@ def recoverkey( sig1, sig2, m1, m2, pk ):
    
     if(r1 == r2 and s1 != s2):
         # recover, k = 'nonce' & d private key
-        pre_k = pow(abs(s1-s2),1,n) * pow(abs(z1-z2),-1,n)
+        pre_k = pow((s1-s2),1,n) * pow((z1-z2),-1,n)
         k = pre_k % n      # if correct k, then r1 = r2 = kG.x 
-        if ((k*g.x == r1) or (k*g.x == -r1)):   
-            pre_d = pow((s1*k-z1),1,n)*pow(r1,-1,n)
+        
+        KG = k*g
+        if ((KG.x == r1) or (KG.x == -r1)):   
+            pre_d = pow(((s1*k)-z1),1,n)*pow(r1,-1,n)
             d = pre_d % n
             if (d*g==pk):# if correct d, then pk =dG
                 return d
