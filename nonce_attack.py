@@ -18,8 +18,8 @@ def recoverkey( sig1, sig2, m1, m2, pk ):
     # when r1 == r2 , recover k 
     
     # order of g
-    g = curve.secp256k1.G
-    n = curve.secp256k1.q
+    g = pk.curve.G
+    n = pk.curve.q
     r1 = sig1[0]
     r2 = sig2[0]
     s1 = sig1[1]
@@ -28,13 +28,13 @@ def recoverkey( sig1, sig2, m1, m2, pk ):
     z2 = hashlib.sha256(m2)
    
     if(s1 !=s2):
-    # recover, k = 'nonce' & d private key
-        
-        k = (pow((s1-s2),1,n)*pow((z1-z2),-1,n)) % n      # if correct k, then r1 = r2 = kG.x 
+        # recover, k = 'nonce' & d private key
+        pre_k = pow((s1-s2),1,n)*pow((z1-z2),-1,n)
+        k = pre_k % n      # if correct k, then r1 = r2 = kG.x 
         if ((k*g.x == r1) or (k*g.x == -r1)):   
-            
-            d = (pow((s1*k-z1),1,n)*pow(r1,-1,n)) % n
-            if (d*g==pk):  # if correct d, then pk =dG
+            pre_d = pow((s1*k-z1),1,n)*pow(r1,-1,n)
+            d = pre_d % n
+            if (d*g==pk):# if correct d, then pk =dG
                 return d
            
 
