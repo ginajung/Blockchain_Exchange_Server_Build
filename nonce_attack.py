@@ -1,5 +1,6 @@
 from fastecdsa.keys import export_key, gen_keypair
 from fastecdsa import curve, ecdsa, keys
+from fastecdsa.curve import secp256k1
 from fastecdsa.point import Point
 import os
 import hashlib 
@@ -31,13 +32,16 @@ def recoverkey( sig1, sig2, m1, m2, pk ):
         # recover, k = 'nonce' & d private key
         pre_k = pow((s1-s2),1,n) * pow((z1-z2),-1,n)
         k = pre_k % n      # if correct k, then r1 = r2 = kG.x 
-        
         KG = k*g
         if ((KG.x == r1) or (KG.x == -r1)):   
-            pre_d = pow(((s1*k)-z1),1,n)*pow(r1,-1,n)
-            d = pre_d % n
-            if (d*g==pk):# if correct d, then pk =dG
-                return d
+            
+            pre_d1 = pow(((s1*k)-z1),1,n)*pow(r1,-1,n)
+            d1 = pre_d % n
+            pre_d2 = pow(((s2*k)-z2),1,n)*pow(r2,-1,n)
+            d2 = pre_d2 % n
+            if(d1 == d2):
+                if (d1*g==pk):# if correct d, then pk =dG
+                    return d1
            
 
     # ecdsa.verify(sig1, m1, pk, secp256k1, sha256) 
