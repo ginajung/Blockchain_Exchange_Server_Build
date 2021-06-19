@@ -5,18 +5,19 @@ app = Flask(__name__)
 api = Api(app)
 app.url_map.strict_slashes = False
 
+cumulative = ['x']
 @app.route('/store', methods=['GET','POST'])
 def store():
     content = request.get_json(silent=True)
     #Your code here
-    result = content
-    return jsonify( result )
+    cumulative.append(content)
+    return jsonify(cumulative )
 
 @app.route('/retrieve', methods=['GET','POST'])
 def retrieve():
     content = request.get_json(silent=True)
     #Your code here
-    result = content
+    result = cumulative.content
     return jsonify( result )
 
 if __name__ == '__main__':
