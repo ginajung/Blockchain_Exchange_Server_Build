@@ -7,12 +7,12 @@ import math
 
 def num_BTC(b):
     # get total block number
-    num_block = pow(2,b-1)+1
+    num_block = pow(2,b)-1
     
     # get quotient and remainder
     q = num_block // 210000
     mod = num_block % 210000
-    c=0.0
+    #print("num_block", num_block)
     
     if q == 0:
         c = num_block * 50 
@@ -25,4 +25,5 @@ def num_BTC(b):
     
     c = float(c)
     return c
+
 
