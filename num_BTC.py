@@ -24,7 +24,7 @@ def num_BTC(b):
     else: 
         c = (50 * pow(2,-q)) * mod 
         #print (c)
-        for i in range (q+1):
+        for i in range (q):
             pre_c = 50*pow(2,-i)* 210000
             c += pre_c
     c = float(c)
