@@ -14,7 +14,7 @@ def num_BTC(b):
     # get quotient and remainder
     q = num_block // 210000
     mod = num_block % 210000
-    print("num_block", num_block)
+    #print("num_block", num_block)
     
     if q == 0:
         c = num_block * 50 
