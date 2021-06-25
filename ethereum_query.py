@@ -20,6 +20,7 @@ def get_transaction(tx):
 #   tx is the transaction
 def get_gas_price(tx):
     gas_price = 1 #YOUR CODE HERE
+    gas_price = w3.gas_price
     return gas_price
 
 def get_gas(tx):
