@@ -21,7 +21,7 @@ w3 = Web3(Web3.HTTPProvider('http://' + IP_ADDR + ':' + PORT))
 #     'transactionIndex': 0,
 #     'value': 31337,
 # })
-if w3.isConnected():
+# if w3.isConnected():
 #     This line will mess with our autograders, but might be useful when debugging
 #    print( "Connected to Ethereum node" )
 # else:
