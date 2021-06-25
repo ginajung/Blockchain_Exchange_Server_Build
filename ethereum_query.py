@@ -20,7 +20,7 @@ def get_transaction(tx):
 #   tx is the transaction
 def get_gas_price(tx):
     gas_price = 1 #YOUR CODE HERE
-    gas_price = w3.get_transaction(tx)['gasPrice']
+    gas_price = w3.eth.get_transaction(tx)['gasPrice']
     
     return gas_price
 
