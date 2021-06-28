@@ -35,7 +35,7 @@ def get_transaction(tx):
 # Return the gas price used by a particular transaction,
 #   tx is the transaction
 def get_gas_price(tx):
-    gas_price = 1 #YOUR CODE HERE
+    #gas_price = 1 #YOUR CODE HERE
     gas_price = w3.eth.get_transaction(tx)['gasPrice']
     
     return gas_price
@@ -106,3 +106,25 @@ def get_most_expensive_transaction(block_num):
                 max_tx= tx
     
     return max_tx
+
+# wei to dollar with given price
+def convert_dollar(tx, price):
+    wei = get_transaction_cost(tx)
+    fee = wei/(10**18)*price
+    return fee
+
+# transaction fee to ehtereum
+def avg_cost(blck1,blck2):
+    sum = 0
+    count = blck2-blck1+1
+    for block in range( blck1, blck2+1):
+        sum = sum + get_block_cost(block)/(10**18)
+    avg =  sum/count
+    
+    return avg
+
+
+def expensive_typo(blck, price):
+    wei = get_block_cost(blck)
+    fee = wei/(10**18)*price
+    return fee
