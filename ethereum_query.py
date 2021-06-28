@@ -103,5 +103,6 @@ def get_most_expensive_transaction(block_num):
     for tx in tranxs:
          if ( max_cost < get_transaction_cost(tx)):
                 max_cost = get_transaction_cost(tx)
+                max_tx= tx
     
     return max_tx
