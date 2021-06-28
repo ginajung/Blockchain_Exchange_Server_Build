@@ -84,10 +84,10 @@ def get_transaction_cost(tx):
 
 def get_block_cost(block_num):
     block_cost = 0  #YOUR CODE HERE
-    block_count = w3.eth.get_block_transaction_count(block_num)
+    #block_count = w3.eth.get_block_transaction_count(block_num)
     
-    if (w3.eth.get_block(block_num)):  
-        tranxs = w3.eth.get_block(block_num)
+    #if (w3.eth.get_block(block_num)):  
+    tranxs = w3.eth.get_block(block_num)['transactions']
     
     for tx in tranxs:
          block_cost = block_cost + get_transaction_cost(tx)
