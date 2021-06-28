@@ -83,8 +83,12 @@ def get_transaction_cost(tx):
 
 def get_block_cost(block_num):
     block_cost = 1  #YOUR CODE HERE
-    # get all transactions in the block ( #no)
-    block_cost= w3.eth.get_block(block_num)['gasUsed']
+   
+    block_count = w3.eth.get_block_transaction_count(block_num)
+    for i in range(0,block_count):
+        tranx = w3.eth.get_transaction_by_block(block_num, 0)
+        block_cost += get_transaction_cost(tranx)
+    
     return block_cost
 
 # Return the hash of the most expensive transaction
