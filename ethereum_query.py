@@ -29,13 +29,14 @@ w3 = Web3(Web3.HTTPProvider('http://' + IP_ADDR + ':' + PORT))
 
 def get_transaction(tx):
     tx = {}   #YOUR CODE HERE
+    tx= w3.eth.get_transaction(tx)
     return tx
 
 # Return the gas price used by a particular transaction,
 #   tx is the transaction
 def get_gas_price(tx):
     gas_price = 1 #YOUR CODE HERE
-    gas_price = w3.eth.get_transaction(tx)['gasPrice']
+    gas_price = get_transaction(tx)['gasPrice']
     
     return gas_price
 
@@ -85,11 +86,11 @@ def get_block_cost(block_num):
     block_cost = 0  #YOUR CODE HERE
     block_count = w3.eth.get_block_transaction_count(block_num)
     
-   # if ( w3.eth.get_block(block_num)==True):    
-    for i in range(0,block_count):
-        tranx = w3.eth.get_transaction_by_block(block_num, i)
-        block_cost = block_cost + get_transaction_cost(tranx)
-    
+    if ( w3.eth.get_block(block_num)==True):    
+        for i in range(0,block_count):
+            tranx = w3.eth.get_transaction_by_block(block_num, i)
+            block_cost = block_cost + get_transaction_cost(tranx)
+
     return block_cost
 
 # Return the hash of the most expensive transaction
