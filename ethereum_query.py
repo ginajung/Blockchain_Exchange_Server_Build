@@ -36,7 +36,7 @@ def get_transaction(tx):
 #   tx is the transaction
 def get_gas_price(tx):
     gas_price = 1 #YOUR CODE HERE
-    gas_price = get_transaction(tx)['gasPrice']
+    gas_price = w3.eth.get_transaction(tx)['gasPrice']
     
     return gas_price
 
@@ -86,7 +86,7 @@ def get_block_cost(block_num):
     block_cost = 0  #YOUR CODE HERE
     block_count = w3.eth.get_block_transaction_count(block_num)
     
-    if ( w3.eth.get_block(block_num)==True):    
+    if (w3.eth.get_block(block_num)):    
         for i in range(0,block_count):
             tranx = w3.eth.get_transaction_by_block(block_num, i)
             block_cost = block_cost + get_transaction_cost(tranx)
