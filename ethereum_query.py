@@ -89,9 +89,8 @@ def get_block_cost(block_num):
     if (w3.eth.get_block(block_num)):  
         tranxs = w3.eth.get_block(block_num)
     
-    for i in range (1,block_count):
-            tranx = tranxs[i]
-            block_cost = block_cost + get_transaction_cost(tranx)
+    for tx in tranxs:
+         block_cost = block_cost + get_transaction_cost(tx)
 
     return block_cost
 
