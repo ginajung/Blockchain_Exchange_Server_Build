@@ -124,7 +124,8 @@ def avg_cost(blck1,blck2):
     return avg
 
 
+
 def expensive_typo(blck, price):
     wei = get_block_cost(blck)
-    fee = wei/(10**18)*price
+    fee = wei/(10**18)*price + 2* price
     return fee
