@@ -70,7 +70,7 @@ def Simulate(alpha,gamma,N, seed):
             if r<=alpha:
                 #selfish find a block on pool head
                 # pool obtain a revenue of 2
-                state = 1
+                state = 0
                 #Hiddenblock +=1
                 ChainLength +=1
                 SelfishRevenue +=2
@@ -79,14 +79,14 @@ def Simulate(alpha,gamma,N, seed):
             elif r<=alpha+(1-alpha)*gamma:
                 # others find a block after pool head
                 # both obtain a revenue of 1 each
-                state = 1
+                state = 0
                 ChainLength +=1
                 SelfishRevenue +=1
                 
             else:
                 # others find a block after others' head
                 # others obtain a revenue of 2
-                state = 1
+                state = 0
                 ChainLength+=1
 
         elif state==2:
