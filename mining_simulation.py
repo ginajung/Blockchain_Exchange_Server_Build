@@ -16,8 +16,8 @@ def Simulate(alpha,gamma,N, seed):
     ChainLength=0
     # the revenue of the selfish mining pool
     SelfishRevenue=0
-    # the revenue of the honest mining pool
-    HonestRevenue=0
+    # Hiddenblock
+   
     
     
     #A round begin when the state=0
@@ -40,12 +40,13 @@ def Simulate(alpha,gamma,N, seed):
                 
         elif state==1:
             #The selfish pool has 1 hidden block.
-            
+            Hiddenblock = 1
             if r<=alpha:
                 #The selfish miners found a new block.
                 #Write a piece of code to change the required variables.
                 #You might need to define new variable to keep track of the number of hidden blocks.
                 
+                Hiddenblock += 1
                 state = 2
                 
             else:
@@ -58,12 +59,13 @@ def Simulate(alpha,gamma,N, seed):
             #It's the state 0' in the slides (the paper of Eyal and Gun Sirer)
             #There are three situations! 
             #Write a piece of code to change the required variables in each one.
-            HiddenLength =0
+            
+            Hiddenblock =0
             if r<=alpha:
                 #selfish find a block on pool head
                 # pool obtain a revenue of 2
                 state = 0
-                
+                ChainLength +=1
                 SelfishRevenue +=2
                 
                 
@@ -71,7 +73,7 @@ def Simulate(alpha,gamma,N, seed):
                 # others find a block after pool head
                 # both obtain a revenue of 1 each
                 state = 0
-                
+                ChainLength +=1
                 SelfishRevenue +=1
                 
             else:
@@ -93,19 +95,20 @@ def Simulate(alpha,gamma,N, seed):
                 SelfishRevenue +=2
 
         elif state>2:
+            Hiddenblock = state
             if r<=alpha:
                 #The selfish miners found a new block
                 state += state
-                
-
+                Hiddenblock += 1
             else:
                 #The honest miners found a block
-                state -= state
-                ChainLength+=1
-                SelfishRevenue +=1
+                while(Hiddenblock > 2):
+                    state -= state
+                    Hiddenblock -= 1
+                    ChainLength+=1
+                    SelfishRevenue +=1
 
     return float(SelfishRevenue)/ChainLength
-
 
 """ 
   Uncomment out the following lines to try out your code
