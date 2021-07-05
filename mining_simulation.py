@@ -12,7 +12,7 @@ def Simulate(alpha,gamma,N, seed):
   
     #the same as the state of the state machine in the slides (selfish blocks - honest blocks)
     state=0
-    # the length of the blockchain
+    # the length of the blockchain (public)
     ChainLength=0
     # the revenue of the selfish mining pool
     SelfishRevenue=0
@@ -24,12 +24,13 @@ def Simulate(alpha,gamma,N, seed):
     for i in range(N):
         r=random.random()
         if state==0:
-            #The selfish pool has 0 hidden block.
             
+            #The selfish pool has 0 hidden block.
             if r<=alpha:
                 #The selfish pool mines a block.
                 #They don't publish it. 
                 state=1
+                
                 
             else:
                 #The honest miners found a block.
@@ -39,8 +40,10 @@ def Simulate(alpha,gamma,N, seed):
                 state=0
                 
         elif state==1:
+            
             #The selfish pool has 1 hidden block.
             Hiddenblock = 1
+            
             if r<=alpha:
                 #The selfish miners found a new block.
                 #Write a piece of code to change the required variables.
@@ -51,8 +54,11 @@ def Simulate(alpha,gamma,N, seed):
                 
             else:
                 #Write a piece of code to change the required variables. 
+                #The honest miners found a block and selfish publish a block to be state 0'
+                
                 state = -1
                 ChainLength +=1
+                Hiddenblock -= 1
                 
 
         elif state==-1:
@@ -64,7 +70,8 @@ def Simulate(alpha,gamma,N, seed):
             if r<=alpha:
                 #selfish find a block on pool head
                 # pool obtain a revenue of 2
-                state = 0
+                state = 1
+                #Hiddenblock +=1
                 ChainLength +=1
                 SelfishRevenue +=2
                 
@@ -72,14 +79,14 @@ def Simulate(alpha,gamma,N, seed):
             elif r<=alpha+(1-alpha)*gamma:
                 # others find a block after pool head
                 # both obtain a revenue of 1 each
-                state = 0
+                state = 1
                 ChainLength +=1
                 SelfishRevenue +=1
                 
             else:
                 # others find a block after others' head
                 # others obtain a revenue of 2
-                state = 0
+                state = 1
                 ChainLength+=1
 
         elif state==2:
