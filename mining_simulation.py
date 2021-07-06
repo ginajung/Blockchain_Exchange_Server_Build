@@ -110,13 +110,12 @@ def Simulate(alpha,gamma,N, seed):
             
             else:
                 #The honest miners found a block
-                ChainLength+=1
-                Hiddenblock -= 1
-                SelfishRevenue +=1
-                state -= state
+                ChainLength += (state-2)
+                Hiddenblock = 2 
+                SelfishRevenue += (state-2)
+                state -= (state-2)
                
                     
-                
     return float(SelfishRevenue)/ChainLength
 
 
