@@ -86,7 +86,7 @@ def Simulate(alpha,gamma,N, seed):
             else:
                 # others find a block after others' head
                 # others obtain a revenue of 2
-                state = -1
+                state = 0
                 ChainLength+=1
 
         elif state==2:
@@ -98,8 +98,8 @@ def Simulate(alpha,gamma,N, seed):
                 Hiddenblock +=1
             else:
                 #The honest miners found a block.
-                state = 1
-                ChainLength+=1
+                state = -1
+                ChainLength+=2
                 SelfishRevenue +=2
                 Hiddenblock -= 1
 
