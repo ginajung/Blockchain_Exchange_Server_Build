@@ -97,11 +97,11 @@ def Simulate(alpha,gamma,N, seed):
                 Hiddenblock +=1
             else:
                 #The honest miners found a block.
-                while( state !=0):
-                    ChainLength+=1
-                    SelfishRevenue +=1
+                while( Hiddenblock - state !=1):
                     Hiddenblock -= 1
-                    state -=1
+                ChainLength+=2
+                SelfishRevenue +=2
+                state -=1
 
         elif state>2:
             #Hiddenblock = state
