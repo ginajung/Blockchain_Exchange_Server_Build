@@ -91,7 +91,7 @@ def Simulate(alpha,gamma,N, seed):
         elif state==2:
             
              #The selfish pool has 2 hidden block.
-            Hiddenblock = 2
+            
             if r<=alpha:
                 state += 1
                 Hiddenblock +=1
