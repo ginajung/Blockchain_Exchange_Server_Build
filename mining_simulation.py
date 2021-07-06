@@ -17,7 +17,7 @@ def Simulate(alpha,gamma,N, seed):
     # the revenue of the selfish mining pool
     SelfishRevenue=0
     # Hiddenblock
-    Hiddenblock=0
+    
     
     
     #A round begin when the state=0
@@ -30,7 +30,7 @@ def Simulate(alpha,gamma,N, seed):
                 #The selfish pool mines a block.
                 #They don't publish it. 
                 state=1
-                Hiddenblock +=1
+                
                 
             else:
                 #The honest miners found a block.
