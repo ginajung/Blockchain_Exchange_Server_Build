@@ -103,7 +103,7 @@ def Simulate(alpha,gamma,N, seed):
                 Hiddenblock -= 2
 
         elif state>2:
-            Hiddenblock = state
+            #Hiddenblock = state
             
             if r<=alpha:
                 #The selfish miners found a new block
