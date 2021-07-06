@@ -110,7 +110,7 @@ def Simulate(alpha,gamma,N, seed):
             else:
                 #The honest miners found a block
                 ChainLength += (Hiddenblock-2)
-                SelfishRevenue += (Hiddenblock-2)
+                SelfishRevenue += (Hiddenblock-1)
                 state = 2
                 Hiddenblock = 2 
                
