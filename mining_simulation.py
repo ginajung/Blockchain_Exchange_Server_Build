@@ -91,7 +91,7 @@ def Simulate(alpha,gamma,N, seed):
         elif state==2:
             
              #The selfish pool has 2 hidden block.
-            Hiddenblock = 3
+            Hiddenblock = 2
             if r<=alpha:
                 state += 1
                 Hiddenblock +=1
@@ -100,7 +100,7 @@ def Simulate(alpha,gamma,N, seed):
                 state = 0
                 ChainLength+=2
                 SelfishRevenue +=2
-                Hiddenblock -= 3
+                Hiddenblock -= 2
 
         elif state>2:
             Hiddenblock = state
