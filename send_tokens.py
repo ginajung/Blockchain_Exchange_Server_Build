@@ -16,7 +16,8 @@ headers = {
 acl = algod.AlgodClient(algod_token, algod_address, headers)  # create the client account
 min_balance = 100000 #https://developer.algorand.org/docs/features/accounts/#minimum-balance
 
-
+# Generate an account
+account_private_key, account_public_key = account.generate_account()
 
 def send_tokens( receiver_pk, tx_amount ):
     # getting transaction parameters
@@ -31,12 +32,11 @@ def send_tokens( receiver_pk, tx_amount ):
     #Your code here
     
     
-    #     mnemonic_phrase = "YOUR MNEMONIC HERE";
-    #     account_private_key = mnemonic.to_private_key(mnemonic_phrase)
-    #     account_public_key = mnemonic.to_public_key(mnemonic_phrase)
+#     mnemonic_phrase = "YOUR MNEMONIC HERE";
+#     account_private_key = mnemonic.to_private_key(mnemonic_phrase)
+#     account_public_key = mnemonic.to_public_key(mnemonic_phrase)
 
-    # Generate an account
-    account_private_key, account_public_key = account.generate_account()
+    
     
     if tx_amount < min_balance:
         # create transaction
