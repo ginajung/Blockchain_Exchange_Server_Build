@@ -50,12 +50,11 @@ def send_tokens( receiver_pk, tx_amount ):
     
     # submit the transaction to the Algorand Testnet
 
-    
     try:
-        tx_confirm = acl.send_transaction(signed_tx)
-        txid=signed_tx.transaction.get_txid()
-        #print('Transaction sent with ID', txid)
-        wait_for_confirmation(acl, txid)
+        tx_confirm = algodclient.send_transaction(signed_tx)
+        print('Transaction sent with ID', signed_tx.transaction.get_txid())
+        wait_for_confirmation(algodclient, txid=signed_tx.transaction.get_txid())
+    
     except Exception as e:
         print(e)
     
