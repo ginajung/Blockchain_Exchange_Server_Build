@@ -17,11 +17,6 @@ acl = algod.AlgodClient(algod_token, algod_address, headers)  # create the clien
 min_balance = 100000 #https://developer.algorand.org/docs/features/accounts/#minimum-balance
 
 
-
-
-# return the address of the sender (“sender_pk”) 
-#and the id of the resulting transaction (“txid”) 
-
 def send_tokens( receiver_pk, tx_amount ):
     # getting transaction parameters
     
@@ -34,34 +29,30 @@ def send_tokens( receiver_pk, tx_amount ):
 
     #Your code here
     
-    # Generate an account
-#     mnemonic_phrase = "YOUR MNEMONIC HERE";
-#     account_private_key = mnemonic.to_private_key(mnemonic_phrase)
-#     account_public_key = mnemonic.to_public_key(mnemonic_phrase)
+    
+    #     mnemonic_phrase = "YOUR MNEMONIC HERE";
+    #     account_private_key = mnemonic.to_private_key(mnemonic_phrase)
+    #     account_public_key = mnemonic.to_public_key(mnemonic_phrase)
 
+    # Generate an account
     account_private_key, account_public_key = account.generate_account()
     
-    # assign send_amount and receiver with pk and tx_amount
-    send_amount = tx_amount
-    existing_account = account_public_key
-    
     # create transaction
-    tx = transaction.PaymentTxn(existing_account, fee, first_valid_round, last_valid_round, gh, receiver_pk, send_amount, flat_fee=True)
+    tx = transaction.PaymentTxn(account_public_key, fee, first_valid_round, last_valid_round, gh, receiver_pk, tx_amount, flat_fee=True)
     signed_tx = tx.sign(account_private_key)
     
     # submit the transaction to the Algorand Testnet
-
-    
+  
     try:
         tx_confirm = acl.send_transaction(signed_tx)
-        txid=signed_tx.transaction.get_txid()
-        print('Transaction sent with ID', txid)
+        txid = signed_tx.transaction.get_txid()
+        #print('Transaction sent with ID', txid)
         wait_for_confirmation(acl, txid)
     except Exception as e:
         print(e)
     
-    sender_pk = account_public_key
-    return sender_pk, txid
+
+    return account_public_key, txid
 
 # Function from Algorand Inc.
 def wait_for_confirmation(client, txid):
