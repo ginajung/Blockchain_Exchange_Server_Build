@@ -43,10 +43,10 @@ def send_tokens( receiver_pk, tx_amount ):
     
     # assign send_amount and receiver with pk and tx_amount
     send_amount = tx_amount
-    existing_account = receiver_pk
+    existing_account = account_public_key
     
     # create transaction
-    tx = transaction.PaymentTxn(existing_account, fee, first_valid_round, last_valid_round, gh, send_to_address, send_amount, flat_fee=True)
+    tx = transaction.PaymentTxn(existing_account, fee, first_valid_round, last_valid_round, gh, receiver_pk, send_amount, flat_fee=True)
     signed_tx = tx.sign(account_private_key)
     
     # submit the transaction to the Algorand Testnet
