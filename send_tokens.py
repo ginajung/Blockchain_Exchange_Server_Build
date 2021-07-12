@@ -35,7 +35,7 @@ def send_tokens( receiver_pk, tx_amount ):
     #Your code here
     
     # Generate an account
-    mnemonic_phrase = "YOUR MNEMONIC HERE";
+    mnemonic_phrase = "YOUR MNEMONIC HERE GINAJU";
     account_private_key = mnemonic.to_private_key(mnemonic_phrase)
     account_public_key = mnemonic.to_public_key(mnemonic_phrase)
     
