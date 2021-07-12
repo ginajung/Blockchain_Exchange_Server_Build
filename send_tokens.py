@@ -42,6 +42,7 @@ def send_tokens( receiver_pk, tx_amount ):
     # assign send_amount and receiver with pk and tx_amount
     send_amount = tx_amount
     existing_account = receiver_pk
+    send_to_address = 'AEC4WDHXCDF4B5LBNXXRTB3IJTVJSWUZ4VJ4THPU2QGRJGTA3MIDFN3CQA'
     
     # create transaction
     tx = transaction.PaymentTxn(existing_account, fee, first_valid_round, last_valid_round, gh, send_to_address, send_amount, flat_fee=True)
@@ -53,7 +54,7 @@ def send_tokens( receiver_pk, tx_amount ):
     try:
         tx_confirm = acl.send_transaction(signed_tx)
         txid=signed_tx.transaction.get_txid()
-        print('Transaction sent with ID', txid)
+        #print('Transaction sent with ID', txid)
         wait_for_confirmation(acl, txid)
     except Exception as e:
         print(e)
