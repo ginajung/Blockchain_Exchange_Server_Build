@@ -3,7 +3,7 @@
 from algosdk.v2client import algod
 from algosdk import mnemonic
 from algosdk import transaction
-
+from algosdk import account, encoding
 
 #Connect to Algorand node maintained by PureStake
 algod_address = "https://testnet-algorand.api.purestake.io/ps2"
@@ -35,14 +35,15 @@ def send_tokens( receiver_pk, tx_amount ):
     #Your code here
     
     # Generate an account
-    mnemonic_phrase = "YOUR MNEMONIC HERE GINAJU";
-    account_private_key = mnemonic.to_private_key(mnemonic_phrase)
-    account_public_key = mnemonic.to_public_key(mnemonic_phrase)
+#     mnemonic_phrase = "YOUR MNEMONIC HERE";
+#     account_private_key = mnemonic.to_private_key(mnemonic_phrase)
+#     account_public_key = mnemonic.to_public_key(mnemonic_phrase)
+
+    account_private_key, account_public_key = account.generate_account()
     
     # assign send_amount and receiver with pk and tx_amount
     send_amount = tx_amount
     existing_account = receiver_pk
-    send_to_address = 'AEC4WDHXCDF4B5LBNXXRTB3IJTVJSWUZ4VJ4THPU2QGRJGTA3MIDFN3CQA'
     
     # create transaction
     tx = transaction.PaymentTxn(existing_account, fee, first_valid_round, last_valid_round, gh, send_to_address, send_amount, flat_fee=True)
@@ -50,16 +51,17 @@ def send_tokens( receiver_pk, tx_amount ):
     
     # submit the transaction to the Algorand Testnet
 
-    try:
-        tx_confirm = algodclient.send_transaction(signed_tx)
-        print('Transaction sent with ID', signed_tx.transaction.get_txid())
-        wait_for_confirmation(algodclient, txid=signed_tx.transaction.get_txid())
     
+    try:
+        tx_confirm = acl.send_transaction(signed_tx)
+        txid=signed_tx.transaction.get_txid()
+        print('Transaction sent with ID', txid)
+        wait_for_confirmation(acl, txid)
     except Exception as e:
         print(e)
     
-    #sender_pk = account_public_key
-    return account_public_key, txid
+    sender_pk = account_public_key
+    return sender_pk, txid
 
 # Function from Algorand Inc.
 def wait_for_confirmation(client, txid):
