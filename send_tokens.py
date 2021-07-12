@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-
+import json
+import time
+import base64
 from algosdk.v2client import algod
 from algosdk import mnemonic
 from algosdk import transaction
@@ -17,7 +19,13 @@ acl = algod.AlgodClient(algod_token, algod_address, headers)  # create the clien
 min_balance = 100000 #https://developer.algorand.org/docs/features/accounts/#minimum-balance
 
 # Generate an account
-account_private_key, account_public_key = account.generate_account()
+#sk, pk = account.generate_account()
+
+mnemonic_phrase = "sight garment riot tattoo tortoise identify left talk sea ill walnut leg robot myth toe perfect rifle dizzy spend april build legend brother above hospital";
+account_private_key = mnemonic.to_private_key(mnemonic_phrase)
+account_public_key = mnemonic.to_public_key(mnemonic_phrase)
+
+print(account_public_key)
 
 def send_tokens( receiver_pk, tx_amount ):
     # getting transaction parameters
@@ -30,13 +38,6 @@ def send_tokens( receiver_pk, tx_amount ):
     last_valid_round = params.last
 
     #Your code here
-    
-    
-#     mnemonic_phrase = "YOUR MNEMONIC HERE";
-#     account_private_key = mnemonic.to_private_key(mnemonic_phrase)
-#     account_public_key = mnemonic.to_public_key(mnemonic_phrase)
-
-    
     
     if tx_amount < min_balance:
         # create transaction
