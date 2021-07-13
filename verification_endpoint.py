@@ -10,20 +10,19 @@ app.url_map.strict_slashes = False
 
 @app.route('/verify', methods=['GET','POST'])
 def verify():
-    data = request.get_json(force=True)
+    data = request.get_json(silent=True,force=True)
 
 #     data1 = json.dumps(content)
 #     data = json.loads(data1)
+
     sig = data['sig']
     payload = data['payload']
     mg = data["payload"][0]["message"]
     pk = data["payload"][0]["pk"]
     platform = data["payload"][0]["platform"]
     
+    # Do we need this step to get string 'payload'?
     json.dumps(payload)
-#     json.dumps(sig)
-#     json.dumps(pk)
-#     json.dumps(platform)
 
     # for eth and algo 
     
