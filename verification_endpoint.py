@@ -18,6 +18,7 @@ def verify():
     platform = content['payload']['platform']
     payload = json.dumps(content['payload'])
 
+    result = False
     
     # for eth and algo 
     if platform == "Ethereum":        
@@ -31,8 +32,7 @@ def verify():
         if algosdk.util.verify_bytes(payload.encode('utf-8'),sig,pk):
             result = True
             #print( "Algo sig verifies!" )
-#     else:
-#         result = False
+
 
     return jsonify(result)
 
