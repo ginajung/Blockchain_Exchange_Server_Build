@@ -10,19 +10,19 @@ app.url_map.strict_slashes = False
 
 @app.route('/verify', methods=['GET','POST'])
 def verify():
-    data = request.get_json(silent=True,force=True)
-#     print(content)
-#     str_con = json.dumps(content)
-#     data =json.load(content)
-    sig = data["sig"]
+    content = request.get_json(silent=True)
+
+    data1 = json.dumps(content)
+    data = json.loads(data1)
+    sig = data['sig']
     mg = data["payload"][0]["message"]
     pk = data["payload"][0]["pk"]
     platform = data["payload"][0]["platform"]
     
-    json.dumps(sig)
-    json.dumps(pk)
-    json.dumps(platform)
     
+#     json.dumps(sig)
+#     json.dumps(pk)
+#     json.dumps(platform)
     # for eth and algo 
     
     if platform =='Ethereum':
