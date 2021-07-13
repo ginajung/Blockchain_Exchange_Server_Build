@@ -1,5 +1,4 @@
-from flask import Flask, request, jsonify
-from flask_restful import Api
+
 from flask import Flask, request, jsonify
 from flask_restful import Api
 import json
@@ -13,7 +12,7 @@ app.url_map.strict_slashes = False
 @app.route('/verify', methods=['GET','POST'])
 def verify():
     content = request.get_json(silent=True)
-
+    
     sig = content['sig']
     pk = content['payload'][0]['pk']
     platform = content['payload'][0]['platform']
