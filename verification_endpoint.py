@@ -19,10 +19,7 @@ def verify():
     pk = data['payload'][0]['pk']
     platform = data['payload'][0]['platform']
     
-    json.dumps(payload)
-    json.dumps(sig)
-    json.dumps(pk)
-    json.dumps(platform)
+#     json.dumps(payload)
 
     
     # for eth and algo 
