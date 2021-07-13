@@ -15,15 +15,13 @@ def verify():
 #     data1 = json.dumps(content)
 #     data = json.loads(data1)
     sig = data['sig']
-    payload = data['payload']
     pk = data['payload'][0]['pk']
     platform = data['payload'][0]['platform']
-    
-    payload = json.dumps(payload)
+    payload = json.dumps(data['payload'])
 
     
     # for eth and algo 
-    if platform =='Ethereum':
+    if platform == "Ethereum":
         
         eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
         eth_sig_obj = sig        
@@ -31,13 +29,12 @@ def verify():
             result = True
             #print( "Eth sig verifies!" )
             
-    elif platform =='Algorand':
-        
+    if platform == "Algorand":        
         if algosdk.util.verify_bytes(payload.encode('utf-8'),sig,pk):
             result = True
             #print( "Algo sig verifies!" )
-    else:
-        result = False
+#     else:
+#         result = False
 
     return jsonify(result)
 
