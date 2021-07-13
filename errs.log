@@ -1,0 +1,828 @@
+Cloning from: git@github.com:bhemen/MCIT582.git
+Making 100 transactions
+Filled 78 orders
+Good: Order.id = 1 has counterparty
+Good: Order.id = 1 has at most 1 counterparty
+Good: maker.id = 9 buy currency matches taker.id = 1 sell currency
+Good: maker.id = 9 sell currency matches taker.id = 1 buy currency
+Good: Sell amount for order.id = 9 is non-zero
+Good: Sell amount for order.id = 1 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Order.id = 2 has counterparty
+Good: Order.id = 2 has at most 1 counterparty
+Good: maker.id = 10 buy currency matches taker.id = 2 sell currency
+Good: maker.id = 10 sell currency matches taker.id = 2 buy currency
+Good: Sell amount for order.id = 10 is non-zero
+Good: Sell amount for order.id = 2 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 3 has counterparty
+Good: Order.id = 3 has at most 1 counterparty
+Good: maker.id = 6 buy currency matches taker.id = 3 sell currency
+Good: maker.id = 6 sell currency matches taker.id = 3 buy currency
+Good: Sell amount for order.id = 6 is non-zero
+Good: Sell amount for order.id = 3 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 5 has counterparty
+Good: Order.id = 5 has at most 1 counterparty
+Good: maker.id = 11 buy currency matches taker.id = 5 sell currency
+Good: maker.id = 11 sell currency matches taker.id = 5 buy currency
+Good: Sell amount for order.id = 11 is non-zero
+Good: Sell amount for order.id = 5 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Order.id = 6 has counterparty
+Good: Order.id = 6 has at most 1 counterparty
+Good: maker.id = 3 buy currency matches taker.id = 6 sell currency
+Good: maker.id = 3 sell currency matches taker.id = 6 buy currency
+Good: Sell amount for order.id = 3 is non-zero
+Good: Sell amount for order.id = 6 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 7 has counterparty
+Good: Order.id = 7 has at most 1 counterparty
+Good: maker.id = 18 buy currency matches taker.id = 7 sell currency
+Good: maker.id = 18 sell currency matches taker.id = 7 buy currency
+Good: Sell amount for order.id = 18 is non-zero
+Good: Sell amount for order.id = 7 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 9 has counterparty
+Good: Order.id = 9 has at most 1 counterparty
+Good: maker.id = 1 buy currency matches taker.id = 9 sell currency
+Good: maker.id = 1 sell currency matches taker.id = 9 buy currency
+Good: Sell amount for order.id = 1 is non-zero
+Good: Sell amount for order.id = 9 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 10 has counterparty
+Good: Order.id = 10 has at most 1 counterparty
+Good: maker.id = 2 buy currency matches taker.id = 10 sell currency
+Good: maker.id = 2 sell currency matches taker.id = 10 buy currency
+Good: Sell amount for order.id = 2 is non-zero
+Good: Sell amount for order.id = 10 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 11 has counterparty
+Good: Order.id = 11 has at most 1 counterparty
+Good: maker.id = 5 buy currency matches taker.id = 11 sell currency
+Good: maker.id = 5 sell currency matches taker.id = 11 buy currency
+Good: Sell amount for order.id = 5 is non-zero
+Good: Sell amount for order.id = 11 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 12 has counterparty
+Good: Order.id = 12 has at most 1 counterparty
+Good: maker.id = 17 buy currency matches taker.id = 12 sell currency
+Good: maker.id = 17 sell currency matches taker.id = 12 buy currency
+Good: Sell amount for order.id = 17 is non-zero
+Good: Sell amount for order.id = 12 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 13 has counterparty
+Good: Order.id = 13 has at most 1 counterparty
+Good: maker.id = 16 buy currency matches taker.id = 13 sell currency
+Good: maker.id = 16 sell currency matches taker.id = 13 buy currency
+Good: Sell amount for order.id = 16 is non-zero
+Good: Sell amount for order.id = 13 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 16 has counterparty
+Good: Order.id = 16 has at most 1 counterparty
+Good: maker.id = 13 buy currency matches taker.id = 16 sell currency
+Good: maker.id = 13 sell currency matches taker.id = 16 buy currency
+Good: Sell amount for order.id = 13 is non-zero
+Good: Sell amount for order.id = 16 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 17 has counterparty
+Good: Order.id = 17 has at most 1 counterparty
+Good: maker.id = 12 buy currency matches taker.id = 17 sell currency
+Good: maker.id = 12 sell currency matches taker.id = 17 buy currency
+Good: Sell amount for order.id = 12 is non-zero
+Good: Sell amount for order.id = 17 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 18 has counterparty
+Good: Order.id = 18 has at most 1 counterparty
+Good: maker.id = 7 buy currency matches taker.id = 18 sell currency
+Good: maker.id = 7 sell currency matches taker.id = 18 buy currency
+Good: Sell amount for order.id = 7 is non-zero
+Good: Sell amount for order.id = 18 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 19 has counterparty
+Good: Order.id = 19 has at most 1 counterparty
+Good: maker.id = 21 buy currency matches taker.id = 19 sell currency
+Good: maker.id = 21 sell currency matches taker.id = 19 buy currency
+Good: Sell amount for order.id = 21 is non-zero
+Good: Sell amount for order.id = 19 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Order.id = 21 has counterparty
+Good: Order.id = 21 has at most 1 counterparty
+Good: maker.id = 19 buy currency matches taker.id = 21 sell currency
+Good: maker.id = 19 sell currency matches taker.id = 21 buy currency
+Good: Sell amount for order.id = 19 is non-zero
+Good: Sell amount for order.id = 21 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 22 has counterparty
+Good: Order.id = 22 has at most 1 counterparty
+Good: maker.id = 23 buy currency matches taker.id = 22 sell currency
+Good: maker.id = 23 sell currency matches taker.id = 22 buy currency
+Good: Sell amount for order.id = 23 is non-zero
+Good: Sell amount for order.id = 22 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Order.id = 23 has counterparty
+Good: Order.id = 23 has at most 1 counterparty
+Good: maker.id = 22 buy currency matches taker.id = 23 sell currency
+Good: maker.id = 22 sell currency matches taker.id = 23 buy currency
+Good: Sell amount for order.id = 22 is non-zero
+Good: Sell amount for order.id = 23 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 26 has counterparty
+Good: Order.id = 26 has at most 1 counterparty
+Good: maker.id = 28 buy currency matches taker.id = 26 sell currency
+Good: maker.id = 28 sell currency matches taker.id = 26 buy currency
+Good: Sell amount for order.id = 28 is non-zero
+Good: Sell amount for order.id = 26 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 27 has counterparty
+Good: Order.id = 27 has at most 1 counterparty
+Good: maker.id = 29 buy currency matches taker.id = 27 sell currency
+Good: maker.id = 29 sell currency matches taker.id = 27 buy currency
+Good: Sell amount for order.id = 29 is non-zero
+Good: Sell amount for order.id = 27 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 28 has counterparty
+Good: Order.id = 28 has at most 1 counterparty
+Good: maker.id = 26 buy currency matches taker.id = 28 sell currency
+Good: maker.id = 26 sell currency matches taker.id = 28 buy currency
+Good: Sell amount for order.id = 26 is non-zero
+Good: Sell amount for order.id = 28 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 29 has counterparty
+Good: Order.id = 29 has at most 1 counterparty
+Good: maker.id = 27 buy currency matches taker.id = 29 sell currency
+Good: maker.id = 27 sell currency matches taker.id = 29 buy currency
+Good: Sell amount for order.id = 27 is non-zero
+Good: Sell amount for order.id = 29 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 30 has counterparty
+Good: Order.id = 30 has at most 1 counterparty
+Good: maker.id = 32 buy currency matches taker.id = 30 sell currency
+Good: maker.id = 32 sell currency matches taker.id = 30 buy currency
+Good: Sell amount for order.id = 32 is non-zero
+Good: Sell amount for order.id = 30 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 32 has counterparty
+Good: Order.id = 32 has at most 1 counterparty
+Good: maker.id = 30 buy currency matches taker.id = 32 sell currency
+Good: maker.id = 30 sell currency matches taker.id = 32 buy currency
+Good: Sell amount for order.id = 30 is non-zero
+Good: Sell amount for order.id = 32 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 33 has counterparty
+Good: Order.id = 33 has at most 1 counterparty
+Good: maker.id = 45 buy currency matches taker.id = 33 sell currency
+Good: maker.id = 45 sell currency matches taker.id = 33 buy currency
+Good: Sell amount for order.id = 45 is non-zero
+Good: Sell amount for order.id = 33 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 36 has counterparty
+Good: Order.id = 36 has at most 1 counterparty
+Good: maker.id = 37 buy currency matches taker.id = 36 sell currency
+Good: maker.id = 37 sell currency matches taker.id = 36 buy currency
+Good: Sell amount for order.id = 37 is non-zero
+Good: Sell amount for order.id = 36 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 37 has counterparty
+Good: Order.id = 37 has at most 1 counterparty
+Good: maker.id = 36 buy currency matches taker.id = 37 sell currency
+Good: maker.id = 36 sell currency matches taker.id = 37 buy currency
+Good: Sell amount for order.id = 36 is non-zero
+Good: Sell amount for order.id = 37 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 38 has counterparty
+Good: Order.id = 38 has at most 1 counterparty
+Good: maker.id = 39 buy currency matches taker.id = 38 sell currency
+Good: maker.id = 39 sell currency matches taker.id = 38 buy currency
+Good: Sell amount for order.id = 39 is non-zero
+Good: Sell amount for order.id = 38 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 39 has counterparty
+Good: Order.id = 39 has at most 1 counterparty
+Good: maker.id = 38 buy currency matches taker.id = 39 sell currency
+Good: maker.id = 38 sell currency matches taker.id = 39 buy currency
+Good: Sell amount for order.id = 38 is non-zero
+Good: Sell amount for order.id = 39 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 45 has counterparty
+Good: Order.id = 45 has at most 1 counterparty
+Good: maker.id = 33 buy currency matches taker.id = 45 sell currency
+Good: maker.id = 33 sell currency matches taker.id = 45 buy currency
+Good: Sell amount for order.id = 33 is non-zero
+Good: Sell amount for order.id = 45 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 46 has counterparty
+Good: Order.id = 46 has at most 1 counterparty
+Good: maker.id = 54 buy currency matches taker.id = 46 sell currency
+Good: maker.id = 54 sell currency matches taker.id = 46 buy currency
+Good: Sell amount for order.id = 54 is non-zero
+Good: Sell amount for order.id = 46 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 47 has counterparty
+Good: Order.id = 47 has at most 1 counterparty
+Good: maker.id = 49 buy currency matches taker.id = 47 sell currency
+Good: maker.id = 49 sell currency matches taker.id = 47 buy currency
+Good: Sell amount for order.id = 49 is non-zero
+Good: Sell amount for order.id = 47 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 48 has counterparty
+Good: Order.id = 48 has at most 1 counterparty
+Good: maker.id = 58 buy currency matches taker.id = 48 sell currency
+Good: maker.id = 58 sell currency matches taker.id = 48 buy currency
+Good: Sell amount for order.id = 58 is non-zero
+Good: Sell amount for order.id = 48 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 49 has counterparty
+Good: Order.id = 49 has at most 1 counterparty
+Good: maker.id = 47 buy currency matches taker.id = 49 sell currency
+Good: maker.id = 47 sell currency matches taker.id = 49 buy currency
+Good: Sell amount for order.id = 47 is non-zero
+Good: Sell amount for order.id = 49 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 51 has counterparty
+Good: Order.id = 51 has at most 1 counterparty
+Good: maker.id = 61 buy currency matches taker.id = 51 sell currency
+Good: maker.id = 61 sell currency matches taker.id = 51 buy currency
+Good: Sell amount for order.id = 61 is non-zero
+Good: Sell amount for order.id = 51 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 54 has counterparty
+Good: Order.id = 54 has at most 1 counterparty
+Good: maker.id = 46 buy currency matches taker.id = 54 sell currency
+Good: maker.id = 46 sell currency matches taker.id = 54 buy currency
+Good: Sell amount for order.id = 46 is non-zero
+Good: Sell amount for order.id = 54 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 55 has counterparty
+Good: Order.id = 55 has at most 1 counterparty
+Good: maker.id = 63 buy currency matches taker.id = 55 sell currency
+Good: maker.id = 63 sell currency matches taker.id = 55 buy currency
+Good: Sell amount for order.id = 63 is non-zero
+Good: Sell amount for order.id = 55 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 58 has counterparty
+Good: Order.id = 58 has at most 1 counterparty
+Good: maker.id = 48 buy currency matches taker.id = 58 sell currency
+Good: maker.id = 48 sell currency matches taker.id = 58 buy currency
+Good: Sell amount for order.id = 48 is non-zero
+Good: Sell amount for order.id = 58 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 59 has counterparty
+Good: Order.id = 59 has at most 1 counterparty
+Good: maker.id = 66 buy currency matches taker.id = 59 sell currency
+Good: maker.id = 66 sell currency matches taker.id = 59 buy currency
+Good: Sell amount for order.id = 66 is non-zero
+Good: Sell amount for order.id = 59 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 61 has counterparty
+Good: Order.id = 61 has at most 1 counterparty
+Good: maker.id = 51 buy currency matches taker.id = 61 sell currency
+Good: maker.id = 51 sell currency matches taker.id = 61 buy currency
+Good: Sell amount for order.id = 51 is non-zero
+Good: Sell amount for order.id = 61 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 63 has counterparty
+Good: Order.id = 63 has at most 1 counterparty
+Good: maker.id = 55 buy currency matches taker.id = 63 sell currency
+Good: maker.id = 55 sell currency matches taker.id = 63 buy currency
+Good: Sell amount for order.id = 55 is non-zero
+Good: Sell amount for order.id = 63 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 66 has counterparty
+Good: Order.id = 66 has at most 1 counterparty
+Good: maker.id = 59 buy currency matches taker.id = 66 sell currency
+Good: maker.id = 59 sell currency matches taker.id = 66 buy currency
+Good: Sell amount for order.id = 59 is non-zero
+Good: Sell amount for order.id = 66 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 67 has counterparty
+Good: Order.id = 67 has at most 1 counterparty
+Good: maker.id = 68 buy currency matches taker.id = 67 sell currency
+Good: maker.id = 68 sell currency matches taker.id = 67 buy currency
+Good: Sell amount for order.id = 68 is non-zero
+Good: Sell amount for order.id = 67 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 68 has counterparty
+Good: Order.id = 68 has at most 1 counterparty
+Good: maker.id = 67 buy currency matches taker.id = 68 sell currency
+Good: maker.id = 67 sell currency matches taker.id = 68 buy currency
+Good: Sell amount for order.id = 67 is non-zero
+Good: Sell amount for order.id = 68 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 69 has counterparty
+Good: Order.id = 69 has at most 1 counterparty
+Good: maker.id = 70 buy currency matches taker.id = 69 sell currency
+Good: maker.id = 70 sell currency matches taker.id = 69 buy currency
+Good: Sell amount for order.id = 70 is non-zero
+Good: Sell amount for order.id = 69 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 70 has counterparty
+Good: Order.id = 70 has at most 1 counterparty
+Good: maker.id = 69 buy currency matches taker.id = 70 sell currency
+Good: maker.id = 69 sell currency matches taker.id = 70 buy currency
+Good: Sell amount for order.id = 69 is non-zero
+Good: Sell amount for order.id = 70 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 71 has counterparty
+Good: Order.id = 71 has at most 1 counterparty
+Good: maker.id = 81 buy currency matches taker.id = 71 sell currency
+Good: maker.id = 81 sell currency matches taker.id = 71 buy currency
+Good: Sell amount for order.id = 81 is non-zero
+Good: Sell amount for order.id = 71 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 73 has counterparty
+Good: Order.id = 73 has at most 1 counterparty
+Good: maker.id = 76 buy currency matches taker.id = 73 sell currency
+Good: maker.id = 76 sell currency matches taker.id = 73 buy currency
+Good: Sell amount for order.id = 76 is non-zero
+Good: Sell amount for order.id = 73 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 74 has counterparty
+Good: Order.id = 74 has at most 1 counterparty
+Good: maker.id = 80 buy currency matches taker.id = 74 sell currency
+Good: maker.id = 80 sell currency matches taker.id = 74 buy currency
+Good: Sell amount for order.id = 80 is non-zero
+Good: Sell amount for order.id = 74 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 75 has counterparty
+Good: Order.id = 75 has at most 1 counterparty
+Good: maker.id = 78 buy currency matches taker.id = 75 sell currency
+Good: maker.id = 78 sell currency matches taker.id = 75 buy currency
+Good: Sell amount for order.id = 78 is non-zero
+Good: Sell amount for order.id = 75 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 76 has counterparty
+Good: Order.id = 76 has at most 1 counterparty
+Good: maker.id = 73 buy currency matches taker.id = 76 sell currency
+Good: maker.id = 73 sell currency matches taker.id = 76 buy currency
+Good: Sell amount for order.id = 73 is non-zero
+Good: Sell amount for order.id = 76 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 77 has counterparty
+Good: Order.id = 77 has at most 1 counterparty
+Good: maker.id = 79 buy currency matches taker.id = 77 sell currency
+Good: maker.id = 79 sell currency matches taker.id = 77 buy currency
+Good: Sell amount for order.id = 79 is non-zero
+Good: Sell amount for order.id = 77 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 78 has counterparty
+Good: Order.id = 78 has at most 1 counterparty
+Good: maker.id = 75 buy currency matches taker.id = 78 sell currency
+Good: maker.id = 75 sell currency matches taker.id = 78 buy currency
+Good: Sell amount for order.id = 75 is non-zero
+Good: Sell amount for order.id = 78 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 79 has counterparty
+Good: Order.id = 79 has at most 1 counterparty
+Good: maker.id = 77 buy currency matches taker.id = 79 sell currency
+Good: maker.id = 77 sell currency matches taker.id = 79 buy currency
+Good: Sell amount for order.id = 77 is non-zero
+Good: Sell amount for order.id = 79 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 80 has counterparty
+Good: Order.id = 80 has at most 1 counterparty
+Good: maker.id = 74 buy currency matches taker.id = 80 sell currency
+Good: maker.id = 74 sell currency matches taker.id = 80 buy currency
+Good: Sell amount for order.id = 74 is non-zero
+Good: Sell amount for order.id = 80 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 81 has counterparty
+Good: Order.id = 81 has at most 1 counterparty
+Good: maker.id = 71 buy currency matches taker.id = 81 sell currency
+Good: maker.id = 71 sell currency matches taker.id = 81 buy currency
+Good: Sell amount for order.id = 71 is non-zero
+Good: Sell amount for order.id = 81 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 82 has counterparty
+Good: Order.id = 82 has at most 1 counterparty
+Good: maker.id = 87 buy currency matches taker.id = 82 sell currency
+Good: maker.id = 87 sell currency matches taker.id = 82 buy currency
+Good: Sell amount for order.id = 87 is non-zero
+Good: Sell amount for order.id = 82 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 87 has counterparty
+Good: Order.id = 87 has at most 1 counterparty
+Good: maker.id = 82 buy currency matches taker.id = 87 sell currency
+Good: maker.id = 82 sell currency matches taker.id = 87 buy currency
+Good: Sell amount for order.id = 82 is non-zero
+Good: Sell amount for order.id = 87 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 88 has counterparty
+Good: Order.id = 88 has at most 1 counterparty
+Good: maker.id = 94 buy currency matches taker.id = 88 sell currency
+Good: maker.id = 94 sell currency matches taker.id = 88 buy currency
+Good: Sell amount for order.id = 94 is non-zero
+Good: Sell amount for order.id = 88 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 90 has counterparty
+Good: Order.id = 90 has at most 1 counterparty
+Good: maker.id = 92 buy currency matches taker.id = 90 sell currency
+Good: maker.id = 92 sell currency matches taker.id = 90 buy currency
+Good: Sell amount for order.id = 92 is non-zero
+Good: Sell amount for order.id = 90 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Order.id = 92 has counterparty
+Good: Order.id = 92 has at most 1 counterparty
+Good: maker.id = 90 buy currency matches taker.id = 92 sell currency
+Good: maker.id = 90 sell currency matches taker.id = 92 buy currency
+Good: Sell amount for order.id = 90 is non-zero
+Good: Sell amount for order.id = 92 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 94 has counterparty
+Good: Order.id = 94 has at most 1 counterparty
+Good: maker.id = 88 buy currency matches taker.id = 94 sell currency
+Good: maker.id = 88 sell currency matches taker.id = 94 buy currency
+Good: Sell amount for order.id = 88 is non-zero
+Good: Sell amount for order.id = 94 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 95 has counterparty
+Good: Order.id = 95 has at most 1 counterparty
+Good: maker.id = 96 buy currency matches taker.id = 95 sell currency
+Good: maker.id = 96 sell currency matches taker.id = 95 buy currency
+Good: Sell amount for order.id = 96 is non-zero
+Good: Sell amount for order.id = 95 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 96 has counterparty
+Good: Order.id = 96 has at most 1 counterparty
+Good: maker.id = 95 buy currency matches taker.id = 96 sell currency
+Good: maker.id = 95 sell currency matches taker.id = 96 buy currency
+Good: Sell amount for order.id = 95 is non-zero
+Good: Sell amount for order.id = 96 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 97 has counterparty
+Good: Order.id = 97 has at most 1 counterparty
+Good: maker.id = 98 buy currency matches taker.id = 97 sell currency
+Good: maker.id = 98 sell currency matches taker.id = 97 buy currency
+Good: Sell amount for order.id = 98 is non-zero
+Good: Sell amount for order.id = 97 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 98 has counterparty
+Good: Order.id = 98 has at most 1 counterparty
+Good: maker.id = 97 buy currency matches taker.id = 98 sell currency
+Good: maker.id = 97 sell currency matches taker.id = 98 buy currency
+Good: Sell amount for order.id = 97 is non-zero
+Good: Sell amount for order.id = 98 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 99 has counterparty
+Good: Order.id = 99 has at most 1 counterparty
+Good: maker.id = 100 buy currency matches taker.id = 99 sell currency
+Good: maker.id = 100 sell currency matches taker.id = 99 buy currency
+Good: Sell amount for order.id = 100 is non-zero
+Good: Sell amount for order.id = 99 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 100 has counterparty
+Good: Order.id = 100 has at most 1 counterparty
+Good: maker.id = 99 buy currency matches taker.id = 100 sell currency
+Good: maker.id = 99 sell currency matches taker.id = 100 buy currency
+Good: Sell amount for order.id = 99 is non-zero
+Good: Sell amount for order.id = 100 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 101 has counterparty
+Good: Order.id = 101 has at most 1 counterparty
+Good: maker.id = 102 buy currency matches taker.id = 101 sell currency
+Good: maker.id = 102 sell currency matches taker.id = 101 buy currency
+Good: Sell amount for order.id = 102 is non-zero
+Good: Sell amount for order.id = 101 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 102 has counterparty
+Good: Order.id = 102 has at most 1 counterparty
+Good: maker.id = 101 buy currency matches taker.id = 102 sell currency
+Good: maker.id = 101 sell currency matches taker.id = 102 buy currency
+Good: Sell amount for order.id = 101 is non-zero
+Good: Sell amount for order.id = 102 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 104 has counterparty
+Good: Order.id = 104 has at most 1 counterparty
+Good: maker.id = 105 buy currency matches taker.id = 104 sell currency
+Good: maker.id = 105 sell currency matches taker.id = 104 buy currency
+Good: Sell amount for order.id = 105 is non-zero
+Good: Sell amount for order.id = 104 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 105 has counterparty
+Good: Order.id = 105 has at most 1 counterparty
+Good: maker.id = 104 buy currency matches taker.id = 105 sell currency
+Good: maker.id = 104 sell currency matches taker.id = 105 buy currency
+Good: Sell amount for order.id = 104 is non-zero
+Good: Sell amount for order.id = 105 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 106 has counterparty
+Good: Order.id = 106 has at most 1 counterparty
+Good: maker.id = 107 buy currency matches taker.id = 106 sell currency
+Good: maker.id = 107 sell currency matches taker.id = 106 buy currency
+Good: Sell amount for order.id = 107 is non-zero
+Good: Sell amount for order.id = 106 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 107 has counterparty
+Good: Order.id = 107 has at most 1 counterparty
+Good: maker.id = 106 buy currency matches taker.id = 107 sell currency
+Good: maker.id = 106 sell currency matches taker.id = 107 buy currency
+Good: Sell amount for order.id = 106 is non-zero
+Good: Sell amount for order.id = 107 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 110 has counterparty
+Good: Order.id = 110 has at most 1 counterparty
+Good: maker.id = 117 buy currency matches taker.id = 110 sell currency
+Good: maker.id = 117 sell currency matches taker.id = 110 buy currency
+Good: Sell amount for order.id = 117 is non-zero
+Good: Sell amount for order.id = 110 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 111 has counterparty
+Good: Order.id = 111 has at most 1 counterparty
+Good: maker.id = 118 buy currency matches taker.id = 111 sell currency
+Good: maker.id = 118 sell currency matches taker.id = 111 buy currency
+Good: Sell amount for order.id = 118 is non-zero
+Good: Sell amount for order.id = 111 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Good: Order.id = 117 has counterparty
+Good: Order.id = 117 has at most 1 counterparty
+Good: maker.id = 110 buy currency matches taker.id = 117 sell currency
+Good: maker.id = 110 sell currency matches taker.id = 117 buy currency
+Good: Sell amount for order.id = 110 is non-zero
+Good: Sell amount for order.id = 117 is non-zero
+Good: The exchange does not lose money on this trade
+Error: partially filled order should have a child (no maker child)
+Good: Order.id = 118 has counterparty
+Good: Order.id = 118 has at most 1 counterparty
+Good: maker.id = 111 buy currency matches taker.id = 118 sell currency
+Good: maker.id = 111 sell currency matches taker.id = 118 buy currency
+Good: Sell amount for order.id = 111 is non-zero
+Good: Sell amount for order.id = 118 is non-zero
+Good: The exchange does not lose money on this trade
+Good: Partially filled order has a child
+Good: you made a profit on this trade
+Assessing derivative orders (where order.creator_id exists)
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+Good: order and creator share same sender_pk
+Good: order and its creator have the same buy_currency
+Good: order and its creator have the same sell_currency
+Good: order was created before its creator
+Good: non-zero buy_amount
+Good: non-zero sell_amount
+Good: derived order has valid implied exchange rate
+
+-------
+You passed 76 tests out of 105
+Score=72.38095238095238
+(note that the number of tests changes based on how many orders you fill)
+Net profit (ETH) = 66.78
+Net profit (ALGO) = 80.41
