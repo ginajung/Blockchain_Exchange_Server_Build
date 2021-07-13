@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_restful import Api
+from flask import Flask, request, jsonify
+from flask_restful import Api
 import json
 import eth_account
 import algosdk
@@ -10,12 +12,12 @@ app.url_map.strict_slashes = False
 
 @app.route('/verify', methods=['GET','POST'])
 def verify():
-    data = request.get_json()
+    content = request.get_json(silent=True)
 
-    sig = data['sig']
-    pk = data['payload'][0]['pk']
-    platform = data['payload'][0]['platform']
-    payload = json.dumps(data['payload'])
+    sig = content['sig']
+    pk = content['payload'][0]['pk']
+    platform = content['payload'][0]['platform']
+    payload = json.dumps(content['payload'])
 
     
     # for eth and algo 
