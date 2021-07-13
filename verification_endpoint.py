@@ -10,7 +10,7 @@ app.url_map.strict_slashes = False
 
 @app.route('/verify', methods=['GET','POST'])
 def verify():
-    content = request.get_json(silent=True)
+    data = request.get_json(silent=True)
 #     print(content)
 #     str_con = json.dumps(content)
 #     data =json.load(content)
@@ -23,32 +23,25 @@ def verify():
     json.dumps(pk)
     json.dumps(platform)
     
-    # to save entire 'payload' dictionary
-    
-#     if content:
-#         content_json = json.dumps(content)
-#     else:
-#         content_json = "no json"   
-    
-    #Check if signature is valid
     # for eth and algo 
     
     if platform =='Ethereum':
         
         eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
         eth_sig_obj = eth_account.Account.sign_message(eth_encoded_msg,sig)
-        print( eth_sig_obj.messageHash )
+        #print( eth_sig_obj.messageHash )
         if eth_account.Account.recover_message(eth_encoded_msg,signature=eth_sig_obj.signature.hex()) == pk:
             result = True
-            print( "Eth sig verifies!" )
+            #print( "Eth sig verifies!" )
+            
     elif platform =='Algorand':
 
         algo_sig_str = algosdk.util.sign_bytes(payload.encode('utf-8'),sig)
         if algosdk.util.verify_bytes(payload.encode('utf-8'),algo_sig_str,pk):
             result = True
-            print( "Algo sig verifies!" )
-#     else:
-#         result = False
+            #print( "Algo sig verifies!" )
+    else:
+        result = False
 
     return jsonify(result)
 
