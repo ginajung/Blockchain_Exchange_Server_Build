@@ -11,7 +11,7 @@ app.url_map.strict_slashes = False
 
 @app.route('/verify', methods=['GET','POST'])
 def verify():
-    content = request.get_json(silent=True)
+    content = request.get_json(force=True)
     
     sig = content['sig']
     pk = content['payload'][0]['pk']
@@ -25,16 +25,16 @@ def verify():
         eth_sig_obj = sig        
         if eth_account.Account.recover_message(eth_encoded_msg,signature=sig) == pk:
             result = True
-            print( "Eth sig verifies!" )
+            #print( "Eth sig verifies!" )
             
     if platform == "Algorand":        
         if algosdk.util.verify_bytes(payload.encode('utf-8'),sig,pk):
             result = True
-            print( "Algo sig verifies!" )
+            #print( "Algo sig verifies!" )
 #     else:
 #         result = False
 
-    return result.json()
+    return jsonify(result)
 
 if __name__ == '__main__':
     app.run(port='5002')
