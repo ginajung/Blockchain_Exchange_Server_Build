@@ -35,7 +35,7 @@ def verify():
 #     else:
 #         result = False
 
-    return jsonify(result)
+    return result.json()
 
 if __name__ == '__main__':
     app.run(port='5002')
