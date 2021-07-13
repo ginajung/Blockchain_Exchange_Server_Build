@@ -14,8 +14,8 @@ def verify():
     content = request.get_json(force=True)
     
     sig = content['sig']
-    pk = content['payload'][0]['pk']
-    platform = content['payload'][0]['platform']
+    pk = content['payload']['pk']
+    platform = content['payload']['platform']
     payload = json.dumps(content['payload'])
 
     
