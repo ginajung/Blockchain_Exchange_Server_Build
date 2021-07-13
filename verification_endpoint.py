@@ -10,11 +10,12 @@ app.url_map.strict_slashes = False
 
 @app.route('/verify', methods=['GET','POST'])
 def verify():
-    content = request.get_json(silent=True)
+    data = request.get_json(silent=True)
 
-    data1 = json.dumps(content)
-    data = json.loads(data1)
+#     data1 = json.dumps(content)
+#     data = json.loads(data1)
     sig = data['sig']
+    payload = data['payload']
     mg = data["payload"][0]["message"]
     pk = data["payload"][0]["pk"]
     platform = data["payload"][0]["platform"]
