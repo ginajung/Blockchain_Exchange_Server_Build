@@ -28,7 +28,8 @@ def verify():
     # for eth and algo 
     
     if platform =='Ethereum':
-        eth_encoded_msg = eth_account.messages.encode_defunct(text=message)
+        
+        eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
         eth_sig_obj = eth_account.Account.sign_message(eth_encoded_msg,sig)
         print( eth_sig_obj.messageHash )
         if eth_account.Account.recover_message(eth_encoded_msg,signature=eth_sig_obj.signature.hex()) == pk:
@@ -37,14 +38,14 @@ def verify():
     elif platform =='Algorand':
         
        
-        algo_sig_str = algosdk.util.sign_bytes(message.encode('utf-8'),sig)
-        if algosdk.util.verify_bytes(message.encode('utf-8'),algo_sig_str,pk):
+        algo_sig_str = algosdk.util.sign_bytes(payload.encode('utf-8'),sig)
+        if algosdk.util.verify_bytes(payload.encode('utf-8'),algo_sig_str,pk):
             result = True
             print( "Algo sig verifies!" )
-            
-    result = True
+    else:
+        result = False
 
     return jsonify(result)
 
 if __name__ == '__main__':
-    app.run(port='5006')
+    app.run(port='5002')
