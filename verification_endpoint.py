@@ -28,7 +28,6 @@ def verify():
     # for eth and algo 
     
     if platform =='Ethereum':
-        
         eth_encoded_msg = eth_account.messages.encode_defunct(text=message)
         eth_sig_obj = eth_account.Account.sign_message(eth_encoded_msg,sig)
         print( eth_sig_obj.messageHash )
@@ -42,8 +41,8 @@ def verify():
         if algosdk.util.verify_bytes(message.encode('utf-8'),algo_sig_str,pk):
             result = True
             print( "Algo sig verifies!" )
-    else:
-        result = False
+            
+    result = True
 
     return jsonify(result)
 
