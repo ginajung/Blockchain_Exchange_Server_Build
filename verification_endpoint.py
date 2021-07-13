@@ -16,8 +16,8 @@ def verify():
 #     data = json.loads(data1)
     sig = data['sig']
     payload = data['payload']
-    pk = data["payload"][0]["pk"]
-    platform = data["payload"][0]["platform"]
+    pk = data['payload'][0]['pk']
+    platform = data['payload'][0]['platform']
     
     json.dumps(payload)
     json.dumps(sig)
