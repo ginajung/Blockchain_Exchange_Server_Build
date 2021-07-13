@@ -10,12 +10,14 @@ app.url_map.strict_slashes = False
 
 @app.route('/verify', methods=['GET','POST'])
 def verify():
-    content = request.get_json(silent=True)
-    sig = content['sig']
-    payload = content['payload']
-    message = payload['message']
-    pk=payload['pk']
-    platform=paylod['platform']
+    data = request.get_json(silent=True)
+    
+#     str_con = json.dumps(content)
+#     data =json.loads(str_con)
+   # sig = data['sig']
+    pk = data['payload'][0]['pk']
+    platform = data['payload'][0]['platform']
+
     
     # to save entire 'payload' dictionary
     
@@ -36,8 +38,7 @@ def verify():
             result = True
             print( "Eth sig verifies!" )
     elif platform =='Algorand':
-        
-       
+
         algo_sig_str = algosdk.util.sign_bytes(payload.encode('utf-8'),sig)
         if algosdk.util.verify_bytes(payload.encode('utf-8'),algo_sig_str,pk):
             result = True
