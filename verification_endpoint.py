@@ -43,8 +43,8 @@ def verify():
         if algosdk.util.verify_bytes(payload.encode('utf-8'),algo_sig_str,pk):
             result = True
             print( "Algo sig verifies!" )
-    else:
-        result = False
+#     else:
+#         result = False
 
     return jsonify(result)
 
