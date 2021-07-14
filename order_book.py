@@ -22,8 +22,8 @@ def process_order(order):
     session.commit()
     
 # CHECK MATCH : check if matching to any existing orders
-    
-    for existing_order in session:
+    orders = session.query(Order).filter(Order.filled != None )
+    for existing_order in orders:
         
         if existing_order.filled == None and existing_order.buy_currency == order.sell_currency and \
         existing_order.sell_currency == order.buy_currency and \
