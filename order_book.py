@@ -8,21 +8,17 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-def process_order(order):
+def process_order(new_order):
 
-#INSERT : generate order_obj from order_dict
-    order_obj = Order( sender_pk=order['sender_pk'],receiver_pk=order['receiver_pk'], buy_currency=order['buy_currency'],\
-                      sell_currency=order['sell_currency'], buy_amount=order['buy_amount'], sell_amount=order['sell_amount'] )
-
-    #Alternatively, this code inserts the same record and is arguably more readable
-    #     fields = ['sender_pk','receiver_pk','buy_currency','sell_currency','buy_amount','sell_amount']
-    #     order_obj = Order(**{f:order[f] for f in fields})
-
-    session.add(order_obj)
+#INSERT : generate new_order_obj from new_order dictionary
+    new_order_obj = Order(sender_pk=new_order['sender_pk'],receiver_pk=new_order['receiver_pk'], buy_currency=new_order['buy_currency'],\
+                      sell_currency=new_order['sell_currency'],buy_amount=new_order['buy_amount'], sell_amount=new_order['sell_amount'] )
+   
+    session.add(new_order_obj)
     session.commit()
     
 # CHECK MATCH : check if matching to any existing orders
-    orders = session.query(Order).filter(Order.filled != None).all()
+    orders = session.query(Order).all()
     for existing_order in orders:
         correct = True
         if existing_order.buy_currency == order_obj.sell_currency and \
