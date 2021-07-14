@@ -46,11 +46,11 @@ def process_order(order):
                 #       - The sell_amount of the new order can be any value such that 
                 #.        the implied exchange rate of the new order is at least that of the old order
                 child_order = {}
-                child_order['sender_pk'] = order['sender_pk']
-                child_order['receiver_pk'] = order['receiver_pk']
-                child_order['buy_currency'] = order['buy_currency']
-                child_order['sell_currency'] = order['sell_currency']
-                child_order['buy_amount'] = order['buy_amount']
+                child_order['sender_pk'] = order_obj.sender_pk
+                child_order['receiver_pk'] = order_obj.receiver_pk
+                child_order['buy_currency'] = order_obj.buy_currency
+                child_order['sell_currency'] = order_obj.sell_currency
+                child_order['buy_amount'] = order_obj.buy_amount
     
                 #any value such that the implied exchange rate of the new order is at least that of the old order
                 exchange_rate = order_obj.buy_amount/order_obj.sell_amount
@@ -61,10 +61,14 @@ def process_order(order):
                                         buy_currency=child_order['buy_currency'],sell_currency=child_order['sell_currency'],\
                                         buy_amount=child_order['buy_amount'], sell_amount=child_order['sell_amount'] )
 
-                session.add(child_order_obj)
-                session.commit()
-                
+#                 session.add(child_order_obj) 
+            
+#                 session.commit()
+                child_order_obj.filled = datetime.now() 
                 child_order_obj.creator_id = order_obj.id
+                order_obj.child=child_order_obj
+               
+                
                 
                 pass
     
