@@ -22,12 +22,12 @@ def process_order(order):
     session.commit()
     
 # CHECK MATCH : check if matching to any existing orders
-    orders = session.query(Order).filter(Order.filled != None )
+    orders = session.query(Order).filter(Order.filled != None).all()
     for existing_order in orders:
-        
-        if existing_order.filled == None and existing_order.buy_currency == order.sell_currency and \
-        existing_order.sell_currency == order.buy_currency and \
-        existing_order.sell_amount / existing_order.buy_amount >= order.buy_amount/order.sell_amount:
+        correct = True
+        if existing_order.buy_currency == order_obj.sell_currency and \
+        existing_order.sell_currency == order_obj.buy_currency and \
+        existing_order.sell_amount / existing_order.buy_amount >= order_obj.buy_amount/order_obj.sell_amount:
             
             # Handle matching order
             # set filled with current timestamp
@@ -63,7 +63,9 @@ def process_order(order):
 
                 session.add(child_order_obj)
                 session.commit()
+                
                 child_order_obj.creator_id = order_obj.id
+                
                 pass
     
 
