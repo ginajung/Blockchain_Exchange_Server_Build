@@ -63,7 +63,7 @@ def process_order(new_order):
                             
                 child_order_obj.filled = datetime.now() 
                 child_order_obj.creator_id = new_order_obj.id
-                new_order_obj.child = child_order_obj
+                #new_order_obj.child = child_order_obj
                 session.commit()
                 
              #if new_order_obj.sell_amount<= existing_order.buy_amount:    
