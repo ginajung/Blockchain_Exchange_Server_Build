@@ -18,22 +18,26 @@ def process_order(new_order):
     session.commit()
     
 # CHECK MATCH : check if matching to any existing orders
-    orders = session.query(Order).all()
-    for existing_order in orders:
-        correct = True
-        if existing_order.buy_currency == order_obj.sell_currency and \
-        existing_order.sell_currency == order_obj.buy_currency and \
+    #orders = session.query(Order).all()
+    for existing_order in session:
+        #correct = True
+        if existing_order.buy_currency == new_order_obj.sell_currency and \
+        existing_order.sell_currency == new_order_obj.buy_currency and \
         existing_order.sell_amount / existing_order.buy_amount >= order_obj.buy_amount/order_obj.sell_amount:
             
             # Handle matching order
-            # set filled with current timestamp
-            order_obj.filled = datetime.now()
-            existing_order.filled = datetime.now()  
-            # set counterparty_id
-            order_obj.counterparty_id = existing_order.id   
             
-            # 3. If one of the orders is not completely filled (i.e. the counterparty’s sell_amount is less than buy_amount):
-            if existing_order.sell_amount<= existing_order.buy_amount:
+            # Set the filled field to be the current timestamp on both orders
+            new_order_obj.filled = datetime.now()
+            existing_order.filled = datetime.now()  
+            
+            # Set counterparty_id to be the id of the other order
+            new_order_obj.counterparty_id = existing_order.id  
+            existing_order.counterparty_id = new_order_obj.id 
+            
+            # 3. If one of the orders is not completely filled 
+            #.   (i.e. the counterparty’s sell_amount is less than buy_amount):
+            if existing_order.sell_amount<= new_order_obj.buy_amount:
                 # You can then try to fill the new order
 
                 # 4 Create a new order for remaining balance ==> make_order? 
@@ -58,12 +62,11 @@ def process_order(new_order):
                                         buy_amount=child_order['buy_amount'], sell_amount=child_order['sell_amount'] )
 
 #                 session.add(child_order_obj) 
-            
-#                 session.commit()
+                            
                 child_order_obj.filled = datetime.now() 
                 child_order_obj.creator_id = order_obj.id
                 order_obj.child=child_order_obj
-               
+                session.commit()
                 
                 
                 pass
