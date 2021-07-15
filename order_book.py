@@ -71,7 +71,7 @@ def process_order(new_order):
                 #session.add(child_order_newobj) 
                 child_order_newobj.filled = datetime.now() 
                 child_order_newobj.creator_id = new_order_obj.id
-                new_order_obj.child = child_order_newobj
+                #new_order_obj.child = child_order_newobj
                 session.commit()
                 
             if new_order_obj.buy_amount <= existing_order.sell_amount:
@@ -100,7 +100,7 @@ def process_order(new_order):
                 #session.add(child_order_exobj) 
                 child_order_exobj.filled = datetime.now() 
                 child_order_exobj.creator_id = existing_order.id
-                existing_order.child = child_order_exobj
+                #existing_order.child = child_order_exobj
                
                 session.commit()
                 
