@@ -53,12 +53,16 @@ def process_order(new_order):
                 child_order_new['receiver_pk'] = new_order_obj.receiver_pk
                 child_order_new['buy_currency'] = new_order_obj.buy_currency
                 child_order_new['sell_currency'] = new_order_obj.sell_currency
-                child_order_new['buy_amount'] = new_order_obj.buy_amount
+                
     
                 #any value such that the implied exchange rate of the new order is at least that of the old order
                 exchange_rate_new = new_order_obj.buy_amount/new_order_obj.sell_amount
-                child_order_new['sell_amount'] = random.randint(exchange_rate_new,10)
-    
+            
+                child_sell_amount = new_order_obj.sell_amount-existing_order.buy_amount
+                child_buy_amount = exchange_rate_new * child_sell
+                
+                child_order_new['sell_amount'] = child_sell
+                child_order_new['buy_amount'] = child_buy
     
                 child_order_newobj = Order( sender_pk=child_order_new['sender_pk'],receiver_pk=child_order_new['receiver_pk'], \
                                         buy_currency=child_order_new['buy_currency'],sell_currency=child_order_new['sell_currency'],\
@@ -82,7 +86,12 @@ def process_order(new_order):
                 #any value such that the implied exchange rate of the new order is at least that of the old order
                 
                 exchange_rate_ex = existing_order.buy_amount/existing_order.sell_amount
-                child_order_ex['sell_amount'] = random.randint(exchange_rate_ex,10)
+                
+                child_ex_sell_amount = existing_order.sell_amount-new_order_obj.buy_amount
+                child_ex_buy_amount = exchange_rate_ex * child_ex_sell_amount
+                
+                child_order_new['sell_amount'] = child_ex_sell_amount
+                child_order_new['buy_amount'] = child_ex_buy_amount
                 
                 child_order_exobj = Order( sender_pk=child_order_ex['sender_pk'],receiver_pk=child_order_ex['receiver_pk'], \
                                         buy_currency=child_order_ex['buy_currency'],sell_currency=child_order_ex['sell_currency'],\
