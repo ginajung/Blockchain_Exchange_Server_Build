@@ -90,8 +90,8 @@ def process_order(new_order):
                 child_ex_sell_amount = existing_order.sell_amount-new_order_obj.buy_amount
                 child_ex_buy_amount = exchange_rate_ex * child_ex_sell_amount
                 
-                child_order_new['sell_amount'] = child_ex_sell_amount
-                child_order_new['buy_amount'] = child_ex_buy_amount
+                child_order_ex['sell_amount'] = child_ex_sell_amount
+                child_order_ex['buy_amount'] = child_ex_buy_amount
                 
                 child_order_exobj = Order( sender_pk=child_order_ex['sender_pk'],receiver_pk=child_order_ex['receiver_pk'], \
                                         buy_currency=child_order_ex['buy_currency'],sell_currency=child_order_ex['sell_currency'],\
