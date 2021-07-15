@@ -29,10 +29,12 @@ def process_order(new_order):
         # Handle matching order            
             # Set the filled field to be the current timestamp on both orders
             new_order_obj.filled = datetime.now()
-            existing_order.filled = datetime.now()  
+             
             
             # Set counterparty_id to be the id of the other order
-            new_order_obj.counterparty_id = existing_order.id  
+            new_order_obj.counterparty_id = existing_order.id 
+            
+            existing_order.filled = datetime.now() 
             existing_order.counterparty_id = new_order_obj.id 
             
         # 3. If one of the orders is not completely filled 
