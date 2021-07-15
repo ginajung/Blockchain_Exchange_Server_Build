@@ -68,10 +68,10 @@ def process_order(new_order):
                                         buy_currency=child_order_new['buy_currency'],sell_currency=child_order_new['sell_currency'],\
                                         buy_amount=child_order_new['buy_amount'], sell_amount=child_order_new['sell_amount'] )
 
-                #session.add(child_order_newobj) 
+                session.add(child_order_newobj) 
                 #child_order_newobj.filled = datetime.now() 
                 child_order_newobj.creator_id = new_order_obj.id
-                new_order_obj.child = child_order_newobj
+                #new_order_obj.child = child_order_newobj
                 session.commit()
                 
             if new_order_obj.buy_amount <= existing_order.sell_amount:
@@ -97,10 +97,10 @@ def process_order(new_order):
                                         buy_currency=child_order_ex['buy_currency'],sell_currency=child_order_ex['sell_currency'],\
                                         buy_amount=child_order_ex['buy_amount'], sell_amount=child_order_ex['sell_amount'] )
 
-                #session.add(child_order_exobj) 
+                session.add(child_order_exobj) 
                 #child_order_exobj.filled = datetime.now() 
                 child_order_exobj.creator_id = existing_order.id
-                existing_order.child = child_order_exobj
+                #existing_order.child = child_order_exobj
                
                 session.commit()
                 
