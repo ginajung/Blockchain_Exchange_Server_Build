@@ -18,11 +18,7 @@ def process_order(new_order):
     session.commit()
     
 # CHECK MATCH : check if matching to any existing orders
-    orders = session.query(Order).filter(Order.filled == None).all()
-#     orders = orders.filter(Order.buy_currency == new_order_obj.sell_currency)
-#     orders = orders.filter(Order.buy_currency==new_order_obj.buy_currency)
-#     orders = orders.filter(Order.sell_amount / Order.buy_amount >= new_order_obj.buy_amount/new_order_obj.sell_amount)
-    
+    orders = session.query(Order).filter(Order.filled == None).all()   
     for existing_order in orders:
         
         
@@ -68,7 +64,7 @@ def process_order(new_order):
                                         buy_currency=child_order_new['buy_currency'],sell_currency=child_order_new['sell_currency'],\
                                         buy_amount=child_order_new['buy_amount'], sell_amount=child_order_new['sell_amount'] )
 
-                session.add(child_order_newobj) 
+                #session.add(child_order_newobj) 
                 #child_order_newobj.filled = datetime.now() 
                 child_order_newobj.creator_id = new_order_obj.id
                 #new_order_obj.child = child_order_newobj
@@ -97,7 +93,7 @@ def process_order(new_order):
                                         buy_currency=child_order_ex['buy_currency'],sell_currency=child_order_ex['sell_currency'],\
                                         buy_amount=child_order_ex['buy_amount'], sell_amount=child_order_ex['sell_amount'] )
 
-                session.add(child_order_exobj) 
+                #session.add(child_order_exobj) 
                 #child_order_exobj.filled = datetime.now() 
                 child_order_exobj.creator_id = existing_order.id
                 #existing_order.child = child_order_exobj
