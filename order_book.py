@@ -30,8 +30,7 @@ def process_order(new_order):
         existing_order.sell_currency == new_order_obj.buy_currency and \
         existing_order.sell_amount / existing_order.buy_amount >= new_order_obj.buy_amount/new_order_obj.sell_amount:
             
-#         # Handle matching order
-            
+        # Handle matching order            
             # Set the filled field to be the current timestamp on both orders
             new_order_obj.filled = datetime.now()
             existing_order.filled = datetime.now()  
@@ -66,10 +65,9 @@ def process_order(new_order):
                                         buy_amount=child_order_new['buy_amount'], sell_amount=child_order_new['sell_amount'] )
 
                 #session.add(child_order_newobj) 
-                
-        
                 child_order_newobj.filled = datetime.now() 
                 child_order_newobj.creator_id = new_order_obj.id
+                new_order_obj.child = child_order_newobj
                 session.commit()
                 
             if new_order_obj.buy_amount <= existing_order.sell_amount:
@@ -93,8 +91,8 @@ def process_order(new_order):
                 #session.add(child_order_exobj) 
                 child_order_exobj.filled = datetime.now() 
                 child_order_exobj.creator_id = existing_order.id
-                
-                #new_order_obj.child = child_order_obj
+                existing_order.child = child_order_exobj
+               
                 session.commit()
                 
                
