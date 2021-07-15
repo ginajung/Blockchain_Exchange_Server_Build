@@ -28,7 +28,7 @@ def process_order(new_order):
         
         if existing_order.buy_currency == new_order_obj.sell_currency and \
         existing_order.sell_currency == new_order_obj.buy_currency and \
-        existing_order.sell_amount / existing_order.buy_amount >= order_obj.buy_amount/order_obj.sell_amount:
+        existing_order.sell_amount / existing_order.buy_amount >= new_order_obj.buy_amount/order_obj.sell_amount:
             
 #         # Handle matching order
             
