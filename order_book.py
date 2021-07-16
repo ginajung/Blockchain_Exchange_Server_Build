@@ -37,7 +37,7 @@ def process_order(new_order):
             break;
         # 3. If one of the orders is not completely filled 
         #.   (i.e. the counterparty’s sell_amount is less than buy_amount):
-    if new_order_obj.sell_amount > existing_order.buy_amount and new_order_obj.buy_amount >= existing_order.sell_amount:
+    if new_order_obj.sell_amount > existing_order.buy_amount :
         
                 
                 # 4 Create a new order for remaining balance ==> make_order? 
@@ -72,7 +72,7 @@ def process_order(new_order):
                 #new_order_obj.child = child_order_newobj
         session.commit()
                 
-    if new_order_obj.buy_amount < existing_order.sell_amount and new_order_obj.sell_amount <= existing_order.buy_amount:
+    if new_order_obj.buy_amount < existing_order.sell_amount :
                 
         child_order_ex = {}
         child_order_ex['sender_pk'] = existing_order.sender_pk
