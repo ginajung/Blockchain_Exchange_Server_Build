@@ -13,10 +13,10 @@ def ZK_equality(G,H):
     r2=Secret()
     m = Secret()
     
-#     C1 = r1*G
-#     C2 = r1*H + m*G
-#     D1 = r2*G
-#     D2 = r2*H + m*G
+    C1 = r1*G
+    C2 = r1*H + m*G
+    D1 = r2*G
+    D2 = r2*H + m*G
     
     # This is Peggy's secret bit.
     #top_secret_bit = 1
