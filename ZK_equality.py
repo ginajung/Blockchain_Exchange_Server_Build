@@ -11,9 +11,9 @@ def ZK_equality(G,H):
     r2 = Secret(utils.get_random_num(bits=128))
 #     r1=Secret()
 #     r2=Secret()
-    m = 1
+    
 # This is Peggy's secret bit.
-
+    m = 1
 
 # A Pedersen commitment to the secret bit.
     
@@ -21,7 +21,7 @@ def ZK_equality(G,H):
 # Peggy's definition of the proof statement, and proof generation.
 # (The first or-clause corresponds to the secret value 0, and the second to the value 1. Because
 # the real value of the bit is 1, the clause that corresponds to zero is marked as simulated.)
-# stmt = DLRep(C, r * H, simulated=True) | DLRep(C - G, r * H)    
+#     stmt = DLRep(C, r * H, simulated=True) | DLRep(C - G, r * H)    
 #     C1 = r1*G
 #     C2 = r1*H + m*G
 #     D1 = r2*G
@@ -34,7 +34,7 @@ def ZK_equality(G,H):
     D2 = m * G + r2.value * H
     D1 = r2.value * G
     
-    stmt = DLRep (C1 , r1 * G) & DLRep (C2 , r1*H+m*G) | DLRep (C2-G , r1*H+m*G) & DLRep (D1 , r2 * G) & DLRep (D2 , r2*H+m*G) | DLRep (D2-G , r2*H+m*G)
+    stmt = DLRep (C1 , r1 * G) & DLRep (C2 , r1*H+m*G, simulated=True) | DLRep (C2-G , r1*H+m*G) & DLRep (D1 , r2 * G) & DLRep (D2 , r2*H+m*G,simulated=True) | DLRep (D2-G , r2*H+m*G)
     
     #Generate a NIZK proving equality of the plaintexts
     
