@@ -13,12 +13,12 @@ def ZK_equality(G,H):
 #     r2=Secret()
     m = Secret()
     
-    C1 = r1*G
-    C2 = r1*H + m*G
-    D1 = r2*G
-    D2 = r2*H + m*G
-    enc=(C1,C2)
-    enc=(D1,D2)
+#     C1 = r1*G
+#     C2 = r1*H + m*G
+#     D1 = r2*G
+#     D2 = r2*H + m*G
+#     enc=(C1,C2)
+#     enc=(D1,D2)
 # A Pedersen commitment to the secret bit.
 #     C2 = m * G + r1.value * H
 #     C1 = r1.value * G
