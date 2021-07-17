@@ -21,7 +21,7 @@ def ZK_equality(G,H):
 # Peggy's definition of the proof statement, and proof generation.
 # (The first or-clause corresponds to the secret value 0, and the second to the value 1. Because
 # the real value of the bit is 1, the clause that corresponds to zero is marked as simulated.)
-stmt = DLRep(C, r * H, simulated=True) | DLRep(C - G, r * H)    
+# stmt = DLRep(C, r * H, simulated=True) | DLRep(C - G, r * H)    
 #     C1 = r1*G
 #     C2 = r1*H + m*G
 #     D1 = r2*G
