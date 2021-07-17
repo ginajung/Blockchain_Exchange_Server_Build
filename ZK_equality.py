@@ -13,7 +13,7 @@ def ZK_equality(G,H):
 #     r2=Secret()
     
 # This is Peggy's secret bit.
-    m = 1
+    m = Secret()
 
 # A Pedersen commitment to the secret bit.
     
@@ -29,10 +29,9 @@ def ZK_equality(G,H):
 #     enc=(C1,C2)
 #     enc=(D1,D2)
 # A Pedersen commitment to the secret bit.
-    C2 = m * G + r1.value * H
-    C1 = r1.value * G
-    D2 = m * G + r2.value * H
-    D1 = r2.value * G
+    (C1,C2) = (r1.value * G, r1.value * H + m.value * G)
+    (D1,D2) = (r2.value * G, r2.value * H + m.value * G)
+    
     
 #     stmt = DLRep (C1 , r1 * G) & DLRep (C2 , r1*H+m*G, simulated=True) | DLRep (C2-G , r1*H+m*G) & DLRep (D1 , r2 * G) & DLRep (D2 , r2*H+m*G,simulated=True) | DLRep (D2-G , r2*H+m*G)
     
