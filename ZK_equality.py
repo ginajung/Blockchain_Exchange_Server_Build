@@ -13,14 +13,13 @@ def ZK_equality(G,H):
 #     r2=Secret()
     m = Secret()
     
-    
+    Enc1=()
+    Enc2=()
     C1 = r1*G
     C2 = r1*H + m*G
     D1 = r2*G
     D2 = r2*H + m*G
     
-    Enc1=(C1,C2)
-    Enc2=(D1,D2)
     #Generate a NIZK proving equality of the plaintexts
     
     stmt = DLRep(C1,r1*G) & DLRep(C2,r1*H+m*G) & DLRep(D1,r2*G) & DLRep(D2,r2*H+m*G)
