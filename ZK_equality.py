@@ -34,11 +34,11 @@ def ZK_equality(G,H):
     D2 = m * G + r2.value * H
     D1 = r2.value * G
     
-    stmt = DLRep (C1 , r1 * G) & DLRep (C2 , r1*H+m*G, simulated=True) | DLRep (C2-G , r1*H+m*G) & DLRep (D1 , r2 * G) & DLRep (D2 , r2*H+m*G,simulated=True) | DLRep (D2-G , r2*H+m*G)
+#     stmt = DLRep (C1 , r1 * G) & DLRep (C2 , r1*H+m*G, simulated=True) | DLRep (C2-G , r1*H+m*G) & DLRep (D1 , r2 * G) & DLRep (D2 , r2*H+m*G,simulated=True) | DLRep (D2-G , r2*H+m*G)
     
     #Generate a NIZK proving equality of the plaintexts
     
-    #stmt = DLRep(C1,r1*G) & DLRep(C2,r1*H+m*G) & DLRep(D1,r2*G) & DLRep(D2,r2*H+m*G)
+    stmt = DLRep(C1,r1*G) & DLRep(C2,r1*H+m*G) & DLRep(D1,r2*G) & DLRep(D2,r2*H+m*G)
     zk_proof = stmt.prove()
     
     #Return two ciphertexts and the proof
