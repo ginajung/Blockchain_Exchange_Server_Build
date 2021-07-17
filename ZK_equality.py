@@ -13,7 +13,7 @@ def ZK_equality(G,H):
 #     r2=Secret()
     
 # This is Peggy's secret bit.
-    m = Secret()
+    m = Secret(utils.get_random_num(bits=128))
 
 # A Pedersen commitment to the secret bit.
     
