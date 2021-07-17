@@ -7,10 +7,10 @@ def ZK_equality(G,H):
    #Generate two El-Gamal ciphertexts (C1,C2) and (D1,D2)
     
     # Setup: generate a secret randomizer for the commitment scheme.
-#     r1 = Secret(utils.get_random_num(bits=128))
-#     r2 = Secret(utils.get_random_num(bits=128))
-    r1=Secret()
-    r2=Secret()
+    r1 = Secret(utils.get_random_num(bits=128))
+    r2 = Secret(utils.get_random_num(bits=128))
+#     r1=Secret()
+#     r2=Secret()
     m = Secret()
 
     C1 = r1*G
