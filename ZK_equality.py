@@ -20,16 +20,16 @@ def ZK_equality(G,H):
 #     enc=(C1,C2)
 #     enc=(D1,D2)
 # A Pedersen commitment to the secret bit.
-#     C2 = m * G + r1.value * H
-#     C1 = r1.value * G
-#     D2 = m * G + r1.value * H
-#     D1 = r1.value * G
+    C2 = m * G + r1.value * H
+    C1 = r1.value * G
+    D2 = m * G + r1.value * H
+    D1 = r1.value * G
     
-#     stmt = DLRep (C1 , r1 * G)| DLRep (C1-G , r1 * G) & DLRep (C2 , r1*H+m*G) | DLRep (C2-G , r1*H+m*G) & DLRep (D1 , r2 * G)| DLRep (D1-G , r2 * G) & DLRep (D2 , r2*H+m*G) | DLRep (D2-G , r2*H+m*G)
+    stmt = DLRep (C1 , r1 * G)| DLRep (C1-G , r1 * G) & DLRep (C2 , r1*H+m*G) | DLRep (C2-G , r1*H+m*G) & DLRep (D1 , r2 * G)| DLRep (D1-G , r2 * G) & DLRep (D2 , r2*H+m*G) | DLRep (D2-G , r2*H+m*G)
     
     #Generate a NIZK proving equality of the plaintexts
     
-    stmt = DLRep(C1,r1*G) & DLRep(C2,r1*H+m*G) & DLRep(D1,r2*G) & DLRep(D2,r2*H+m*G)
+   # stmt = DLRep(C1,r1*G) & DLRep(C2,r1*H+m*G) & DLRep(D1,r2*G) & DLRep(D2,r2*H+m*G)
     zk_proof = stmt.prove()
     
     #Return two ciphertexts and the proof
