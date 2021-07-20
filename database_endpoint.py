@@ -70,10 +70,7 @@ def trade():
             return jsonify( False )
             
         #Your code here
-        
-        
-        
-        
+
         sig = content['sig']
         pk = content['payload']['pk']
         platform = content['payload']['platform']
@@ -91,11 +88,23 @@ def trade():
             
         if platform == "Algorand":        
             if algosdk.util.verify_bytes(payload.encode('utf-8'),sig,pk):
-            result = True
+                result = True
             #print( "Algo sig verifies!" )
 
+        
+        if result = True :
+            new_order_obj = Order(sender_pk=new_order['sender_pk'],receiver_pk=new_order['receiver_pk'],\ buy_currency=new_order['buy_currency'], sell_currency=new_order['sell_currency'],buy_amount=new_order['buy_amount'], sell_amount=new_order['sell_amount'] )
+   
+            create_session()
+            g.session.add(new_order_obj)
+            g.session.commit()
+        
+        if result =False:
+            new_log_obj = Log(message = payload)
+                
 
-        return jsonify(result)
+        
+#         return jsonify(result)
 
         #Note that you can access the database session using g.session
 
