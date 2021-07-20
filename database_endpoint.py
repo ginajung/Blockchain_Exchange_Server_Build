@@ -115,13 +115,12 @@ def order_book():
     #Note that you can access the database session using g.session
     
     
-    orders = session.query(Order).filter(Order.sender_pk!=None and  Order.receiver_pk!=None and Order.buy_currency!=None and Order.sell_currency!=None and Order.buy_amount!=None and Order.sell_amount!=None and Order.signature”!=None).all() 
+    orders = session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature”!=None).all() 
     
     
     data = [order.__dict__ for order in orders]
     json.dumps(data)    
-    
-    
+
     return jsonify(data)
 
 if __name__ == '__main__':
