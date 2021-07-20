@@ -10,7 +10,6 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import load_only
 
 from models import Base, Order, Log
-from verification_endpoint import verify
 
 engine = create_engine('sqlite:///orders.db')
 Base.metadata.bind = engine
@@ -93,7 +92,7 @@ def trade():
 
         # if verified then, insert Order table
         if result == True :
-            new_order_obj = Order(sender_pk=content['payload']['sender_pk'],receiver_pk=content['payload']['receiver_pk'],\ buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'],buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'] )
+            new_order_obj = Order(sender_pk=content['payload']['sender_pk'],receiver_pk=content['payload']['receiver_pk'],buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'],buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'])
    
             g.session.add(new_order_obj)
             g.session.commit()
@@ -112,7 +111,7 @@ def order_book():
     #Your code here : return a list of all orders in the database.
     #Note that you can access the database session using g.session   
     
-    orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature”!=None).all() 
+    orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
     
     data = [order.__dict__ for order in orders]
     json.dumps(data)    
