@@ -93,7 +93,7 @@ def trade():
 
         
         if result = True :
-            new_order_obj = Order(sender_pk=new_order['sender_pk'],receiver_pk=new_order['receiver_pk'],\ buy_currency=new_order['buy_currency'], sell_currency=new_order['sell_currency'],buy_amount=new_order['buy_amount'], sell_amount=new_order['sell_amount'] )
+            new_order_obj = Order(sender_pk=content['payload']['sender_pk'],receiver_pk=content['payload']['receiver_pk'],\ buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'],buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'] )
    
             create_session()
             g.session.add(new_order_obj)
@@ -113,6 +113,11 @@ def trade():
 def order_book():
     #Your code here
     #Note that you can access the database session using g.session
+    
+    
+    
+    
+    
     return jsonify(result)
 
 if __name__ == '__main__':
