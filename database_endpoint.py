@@ -115,7 +115,12 @@ def order_book():
    
     # all objects 
     orders = g.session.query(Order).all()
-    data = [order._asdict() for order in orders]
+    data=[]
+    
+    for order in orders:
+        data.append(order._asdict())
+        
+    
     data1= json.dumps(data)    
 
     return jsonify(data1)
