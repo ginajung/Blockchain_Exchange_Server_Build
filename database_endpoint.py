@@ -117,19 +117,19 @@ def order_book():
     data =[]
     # save orders as a list of dicts / convert to JSON
     for order in orders:
-        data.append(order.__dict__)
-#         new_order_dict = {}
-#         new_order_dict['sender_pk'] = order.sender_pk
-#         new_order_dict['receiver_pk'] = order.receiver_pk
-#         new_order_dict['buy_currency'] = order.buy_currency
-#         new_order_dict['sell_currency'] = order.sell_currency
-#         new_order_dict['buy_amount'] = order.buy_amount
-#         new_order_dict['sell_amount'] = order.sell_amount
-#         new_order_dict['signature'] = order.signature
-#         data.append(new_order_dict)
+        #data.append(order.__dict__)
+        new_order_dict = {}
+        new_order_dict['sender_pk'] = order.sender_pk
+        new_order_dict['receiver_pk'] = order.receiver_pk
+        new_order_dict['buy_currency'] = order.buy_currency
+        new_order_dict['sell_currency'] = order.sell_currency
+        new_order_dict['buy_amount'] = order.buy_amount
+        new_order_dict['sell_amount'] = order.sell_amount
+        new_order_dict['signature'] = order.signature
+        data.append(new_order_dict)
     
     
-    #json.dumps(data)
+    json.dumps(data)
     
     return jsonify(data)
 
