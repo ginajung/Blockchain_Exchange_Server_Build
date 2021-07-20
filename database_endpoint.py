@@ -99,11 +99,12 @@ def trade():
             g.session.add(new_order_obj)
             g.session.commit()
         
+        # not verify then, insert Log table
         if result =False:
             new_log_obj = Log(message = payload)
-                
+            g.session.add(new_log_obj)
+            g.session.commit()
 
-        
 #         return jsonify(result)
 
         #Note that you can access the database session using g.session
