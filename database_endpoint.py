@@ -8,6 +8,7 @@ import algosdk
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import load_only
+from sqlalchemy.ext.declarative import declarative_base
 
 from models import Base, Order, Log
 
