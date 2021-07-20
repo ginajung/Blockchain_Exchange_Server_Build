@@ -93,7 +93,7 @@ def trade():
 
         # if verified, insert into Order table
         if result == True :
-            new_order_obj = Order(sender_pk=content['payload']['sender_pk'],receiver_pk=content['payload']['receiver_pk'],buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'],buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'], signature = sig)
+            new_order_obj = Order(sender_pk=content['payload']['sender_pk'], receiver_pk=content['payload']['receiver_pk'], buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'], buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'], signature = content['signature'])
    
             g.session.add(new_order_obj)
             g.session.commit()
@@ -129,7 +129,7 @@ def order_book():
 #         data.append(new_order_dict)
     
     
-    json.dumps(data)
+    #json.dumps(data)
     
     return jsonify(data)
 
