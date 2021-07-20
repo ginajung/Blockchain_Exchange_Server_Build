@@ -114,16 +114,10 @@ def order_book():
     
     orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
    
-    # all objects 
-   # orders = g.session.query(Order).all()
     data=[]
     
-    for order in orders:
-        data.append(dict(order))
-       
-
-    #     data1=json.dumps(data)
-    data1=json.loads(data)
+    data.append(dict(order) for order in orders)    
+    data1=json.dumps(data)
         
     return jsonify(data1)
 
