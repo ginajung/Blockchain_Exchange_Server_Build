@@ -92,14 +92,14 @@ def trade():
             #print( "Algo sig verifies!" )
 
         # if verified then, insert Order table
-        if result = True :
+        if result == True :
             new_order_obj = Order(sender_pk=content['payload']['sender_pk'],receiver_pk=content['payload']['receiver_pk'],\ buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'],buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'] )
    
             g.session.add(new_order_obj)
             g.session.commit()
         
         # not verify then, insert Log table
-        if result =False:
+        if result ==False:
             new_log_obj = Log(message = payload)
             g.session.add(new_log_obj)
             g.session.commit()
