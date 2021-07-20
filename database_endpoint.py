@@ -112,10 +112,10 @@ def order_book():
     #Your code here : return a list of all orders in the database.
     #Note that you can access the database session using g.session   
     
-#     orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
+    orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
    
     # all objects 
-    orders = g.session.query(Order).all()
+   # orders = g.session.query(Order).all()
     data=[]
     
     for order in orders:
