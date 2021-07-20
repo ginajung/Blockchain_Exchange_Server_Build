@@ -69,9 +69,9 @@ def trade():
             return jsonify( False )
             
         #Your code here
-
+        
         sig = content['sig']
-        pk = content['payload']['pk']
+        pk = content['payload']['sender_pk']
         platform = content['payload']['platform']
         payload = json.dumps(content['payload'])
 
