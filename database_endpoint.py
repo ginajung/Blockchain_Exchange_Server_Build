@@ -119,12 +119,12 @@ def order_book():
     data=[]
     
     for order in orders:
-        data.append(order._asdict())
+        data.append(dict(order))
+       
+    data1=json.dumps(data)
+    data2=json.loads(data1)
         
-    
-    data1= json.dumps(data)    
-
-    return jsonify(data1)
+    return data2
 
 if __name__ == '__main__':
     app.run(port='5002')
