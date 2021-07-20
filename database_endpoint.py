@@ -121,10 +121,11 @@ def order_book():
     for order in orders:
         data.append(dict(order))
        
-    data1=json.dumps(data)
-    data2=json.loads(data1)
+
+    #     data1=json.dumps(data)
+    #     data2=json.loads(data1)
         
-    return jsonify(data2)
+    return jsonify(data)
 
 if __name__ == '__main__':
     app.run(port='5002')
