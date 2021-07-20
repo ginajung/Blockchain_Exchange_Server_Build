@@ -10,6 +10,8 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import load_only
 
 from models import Base, Order, Log
+from verification_endpoint import verify
+
 engine = create_engine('sqlite:///orders.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
@@ -32,6 +34,10 @@ def shutdown_session(response_or_exc):
 
 def log_message(d)
     # Takes input dictionary d and writes it to the Log table
+    
+    
+    
+    
     pass
 
 """
@@ -64,6 +70,33 @@ def trade():
             return jsonify( False )
             
         #Your code here
+        
+        
+        
+        
+        sig = content['sig']
+        pk = content['payload']['pk']
+        platform = content['payload']['platform']
+        payload = json.dumps(content['payload'])
+
+        result = False
+    
+        # for eth and algo 
+        if platform == "Ethereum":        
+        eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
+        eth_sig_obj = sig        
+            if eth_account.Account.recover_message(eth_encoded_msg,signature=sig) == pk:
+                result = True
+            #print( "Eth sig verifies!" )
+            
+        if platform == "Algorand":        
+            if algosdk.util.verify_bytes(payload.encode('utf-8'),sig,pk):
+            result = True
+            #print( "Algo sig verifies!" )
+
+
+        return jsonify(result)
+
         #Note that you can access the database session using g.session
 
 @app.route('/order_book')
