@@ -111,14 +111,17 @@ def trade():
 
 @app.route('/order_book')
 def order_book():
-    #Your code here
+    #Your code here : return a list of all orders in the database.
     #Note that you can access the database session using g.session
     
+    orders = session.query(Order).filter(Order.sender_pk!=None and  Order.receiver_pk!=None and Order.buy_currency!=None and Order.sell_currency!=None and Order.buy_amount!=None and Order.sell_amount!=None and Order.signature”!=None).all() 
+    
+    for order in orders:
+        order_dict = order.__dict__
+        data.append(order_dict)
     
     
-    
-    
-    return jsonify(result)
+    return jsonify(data)
 
 if __name__ == '__main__':
     app.run(port='5002')
