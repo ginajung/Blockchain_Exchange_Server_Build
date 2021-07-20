@@ -80,8 +80,8 @@ def trade():
     
         # for eth and algo 
         if platform == "Ethereum":        
-        eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
-        eth_sig_obj = sig        
+            eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
+            eth_sig_obj = sig        
             if eth_account.Account.recover_message(eth_encoded_msg,signature=sig) == pk:
                 result = True
             #print( "Eth sig verifies!" )
