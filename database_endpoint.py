@@ -115,9 +115,9 @@ def order_book():
     
     
     data = [order.__dict__ for order in orders]
-    json.dumps(data)    
+    data1= json.dumps(data)    
 
-    return jsonify(data)
+    return jsonify(data1)
 
 if __name__ == '__main__':
     app.run(port='5002')
