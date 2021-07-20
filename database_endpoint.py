@@ -116,10 +116,12 @@ def trade():
 def order_book():
     #Your code here : return a list of all orders in the database.
     #Note that you can access the database session using g.session   
-    
-#     orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
-    orders = g.session.query(Order).all()
+    print("line119")
+    orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
+    #orders = g.session.query(Order).all()
     data =[]
+    
+    print("line124")
     # save orders as a list of dicts / convert to JSON
     for order in orders:
         #data.append(order.__dict__)
@@ -135,7 +137,7 @@ def order_book():
     
     
     #json.dumps(data)
-    
+    print("line140")
     return jsonify(data)
 
 if __name__ == '__main__':
