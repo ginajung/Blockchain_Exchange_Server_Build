@@ -113,7 +113,7 @@ def trade():
 def order_book():
     #Your code here : return a list of all orders in the database.
     #Note that you can access the database session using g.session
-    
+    data=[]
     orders = session.query(Order).filter(Order.sender_pk!=None and  Order.receiver_pk!=None and Order.buy_currency!=None and Order.sell_currency!=None and Order.buy_amount!=None and Order.sell_amount!=None and Order.signature”!=None).all() 
     
     for order in orders:
