@@ -115,7 +115,7 @@ def order_book():
     
     
     data = [order.__dict__ for order in orders]
-#     json.dumps(data)    
+    json.dumps(data)    
 
     return jsonify(data)
 
