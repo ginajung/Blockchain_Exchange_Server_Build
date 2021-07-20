@@ -114,11 +114,12 @@ def order_book():
     
     orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
    
-    data=[order.__dict__ for order in orders]
+    # save orders as a list of dicts
+    data = json.dumps([order.__dict__ for order in orders])
     
-    data1=json.dumps(data)
+    
         
-    return jsonify(data1)
+    return jsonify(data)
 
 if __name__ == '__main__':
     app.run(port='5002')
