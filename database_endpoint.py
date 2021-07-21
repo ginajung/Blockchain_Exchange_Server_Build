@@ -104,7 +104,7 @@ def trade():
             #print( "Log generated" )   
             g.session.add(new_log_obj)
             g.session.commit() 
- #   return
+    return jsonify(True)
     
     
 @app.route('/order_book')
