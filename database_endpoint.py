@@ -106,7 +106,7 @@ def trade():
             g.session.commit()
         
         
-    return(true)
+   # return(true)
             
 @app.route('/order_book')
 def order_book():
@@ -131,7 +131,7 @@ def order_book():
       # print(order.__dict__)
     
    # data = json.dumps([order.__dict__ for order in orders])
-    json.dumps(data)
+   # json.dumps(data)
   #  print("line140")
     return jsonify(data)
 
