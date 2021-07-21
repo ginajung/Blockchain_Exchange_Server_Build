@@ -96,7 +96,6 @@ def trade():
         # if verified, insert into Order table
         if result == True :
             new_order_obj = Order( receiver_pk=content['payload']['receiver_pk'],sender_pk=content['payload']['sender_pk'], buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'], buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'], signature = content['sig'])
-
   
             #print( "Order generated" )   
             g.session.add(new_order_obj)
@@ -109,16 +108,16 @@ def trade():
             g.session.add(new_log_obj)
             g.session.commit()
 
-        #Note that you can access the database session using g.session
-    
+      
 
+    
 @app.route('/order_book')
 def order_book():
     #Your code here : return a list of all orders in the database.
     #Note that you can access the database session using g.session   
     print("line119")
     orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
-    #orders = g.session.query(Order).all()
+    
     data =[]
     
     print("line124")
@@ -136,7 +135,7 @@ def order_book():
 #         data.append(new_order_dict)
         print(order.__dict__)
     
-    data.json()
+    json.dump(data)
     print("line140")
     return jsonify(data)
 
