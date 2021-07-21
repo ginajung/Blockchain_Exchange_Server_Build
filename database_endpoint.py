@@ -130,7 +130,7 @@ def order_book():
         new_order_dict['signature'] = order.signature
         data_dic['data'].append(new_order_dict)
 
-    json.dumps(data_dic)
+    #json.dumps(data_dic)
   
     return jsonify(data_dic)
 
