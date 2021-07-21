@@ -3,7 +3,6 @@ from flask_restful import Resource, Api
 from sqlalchemy import create_engine, select, MetaData, Table
 from flask import jsonify
 import json
-
 import eth_account
 import algosdk
 from sqlalchemy.orm import sessionmaker
@@ -114,24 +113,23 @@ def trade():
 def order_book():
     #Your code here : return a list of all orders in the database.
     #Note that you can access the database session using g.session   
-    print("line119")
     orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
     
     data =[]
     
 #     # save orders as a list of dicts / convert to JSON
     for order in orders:
-        #data.append(order.__dict__)
-        new_order_dict = {}
-        new_order_dict['sender_pk'] = order.sender_pk
-        new_order_dict['receiver_pk'] = order.receiver_pk
-        new_order_dict['buy_currency'] = order.buy_currency
-        new_order_dict['sell_currency'] = order.sell_currency
-        new_order_dict['buy_amount'] = order.buy_amount
-        new_order_dict['sell_amount'] = order.sell_amount
-        new_order_dict['signature'] = order.signature
-        data.append(new_order_dict)
-      # print(order.__dict__)
+        data.append(order.__dict__)
+#         new_order_dict = {}
+#         new_order_dict['sender_pk'] = order.sender_pk
+#         new_order_dict['receiver_pk'] = order.receiver_pk
+#         new_order_dict['buy_currency'] = order.buy_currency
+#         new_order_dict['sell_currency'] = order.sell_currency
+#         new_order_dict['buy_amount'] = order.buy_amount
+#         new_order_dict['sell_amount'] = order.sell_amount
+#         new_order_dict['signature'] = order.signature
+#         data.append(new_order_dict)
+#       # print(order.__dict__)
     
    # data = json.dumps([order.__dict__ for order in orders])
     json.dumps(data)
