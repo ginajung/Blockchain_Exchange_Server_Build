@@ -35,9 +35,6 @@ def shutdown_session(response_or_exc):
 def log_message(d):
     # Takes input dictionary d and writes it to the Log table
     
-    
-    
-    
     pass
 
 """
@@ -107,7 +104,8 @@ def trade():
             #print( "Log generated" )   
             g.session.add(new_log_obj)
             g.session.commit()
-
+            
+        return(True)
             
 @app.route('/order_book')
 def order_book():
