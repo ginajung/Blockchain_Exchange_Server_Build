@@ -86,10 +86,10 @@ def trade():
             
         if platform == "Algorand":        
             if algosdk.util.verify_bytes(payload.encode('utf-8'),sig,pk):
-                print( "Algo_verified" ) 
+                #print( "Algo_verified" ) 
                 result = True
             
-        print(result)
+        #print(result)
         # if verified, insert into Order table
         if result == True :
             new_order_obj = Order( receiver_pk=content['payload']['receiver_pk'],sender_pk=content['payload']['sender_pk'], buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'], buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'], signature = content['sig'])
@@ -106,7 +106,7 @@ def trade():
             g.session.commit()
         
         
-       # return(True)
+    return(True)
             
 @app.route('/order_book')
 def order_book():
