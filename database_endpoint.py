@@ -109,9 +109,7 @@ def trade():
             g.session.add(new_log_obj)
             g.session.commit()
 
-      
-
-    
+            
 @app.route('/order_book')
 def order_book():
     #Your code here : return a list of all orders in the database.
