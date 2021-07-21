@@ -117,7 +117,7 @@ def order_book():
     print("line119")
     orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
     
-     data =[]
+    data =[]
     
 #     print("line124")
 #     # save orders as a list of dicts / convert to JSON
