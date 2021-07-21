@@ -124,7 +124,7 @@ def order_book():
     print("line124")
     # save orders as a list of dicts / convert to JSON
     for order in orders:
-        data.append(func(order.__dict__))
+        data.append(order.__dict__)
 #         new_order_dict = {}
 #         new_order_dict['sender_pk'] = order.sender_pk
 #         new_order_dict['receiver_pk'] = order.receiver_pk
@@ -136,7 +136,7 @@ def order_book():
 #         data.append(new_order_dict)
      #   print(order.__dict__)
     
-    json.dumps(data, default=vars)
+    json.dumps(data, default=default)
     print("line140")
     return jsonify(data)
 
