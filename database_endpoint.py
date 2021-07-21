@@ -3,7 +3,7 @@ from flask_restful import Resource, Api
 from sqlalchemy import create_engine, select, MetaData, Table
 from flask import jsonify
 import json
-import jsons
+
 import eth_account
 import algosdk
 from sqlalchemy.orm import sessionmaker
@@ -136,7 +136,7 @@ def order_book():
 #         data.append(new_order_dict)
         print(order.__dict__)
     
-    jsons.dumps(data)
+    json.dumps(data, default=vars)
     print("line140")
     return jsonify(data)
 
