@@ -106,7 +106,7 @@ def trade():
             g.session.commit()
         
         
-    return(True)
+    return(true)
             
 @app.route('/order_book')
 def order_book():
