@@ -80,28 +80,28 @@ def trade():
             eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
             eth_sig_obj = sig        
             if eth_account.Account.recover_message(eth_encoded_msg,signature=sig) == pk:
-                #print( "Eth_verified" ) 
+                print( "Eth_verified" ) 
                 result = True
            
             
         if platform == "Algorand":        
             if algosdk.util.verify_bytes(payload.encode('utf-8'),sig,pk):
-                #print( "Algo_verified" ) 
+                print( "Algo_verified" ) 
                 result = True
             
-        #print(result)
+        print(result)
         # if verified, insert into Order table
         if result == True :
             new_order_obj = Order( receiver_pk=content['payload']['receiver_pk'],sender_pk=content['payload']['sender_pk'], buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'], buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'], signature = content['sig'])
   
-            #print( "Order generated" )   
+            print( "Order generated" )   
             g.session.add(new_order_obj)
             g.session.commit()
         
         # not verify then, insert into Log table
         if result ==False:
             new_log_obj = Log(message = payload)
-            #print( "Log generated" )   
+            print( "Log generated" )   
             g.session.add(new_log_obj)
             g.session.commit()
         
@@ -132,7 +132,7 @@ def order_book():
     
    # data = json.dumps([order.__dict__ for order in orders])
     #json.dumps(data)
-    print("line140")
+  #  print("line140")
     return jsonify(data)
 
 if __name__ == '__main__':
