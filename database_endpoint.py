@@ -104,7 +104,7 @@ def trade():
             #print( "Log generated" )   
             g.session.add(new_log_obj)
             g.session.commit() 
-    return
+ #   return
     
     
 @app.route('/order_book')
@@ -119,8 +119,7 @@ def order_book():
 #     # save orders as a list of dicts / convert to JSON
     for order in orders:
         #data.append(order.__dict__)
-        
-        
+
         new_order_dict = {}
         new_order_dict['sender_pk'] = order.sender_pk
         new_order_dict['receiver_pk'] = order.receiver_pk
@@ -133,7 +132,7 @@ def order_book():
       # print(order.__dict__)
     
    # data = json.dumps([order.__dict__ for order in orders])
-    json.dumps(data_dic)
+   # json.dumps(data_dic)
   #  print("line140")
     return jsonify(data_dic)
 
