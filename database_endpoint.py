@@ -102,8 +102,7 @@ def trade():
         if result ==False:
             new_log_obj = Log(message = payload)
             #print( "Log generated" )   
-            #g.session.add(new_log_obj.__dict__)
-            log_message(new_log_obj.__dict__)
+            g.session.add(new_log_obj)
             g.session.commit()
         
         
@@ -132,7 +131,7 @@ def order_book():
       # print(order.__dict__)
     
    # data = json.dumps([order.__dict__ for order in orders])
-    #json.dumps(data)
+    json.dumps(data)
   #  print("line140")
     return jsonify(data)
 
