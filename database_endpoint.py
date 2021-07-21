@@ -136,9 +136,9 @@ def order_book():
 #         data.append(new_order_dict)
         print(order.__dict__)
     
-    #json.dumps(data)
+    data.json()
     print("line140")
-    return json.dumps(data)
+    return jsonify(data)
 
 if __name__ == '__main__':
     app.run(port='5002')
