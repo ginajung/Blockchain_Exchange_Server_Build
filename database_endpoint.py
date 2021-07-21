@@ -119,7 +119,6 @@ def order_book():
     
     data =[]
     
-#     print("line124")
 #     # save orders as a list of dicts / convert to JSON
     for order in orders:
         #data.append(order.__dict__)
