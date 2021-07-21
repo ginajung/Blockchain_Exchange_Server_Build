@@ -80,7 +80,7 @@ def trade():
             eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
             eth_sig_obj = sig        
             if eth_account.Account.recover_message(eth_encoded_msg,signature=sig) == pk:
-                print( "Eth_verified" ) 
+                #print( "Eth_verified" ) 
                 result = True
            
             
@@ -94,15 +94,16 @@ def trade():
         if result == True :
             new_order_obj = Order( receiver_pk=content['payload']['receiver_pk'],sender_pk=content['payload']['sender_pk'], buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'], buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'], signature = content['sig'])
   
-            print( "Order generated" )   
+            #print( "Order generated" )   
             g.session.add(new_order_obj)
             g.session.commit()
         
         # not verify then, insert into Log table
         if result ==False:
             new_log_obj = Log(message = payload)
-            print( "Log generated" )   
-            g.session.add(new_log_obj)
+            #print( "Log generated" )   
+            #g.session.add(new_log_obj.__dict__)
+            log_message(new_log_obj.__dict__)
             g.session.commit()
         
         
