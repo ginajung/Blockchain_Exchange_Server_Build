@@ -104,8 +104,9 @@ def trade():
             #print( "Log generated" )   
             g.session.add(new_log_obj)
             g.session.commit()
-            
-       # return(True)
+        
+        
+        return(True)
             
 @app.route('/order_book')
 def order_book():
