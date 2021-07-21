@@ -131,7 +131,7 @@ def order_book():
       # print(order.__dict__)
     
    # data = json.dumps([order.__dict__ for order in orders])
-   # json.dumps(data_dic)
+    json.dumps(data_dic)
   #  print("line140")
     return jsonify(data_dic)
 
