@@ -113,7 +113,8 @@ def order_book():
     #Note that you can access the database session using g.session   
     orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
 #     orders = g.session.query(Order).all()
-    data =[]
+    
+    data_dic ={'data': order_dict =[]}
     
 #     # save orders as a list of dicts / convert to JSON
     for order in orders:
@@ -126,13 +127,13 @@ def order_book():
         new_order_dict['buy_amount'] = order.buy_amount
         new_order_dict['sell_amount'] = order.sell_amount
         new_order_dict['signature'] = order.signature
-        data.append(new_order_dict)
+        order_dict.append(new_order_dict)
       # print(order.__dict__)
     
    # data = json.dumps([order.__dict__ for order in orders])
-   # json.dumps(data)
+   # json.dumps(data_dic)
   #  print("line140")
-    return jsonify(data)
+    return jsonify(data_dic)
 
 if __name__ == '__main__':
     app.run(port='5002')
