@@ -58,10 +58,8 @@ class TXO:
         tx_dict ={}
         tx_dict['tx_hash'] = tx_hash 
         tx_dict['n'] = n
-       # tx_dict['amount'] = tx['vout'][0][n]
-        #tx_dict['owner'] =out_tx[2]['addresses'][1]
-        out_tx = tx['vout']
-        
+
+        out_tx = tx['vout']        
         tx_dict['amount'] = out_tx[n]['value']
         tx_dict['owner'] = out_tx[n]['scriptPubKey']['addresses'][0]
             
@@ -75,16 +73,17 @@ class TXO:
         # inputs - (TXO[]) a list of TXO objects
         
         
-#         __init__(tx_dict, tx_hash=tx_dict['tx_hash'], n=tx_dict['n'], amount=tx_dict['amount'], owner=tx_dict['owner'],\
-#                time=tx_dict['time'])
-    
+        #TXO.__init__(tx_dict, tx_hash, tx_dict['n'], tx_dict['amount'], tx_dict['owner'],tx_dict['time'])
+        #TXO__init__(self)
         return tx_dict
 
 
     def get_inputs(self,d=1):
-        pass
-        #YOUR CODE HERE
-        tx = rpc_connection.getrawtransaction(tx_hash,True)
+        tx = rpc_connection.getrawtransaction(self['tx_hash'],True)
+        in_tx = tx['vin']
+        
+        return in_tx
+        
 # - connect to the Bitcoin blockchain, 
 # - populate the list of inputs, up to a depth   d .
 # In other words, if   d=1  it should create TXO objects to populate self.inputs with the appropriate TXO objects. If   d=2  it should also populate the inputs field of each of the TXOs in self.inputs etc.
