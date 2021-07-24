@@ -65,7 +65,7 @@ class TXO:
         tx_dict['amount'] = out_tx[n]['value']
         tx_dict['owner'] = out_tx[n]['scriptPubKey']['addresses'][0]
             
-        tx_dict['time'] = tx['blocktime']
+        tx_dict['time'] = datetime.fromtimestamp(tx['blocktime'])
         
         # tx_hash - (string) the tx_hash on the Bitcoin blockchain
         # n - (int) the position of this output in the transaction
@@ -73,8 +73,10 @@ class TXO:
         # owner - (string) the Bitcoin address of the owner of this output
         # time - (Datetime) the time of this transaction as a datetime object
         # inputs - (TXO[]) a list of TXO objects
-       
-     # __init__(tx_dict,tx_hash=tx_dict['tx_hash'], n=tx_dict['n'], amount=tx_dict['amount'], owner=tx_dict['owner'], time=tx_dict['time'])
+        
+        
+#         __init__(tx_dict, tx_hash=tx_dict['tx_hash'], n=tx_dict['n'], amount=tx_dict['amount'], owner=tx_dict['owner'],\
+#                time=tx_dict['time'])
     
         return tx_dict
 
