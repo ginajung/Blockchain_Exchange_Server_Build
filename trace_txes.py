@@ -56,13 +56,25 @@ class TXO:
 # Note that the ‘time’ field should be converted to a datetime object (using the datetime.fromtimestamp method)
         tx = rpc_connection.getrawtransaction(tx_hash,True)
         tx_dict ={}
-        tx_hash 
-        tx_dict['n'] = tx['vout'][1]
-        tx_dict['amount'] = tx['vout'][0]
-        tx_dict['owner'] =tx['vout'][2]['addresses']['address']
+        tx_dict['tx_hash'] = tx_hash 
+        tx_dict['n'] = n
+       # tx_dict['amount'] = tx['vout'][0][n]
+        #tx_dict['owner'] =out_tx[2]['addresses'][1]
+        out_tx = tx['vout']
+        
+        tx_dict['amount'] = out_tx[n]['value']
+        tx_dict['owner'] = out_tx[n]['scriptPubKey']['addresses'][0]
+            
         tx_dict['time'] = tx['blocktime']
-        tx['vout'][2]
-        #__init__(   )
+        
+        # tx_hash - (string) the tx_hash on the Bitcoin blockchain
+        # n - (int) the position of this output in the transaction
+        # amount - (int) the value of this transaction output (in Satoshi)
+        # owner - (string) the Bitcoin address of the owner of this output
+        # time - (Datetime) the time of this transaction as a datetime object
+        # inputs - (TXO[]) a list of TXO objects
+       
+     # __init__(tx_dict,tx_hash=tx_dict['tx_hash'], n=tx_dict['n'], amount=tx_dict['amount'], owner=tx_dict['owner'], time=tx_dict['time'])
     
         return tx_dict
 
