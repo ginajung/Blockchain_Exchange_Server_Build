@@ -63,7 +63,7 @@ class TXO:
          
         # Note that the ‘time’ field should be converted to a datetime object (using the datetime.fromtimestamp method)   
         tx_dict['time'] = datetime.fromtimestamp(tx['blocktime'])
-        tx_dict['inputs'] =TXO[]
+        tx_dict['inputs'] =[]
         
         # tx_hash - (string) the tx_hash on the Bitcoin blockchain
         # n - (int) the position of this output in the transaction
