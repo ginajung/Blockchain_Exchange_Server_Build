@@ -84,9 +84,6 @@ class TXO:
         tx = rpc_connection.getrawtransaction(self.tx_hash,True)
         
         # - populate the list of inputs, up to a depth d .
-        self.inputs=[]
-
-        
         in_tx = tx['vin']
         for tx in in_tx:
             self.inputs.append(tx)
