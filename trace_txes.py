@@ -88,7 +88,7 @@ class TXO:
         for tx in in_tx:
             self.inputs.append(tx)
         
-        return self.inputs
+        #return self.inputs
         
 
 
