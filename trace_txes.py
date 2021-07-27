@@ -46,24 +46,24 @@ class TXO:
     
     @classmethod
     def from_tx_hash(cls,tx_hash,n=0):
-        #pass
-        #YOUR CODE HERE
           
-# - connect to the Bitcoin blockchain, 
-# - and retrieve the nth output of the transaction with the given hash.
-# - create a new object with the fields, ('tx_hash’, 'n’, 'amount’, ‘owner’ and ‘time’) the values retrieved from the blockchain. 
-# This method does not need to initialize the list 'inputs’. 
-# Note that the ‘time’ field should be converted to a datetime object (using the datetime.fromtimestamp method)
+        # - connect to the Bitcoin blockchain,
         tx = rpc_connection.getrawtransaction(tx_hash,True)
+        
         tx_dict ={}
         tx_dict['tx_hash'] = tx_hash 
         tx_dict['n'] = n
 
-        out_tx = tx['vout']        
+        # retrieve all outputs of transaction(tx_hash)
+        out_tx = tx['vout'] 
+        
+        # retrieve the nth output 
         tx_dict['amount'] = out_tx[n]['value']
         tx_dict['owner'] = out_tx[n]['scriptPubKey']['addresses'][0]
-            
+         
+        # Note that the ‘time’ field should be converted to a datetime object (using the datetime.fromtimestamp method)   
         tx_dict['time'] = datetime.fromtimestamp(tx['blocktime'])
+        tx_dict['inputs'] =[]
         
         # tx_hash - (string) the tx_hash on the Bitcoin blockchain
         # n - (int) the position of this output in the transaction
@@ -72,20 +72,27 @@ class TXO:
         # time - (Datetime) the time of this transaction as a datetime object
         # inputs - (TXO[]) a list of TXO objects
         
+        # create a new object with the fields, ('tx_hash’, 'n’, 'amount’, ‘owner’ and ‘time’) 
+        Tx_obj = TXO(tx_hash, tx_dict['n'], tx_dict['amount'], tx_dict['owner'],tx_dict['time'])
         
-        #TXO.__init__(tx_dict, tx_hash, tx_dict['n'], tx_dict['amount'], tx_dict['owner'],tx_dict['time'])
-        #TXO__init__(self)
-        return tx_dict
+        return Tx_obj
 
 
     def get_inputs(self,d=1):
-        tx = rpc_connection.getrawtransaction(self['tx_hash'],True)
-        in_tx = tx['vin']
+        
+        # - connect to the Bitcoin blockchain, 
+        tx = rpc_connection.getrawtransaction(self.tx_hash,True)
+        
+        # - populate the list of inputs, up to a depth   d .
+        self.inputs=[]
+
+        
+        in_tx = tx['vin'][0]
         
         return in_tx
         
-# - connect to the Bitcoin blockchain, 
-# - populate the list of inputs, up to a depth   d .
+
+
 # In other words, if   d=1  it should create TXO objects to populate self.inputs with the appropriate TXO objects. If   d=2  it should also populate the inputs field of each of the TXOs in self.inputs etc.
 
 #Note that every Bitcoin transaction has a list of transaction outputs, indexed by the field 'n’.
