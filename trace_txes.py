@@ -58,7 +58,7 @@ class TXO:
         out_tx = tx['vout'] 
         
         # retrieve the nth output 
-        tx_dict['amount'] = out_tx[n]['value']*(10**8)
+        tx_dict['amount'] = out_tx[n]['value']
         tx_dict['owner'] = out_tx[n]['scriptPubKey']['addresses'][0]
          
         # Note that the ‘time’ field should be converted to a datetime object (using the datetime.fromtimestamp method)   
@@ -83,13 +83,15 @@ class TXO:
         # - connect to the Bitcoin blockchain, 
         tx = rpc_connection.getrawtransaction(self.tx_hash,True)
         
-        # - populate the list of inputs, up to a depth   d .
+        # - populate the list of inputs, up to a depth d .
         self.inputs=[]
 
         
-        in_tx = tx['vin'][0]
+        in_tx = tx['vin']
+        for tx in in_tx:
+            self.inputs.append(tx)
         
-        return in_tx
+        return self.inputs
         
 
 
