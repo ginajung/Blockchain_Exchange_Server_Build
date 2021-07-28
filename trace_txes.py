@@ -99,14 +99,14 @@ class TXO:
                 tx_oj = TXO.from_tx_hash(tx_id, n=tx['vout'])
                 self.inputs.append(tx_oj)
                     
-        if d==2:
-            TXO.get_inputs(tx for tx in self.inputs)
-            d=0
+            if d==2:
+                TXO.get_inputs(tx for tx in self.inputs)
+                d=0
         
-        if d==3:
-            for tx in self.inputs:
-                TXO.get_inputs(t for t in tx.inputs ) 
-            d=0   
+            if d==3:
+                for tx in self.inputs:
+                    TXO.get_inputs(t for t in tx.inputs ) 
+                d=0   
                 
             
 # In other words, if   d=1  it should create TXO objects to populate self.inputs with the appropriate TXO objects. If   d=2  it should also populate the inputs field of each of the TXOs in self.inputs etc.
