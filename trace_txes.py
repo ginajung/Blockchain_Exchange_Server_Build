@@ -90,9 +90,9 @@ class TXO:
         in_tx = tx['vin']
         
         for tx in in_tx:
-            tx_id = in_tx['id'] 
+            tx_id = tx['txid'] 
             get_input_tx = rpc_connection.getrawtransaction(tx_id,True)
-            tx_oj = from_tx_hash(tx_id,n=in_tx['vout'])
+            tx_oj = from_tx_hash(tx_id,n=tx['vout'])
             self.inputs.append(tx_oj)
         
         
