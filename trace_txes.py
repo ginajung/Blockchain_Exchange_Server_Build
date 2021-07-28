@@ -109,16 +109,6 @@ class TXO:
             d=0   
                 
             
-#                     if get_input_tx['vin']:
-#                         TXO.get_inputs(tx_oj)
-            
-       
-            
-    
-        #return self.inputs
-        
-
-
 # In other words, if   d=1  it should create TXO objects to populate self.inputs with the appropriate TXO objects. If   d=2  it should also populate the inputs field of each of the TXOs in self.inputs etc.
 
 #Note that every Bitcoin transaction has a list of transaction outputs, indexed by the field 'n’.
