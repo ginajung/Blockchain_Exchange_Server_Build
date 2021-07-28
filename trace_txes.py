@@ -101,11 +101,12 @@ class TXO:
                     
         if d==2:
             TXO.get_inputs(tx for tx in self.inputs)
+            d=0
         
         if d==3:
             for tx in self.inputs:
                 TXO.get_inputs(t for t in tx.inputs ) 
-                
+            d=0   
                 
             
 #                     if get_input_tx['vin']:
