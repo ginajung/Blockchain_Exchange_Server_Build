@@ -83,29 +83,45 @@ class TXO:
     def get_inputs(self,d=1):
             
         # - connect to the Bitcoin blockchain, 
+        
+        
+        # - populate the list of inputs, up to a depth d.
+        temp_inputs =[]        
+        
         # try to find parent of self... could be many (self.inputs)
+        
+        if d >= 1:
+                
+                d_inputs = TXO.get_inputs_self(self)
+                temp_inputs += d_inputs
+            
+        if d >= 2:
+                for tx in temp_inputs:
+                    d2_inputs = TXO.get_inputs_self(tx)
+                    temp_inputs += d2_inputs
+                    
+        if d==3:
+                for d2_tx in d2_inputs:
+                    d3_inputs = get_inputs_self(d2_tx)
+                    temp_inputs += d3_inputs
+         
+        self.inputs = temp_inputs
+        return len(self.inputs)
+    
+    def get_inputs_self (self):
         
         self_tx = rpc_connection.getrawtransaction(self.tx_hash,True)
         
-        # - populate the list of inputs, up to a depth d.
-        
         if self_tx['vin']:
             
-            parent_tx = self_tx['vin']
-        
-            for tx in parent_tx:
+            for tx in self_tx['vin']:
                 tx_id = tx['txid'] 
-                get_input_tx = rpc_connection.getrawtransaction(tx_id,True)
-                tx_oj = TXO.from_tx_hash(tx_id, n=tx['vout'])
+                n=tx['vout']
+                #get_input_tx = rpc_connection.getrawtransaction(tx_id,True)
+                tx_oj = TXO.from_tx_hash(tx_id, n)
                 self.inputs.append(tx_oj)
-                    
-            if d >= 2:
-                TXO.get_inputs(tx for tx in self.inputs)
                 
-                if d==3:
-                    for tx in self.inputs:
-                        TXO.get_inputs(t for t in tx.inputs ) 
-                                            
+        return self.inputs
             
 # In other words, if   d=1  it should create TXO objects to populate self.inputs with the appropriate TXO objects. If   d=2  it should also populate the inputs field of each of the TXOs in self.inputs etc.
 
