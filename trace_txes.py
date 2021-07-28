@@ -93,18 +93,18 @@ class TXO:
             d_inputs = TXO.get_inputs_self(self)
             temp_inputs += d_inputs
             
-        if d >= 2:
-            for tx in temp_inputs:
-                d2_inputs = TXO.get_inputs_self(tx)
-                temp_inputs += d2_inputs
+#         if d >= 2:
+#             for tx in temp_inputs:
+#                 d2_inputs = TXO.get_inputs_self(tx)
+#                 temp_inputs += d2_inputs
                     
-        if d==3:
-            for d2_tx in d2_inputs:
-                d3_inputs = get_inputs_self(d2_tx)
-                temp_inputs += d3_inputs
+#         if d==3:
+#             for d2_tx in d2_inputs:
+#                 d3_inputs = get_inputs_self(d2_tx)
+#                 temp_inputs += d3_inputs
          
         self.inputs = temp_inputs
-       
+        return self.inputs
     
     def get_inputs_self (self):
         
