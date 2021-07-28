@@ -100,11 +100,12 @@ class TXO:
                 self.inputs.append(tx_oj)
                     
         if d==2:
-            TXO.get_inputs(lambda tx : for tx in self.inputs)
+            TXO.get_inputs(tx for tx in self.inputs)
         
         if d==3:
-            TXO.get_inputs(lambda tx : for tx in self.inputs[lambda x: x for in range(len(self.inputs))].inputs)
-            
+            for tx in self.inputs:
+                TXO.get_inputs(tx for tx in self.inputs[x for in range(len(self.inputs))].inputs)
+                
             
 #                     if get_input_tx['vin']:
 #                         TXO.get_inputs(tx_oj)
