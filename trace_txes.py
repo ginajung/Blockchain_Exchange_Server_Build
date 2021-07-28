@@ -95,7 +95,7 @@ class TXO:
             tx_oj = TXO.from_tx_hash(tx_id, n=tx['vout'])
             self.inputs.append(tx_oj)
             if get_input_tx['vin']:
-                get_inputs(get_input_tx,d=1)
+                TXO.get_inputs(get_input_tx,d=1)
             else:
                 continue
         
