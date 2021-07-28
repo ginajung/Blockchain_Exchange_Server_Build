@@ -81,42 +81,37 @@ class TXO:
 
 
     def get_inputs(self,d=1):
+        
             
-        if (len(self.inputs) == 0):
              
         # - connect to the Bitcoin blockchain, 
-            self_tx = rpc_connection.getrawtransaction(self.tx_hash,True)
+        # try to find parent of self... could be many (self.inputs)
         
-        #tx = TXO.from_tx_hash(self.tx_hash,self.n)
-        # - populate the list of inputs, up to a depth d .
-            if self_tx['vin'] :
+        self_tx = rpc_connection.getrawtransaction(self.tx_hash,True)
+        
+        # - populate the list of inputs, up to a depth d.
+        
+        if self_tx['vin']:
             
-                in_tx = self_tx['vin']
+            parent_tx = self_tx['vin']
         
-                for tx in in_tx:
+                for tx in parent_tx:
                     tx_id = tx['txid'] 
                     get_input_tx = rpc_connection.getrawtransaction(tx_id,True)
                     tx_oj = TXO.from_tx_hash(tx_id, n=tx['vout'])
                     self.inputs.append(tx_oj)
+                    
+        if d=2:
+            TXO.get_inputs(tx in self.inputs)
+        
+        if d=3:
+            TXO.get_inputs(tx in self.inputs[x : for x in range (len(self.inputs))].inputs)
+            
+            
 #                     if get_input_tx['vin']:
 #                         TXO.get_inputs(tx_oj)
             
-        else:
-            for transaction in self.inputs:
-                
-                self_tx = rpc_connection.getrawtransaction(transaction.tx_hash,True)
-        
-        # - populate the list of inputs, up to a depth d .
-                if self_tx['vin'] :
-            
-                    in_tx = self_tx['vin']
-        
-                    for tx in in_tx:
-                        tx_id = tx['txid'] 
-                        get_input_tx = rpc_connection.getrawtransaction(tx_id,True)
-                        tx_oj = TXO.from_tx_hash(tx_id, n=tx['vout'])
-                        self.inputs.append(tx_oj)
-            
+       
             
     
         #return self.inputs
