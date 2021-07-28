@@ -64,6 +64,8 @@ class TXO:
         # Note that the ‘time’ field should be converted to a datetime object (using the datetime.fromtimestamp method)   
         tx_dict['time'] = datetime.fromtimestamp(tx['blocktime'])
         tx_dict['inputs'] =[]
+        tx_dict['id'] =tx['txid']
+        tx_dict['hash'] =tx['hash']
         
         # tx_hash - (string) the tx_hash on the Bitcoin blockchain
         # n - (int) the position of this output in the transaction
@@ -83,11 +85,16 @@ class TXO:
         # - connect to the Bitcoin blockchain, 
         tx = rpc_connection.getrawtransaction(self.tx_hash,True)
         
+        #tx = TXO.from_tx_hash(self.tx_hash,self.n)
         # - populate the list of inputs, up to a depth d .
         in_tx = tx['vin']
-        for tx in in_tx:
-            self.inputs.append(tx)
         
+        for tx in in_tx:
+            tx_id = in_tx['id'] 
+            get_input_tx = rpc_connection.getrawtransaction(tx_id,True)
+            tx_oj = from_tx_hash(tx_id,n=tx_id['n'])
+            self.inputs.append(tx_oj)
+       
         #return self.inputs
         
 
