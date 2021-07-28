@@ -58,7 +58,7 @@ class TXO:
         out_tx = tx['vout'] 
         
         # retrieve the nth output 
-        tx_dict['amount'] = out_tx[n]['value']*(10**8)
+        tx_dict['amount'] = int(out_tx[n]['value'])
         tx_dict['owner'] = out_tx[n]['scriptPubKey']['addresses'][0]
          
         # Note that the ‘time’ field should be converted to a datetime object (using the datetime.fromtimestamp method)   
