@@ -92,9 +92,13 @@ class TXO:
         for tx in in_tx:
             tx_id = in_tx['id'] 
             get_input_tx = rpc_connection.getrawtransaction(tx_id,True)
-            tx_oj = from_tx_hash(tx_id,n=tx_id['n'])
+            tx_oj = from_tx_hash(tx_id,n=in_tx['vout'])
             self.inputs.append(tx_oj)
-       
+        
+        
+            
+            
+    
         #return self.inputs
         
 
