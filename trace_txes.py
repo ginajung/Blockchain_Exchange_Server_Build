@@ -75,7 +75,7 @@ class TXO:
         # inputs - (TXO[]) a list of TXO objects
         
         # create a new object with the fields, ('tx_hash’, 'n’, 'amount’, ‘owner’ and ‘time’) 
-        Tx_obj = TXO(tx_hash, tx_dict['n'], tx_dict['amount'], tx_dict['owner'],tx_dict['time'])
+        Tx_obj = TXO(tx_dict['tx_hash'], tx_dict['n'], tx_dict['amount'], tx_dict['owner'],tx_dict['time'])
         
         return Tx_obj
 
