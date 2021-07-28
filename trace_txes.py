@@ -88,8 +88,8 @@ class TXO:
         #tx = TXO.from_tx_hash(self.tx_hash,self.n)
         # - populate the list of inputs, up to a depth d .
         in_tx = tx['vin']
-        self.inputs =[]
-        for tx in in_tx
+        #self.inputs =[]
+        for tx in in_tx:
             tx_id = tx['txid'] 
             get_input_tx = rpc_connection.getrawtransaction(tx_id,True)
             tx_oj = TXO.from_tx_hash(tx_id, n=tx['vout'])
