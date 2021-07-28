@@ -94,8 +94,8 @@ class TXO:
             get_input_tx = rpc_connection.getrawtransaction(tx_id,True)
             tx_oj = TXO.from_tx_hash(tx_id, n=tx['vout'])
             self.inputs.append(tx_oj)
-            if tx['vin']:
-                get_inputs(tx,d=1)
+            if get_input_tx['vin']:
+                get_inputs(get_input_tx,d=1)
             else:
                 continue
         
