@@ -83,30 +83,28 @@ class TXO:
     def get_inputs(self,d=1):
             
         # - connect to the Bitcoin blockchain, 
-        
-        
+
         # - populate the list of inputs, up to a depth d.
         temp_inputs =[]        
         
         # try to find parent of self... could be many (self.inputs)
-        
-        if d >= 1:
+        if d >=1:
                 
-                d_inputs = TXO.get_inputs_self(self)
-                temp_inputs += d_inputs
+            d_inputs = TXO.get_inputs_self(self)
+            temp_inputs += d_inputs
             
         if d >= 2:
-                for tx in temp_inputs:
-                    d2_inputs = TXO.get_inputs_self(tx)
-                    temp_inputs += d2_inputs
+            for tx in temp_inputs:
+                d2_inputs = TXO.get_inputs_self(tx)
+                temp_inputs += d2_inputs
                     
         if d==3:
-                for d2_tx in d2_inputs:
-                    d3_inputs = get_inputs_self(d2_tx)
-                    temp_inputs += d3_inputs
+            for d2_tx in d2_inputs:
+                d3_inputs = get_inputs_self(d2_tx)
+                temp_inputs += d3_inputs
          
         self.inputs = temp_inputs
-        return len(self.inputs)
+       
     
     def get_inputs_self (self):
         
@@ -115,14 +113,13 @@ class TXO:
         if self_tx['vin']:
             
             for tx in self_tx['vin']:
-                tx_id = tx['txid'] 
-                n=tx['vout']
-                #get_input_tx = rpc_connection.getrawtransaction(tx_id,True)
-                tx_oj = TXO.from_tx_hash(tx_id, n)
+                # creat list of objects from vin tx (self.inputs)
+                tx_oj = TXO.from_tx_hash(tx['txid'],tx['vout'])
                 self.inputs.append(tx_oj)
                 
         return self.inputs
             
-# In other words, if   d=1  it should create TXO objects to populate self.inputs with the appropriate TXO objects. If   d=2  it should also populate the inputs field of each of the TXOs in self.inputs etc.
+# In other words, if   d=1  it should create TXO objects to populate self.inputs with the appropriate TXO objects. 
+#If   d=2  it should also populate the inputs field of each of the TXOs in self.inputs etc.
 
 #Note that every Bitcoin transaction has a list of transaction outputs, indexed by the field 'n’.
