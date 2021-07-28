@@ -83,19 +83,19 @@ class TXO:
     def get_inputs(self,d=1):
         
         # - connect to the Bitcoin blockchain, 
-        tx = rpc_connection.getrawtransaction(self.tx_hash,True)
+        self_tx = rpc_connection.getrawtransaction(self.tx_hash,True)
         
         #tx = TXO.from_tx_hash(self.tx_hash,self.n)
         # - populate the list of inputs, up to a depth d .
-        in_tx = tx['vin']
-        #self.inputs =[]
+        in_tx = self_tx['vin']
+       
         for tx in in_tx:
             tx_id = tx['txid'] 
             get_input_tx = rpc_connection.getrawtransaction(tx_id,True)
             tx_oj = TXO.from_tx_hash(tx_id, n=tx['vout'])
             self.inputs.append(tx_oj)
             if get_input_tx['vin']:
-                TXO.get_inputs(get_input_tx,d=1)
+                get_inputs(tx_oj,d=1)
             else:
                 continue
         
