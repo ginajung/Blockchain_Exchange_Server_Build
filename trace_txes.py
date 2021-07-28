@@ -99,10 +99,10 @@ class TXO:
                 tx_oj = TXO.from_tx_hash(tx_id, n=tx['vout'])
                 self.inputs.append(tx_oj)
                     
-        if d=2:
+        if d==2:
             TXO.get_inputs(tx in self.inputs)
         
-        if d=3:
+        if d==3:
             TXO.get_inputs(tx in self.inputs[x : for x in range (len(self.inputs))].inputs)
             
             
