@@ -102,11 +102,10 @@ class TXO:
 #                         TXO.get_inputs(tx_oj)
             
         else:
-            for tx in self.inputs:
+            for transaction in self.inputs:
                 
-                self_tx = rpc_connection.getrawtransaction(self.tx_hash,True)
+                self_tx = rpc_connection.getrawtransaction(transaction.tx_hash,True)
         
-        #tx = TXO.from_tx_hash(self.tx_hash,self.n)
         # - populate the list of inputs, up to a depth d .
                 if self_tx['vin'] :
             
