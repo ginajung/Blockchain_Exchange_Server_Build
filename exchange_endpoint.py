@@ -223,7 +223,7 @@ def order_book():
     
 #     # save orders as a list of dicts / convert to JSON
     for order in orders:
-        #data_dic['data'].append(order.__dict__)
+        data_dic['data'].append(order.__dict__)
 
         new_order_dict = {}
         new_order_dict['sender_pk'] = order.sender_pk
@@ -233,8 +233,8 @@ def order_book():
         new_order_dict['buy_amount'] = order.buy_amount
         new_order_dict['sell_amount'] = order.sell_amount
         new_order_dict['signature'] = order.signature
-        #data_dic['data'].append(new_order_dict)
-        data_dic.add(new_order_dict)
+        data_dic['data'].append(new_order_dict)
+        #data_dic.add(new_order_dict)
 
   
     return jsonify(data_dic)
