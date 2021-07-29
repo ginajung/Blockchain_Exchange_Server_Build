@@ -218,8 +218,8 @@ def order_book():
     orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
 #     orders = g.session.query(Order).all()
     
-    data_dic =[]
-    #data_dic ={'data': []}
+    #data_dic =[]
+    data_dic ={'data': []}
     
 #     # save orders as a list of dicts / convert to JSON
     for order in orders:
