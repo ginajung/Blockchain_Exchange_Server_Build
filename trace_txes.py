@@ -108,7 +108,7 @@ class TXO:
                 tx_oj = TXO.from_tx_hash(intx['txid'],intx['vout'])
                 tx_ob.inputs.append(tx_oj)
        # print("set_inputs :", len(self.inputs))
-        return self.inputs
+        return tx_ob.inputs
             
 # In other words, if   d=1  it should create TXO objects to populate self.inputs with the appropriate TXO objects. 
 #If   d=2  it should also populate the inputs field of each of the TXOs in self.inputs etc.
