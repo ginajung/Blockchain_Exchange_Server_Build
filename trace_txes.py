@@ -88,13 +88,14 @@ class TXO:
             
             temp_inputs =[self]
         
-            for i in range (0,d):
-                
-                for tx in temp_inputs:
-                    if len(tx.inputs)==0:
-                        d_temp = TXO.set_inputs(tx)
+            for i in range (d-1):
+                for tx_ob in temp_inputs:
+                    if len(tx_ob.inputs)==0:
+                        d_temp = TXO.set_inputs(tx_ob)
                         temp_inputs += d_temp
-                        
+                        temp_inputs.remove(tx_ob)
+                print("set_inputs :", len(self.inputs))        
+        #return len(temp_inputs)                    
     
     def set_inputs (self):
         
@@ -102,11 +103,11 @@ class TXO:
         
         if self_tx['vin']:
             
-            for tx in self_tx['vin']:
+            for intx in self_tx['vin']:
                 # creat list of objects from vin tx (self.inputs)
-                tx_oj = TXO.from_tx_hash(tx['txid'],tx['vout'])
+                tx_oj = TXO.from_tx_hash(intx['txid'],intx['vout'])
                 self.inputs.append(tx_oj)
-                
+        print("set_inputs :", len(self.inputs))
         return self.inputs
             
 # In other words, if   d=1  it should create TXO objects to populate self.inputs with the appropriate TXO objects. 
