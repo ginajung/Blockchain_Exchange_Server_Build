@@ -88,26 +88,29 @@ class TXO:
             queue = [self] 
             
             for i in range (d):
+                temp=[]
                 while queue:
                     tx_ob = queue.pop(0)                
                     tx_ob_inputs = TXO.set_inputs(tx_ob)
-                    
-                    for t_in in tx_ob_inputs:
-                        queue.append(t_in) 
+                    temp +=  tx_ob_inputs 
+                
+                for t in temp:
+                    queue.append(t)
                     
                                  
     
     def set_inputs (tx_ob):
         
-        self_tx = rpc_connection.getrawtransaction(tx_ob.tx_hash,True)
+        tx_dict = rpc_connection.getrawtransaction(tx_ob.tx_hash,True)
         
-        if self_tx['vin']:
+        if tx_dict['vin']:
             
-            for intx in self_tx['vin']:
+            for intx in tx_dict['vin']:
                 # creat list of objects from vin tx (self.inputs)
-                tx_oj = TXO.from_tx_hash(intx['txid'],intx['vout'])
-                tx_ob.inputs.append(tx_oj)
-       # print("set_inputs :", len(self.inputs))
+                intx_oj = TXO.from_tx_hash(intx['txid'],intx['vout'])
+                tx_ob.inputs.append(intx_oj)
+                
+       
         return tx_ob.inputs
             
 # In other words, if   d=1  it should create TXO objects to populate self.inputs with the appropriate TXO objects. 
