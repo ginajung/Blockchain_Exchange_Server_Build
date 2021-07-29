@@ -93,7 +93,7 @@ class TXO:
 #                     if len(tx_ob.inputs)==0:
                     d_temp = TXO.set_inputs(tx_ob)
                     temp_inputs += d_temp
-                    self.inputs += d_temp
+                    #self.inputs += d_temp
                     temp_inputs.remove(tx_ob)
                # print("set_inputs :", len(self.inputs))        
         #return len(temp_inputs)                    
