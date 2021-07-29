@@ -33,34 +33,9 @@ def shutdown_session(response_or_exc):
 
 def check_sig(payload,sig):
     
-    content = request.get_json(force=True)
-    
-    sig = content['sig']
-    pk = content['payload']['pk']
-    platform = content['payload']['platform']
-    payload = json.dumps(content['payload'])
-
-    result = False
-    
-    # for eth and algo 
-    if platform == "Ethereum":        
-        eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
-        eth_sig_obj = sig        
-        if eth_account.Account.recover_message(eth_encoded_msg,signature=sig) == pk:
-            result = True
-            #print( "Eth sig verifies!" )
-            
-    if platform == "Algorand":        
-        if algosdk.util.verify_bytes(payload.encode('utf-8'),sig,pk):
-            result = True
-            #print( "Algo sig verifies!" )
-
-    
     pass
 
 def fill_order(order,txes=[]):
-    
-    
     
     pass
   
@@ -121,13 +96,98 @@ def trade():
                 result = True
             
         #print(result)
+        
         # if verified, insert into Order table
         if result == True :
+            
+            # 1. INSERT : generate new_order_obj from new_order dictionary
+            
             new_order_obj = Order( receiver_pk=content['payload']['receiver_pk'],sender_pk=content['payload']['sender_pk'], buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'], buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'], signature = content['sig'])
   
-            #print( "Order generated" )   
+           
             g.session.add(new_order_obj)
             g.session.commit()
+        
+        
+        
+# FROM PROCESS_ORDER() code
+    
+        # 2. CHECK MATCH : check if matching to any existing order, stop
+            orders = g.session.query(Order).filter(Order.filled == None).all()   
+   
+            for existing_order in orders:    
+        
+                if existing_order.buy_currency == new_order_obj.sell_currency and \
+                existing_order.sell_currency == new_order_obj.buy_currency and \
+                existing_order.sell_amount / existing_order.buy_amount >= new_order_obj.buy_amount/new_order_obj.sell_amount:
+    
+          # Handle matching order            
+            # Set the filled field to be the current timestamp on both orders
+                new_order_obj.filled = datetime.now()
+                existing_order.filled = datetime.now()  
+            
+            # Set counterparty_id to be the id of the other order
+                new_order_obj.counterparty_id = existing_order.id  
+                existing_order.counterparty_id = new_order_obj.id 
+            
+                break;
+
+    # 3. If one of the orders is not completely filled (i.e. the counterparty’s sell_amount is less than buy_amount):
+            if new_order_obj.sell_amount > existing_order.buy_amount :
+        
+                
+    # 4 Create a new order for remaining balance 
+        
+                child_order_new = {}
+        
+                child_order_new['sender_pk'] = new_order_obj.sender_pk
+                child_order_new['receiver_pk'] = new_order_obj.receiver_pk
+                child_order_new['buy_currency'] = new_order_obj.buy_currency
+                child_order_new['sell_currency'] = new_order_obj.sell_currency
+ 
+                exchange_rate_new = new_order_obj.buy_amount/new_order_obj.sell_amount
+            
+                child_sell_amount = new_order_obj.sell_amount-existing_order.buy_amount
+                child_buy_amount = exchange_rate_new * child_sell_amount
+                
+                child_order_new['sell_amount'] = child_sell_amount
+                child_order_new['buy_amount'] = child_buy_amount
+    
+                child_order_newobj = Order( sender_pk=child_order_new['sender_pk'],receiver_pk=child_order_new['receiver_pk'], \
+                                   buy_currency=child_order_new['buy_currency'],sell_currency=child_order_new['sell_currency'],\
+                                        buy_amount=child_order_new['buy_amount'], sell_amount=child_order_new['sell_amount'] )
+
+                g.session.add(child_order_newobj) 
+                child_order_newobj.creator_id = new_order_obj.id
+                g.session.commit()
+                
+            if new_order_obj.buy_amount < existing_order.sell_amount :
+                # child order for counterparty
+                child_order_ex = {}
+                child_order_ex['sender_pk'] = existing_order.sender_pk
+                child_order_ex['receiver_pk'] = existing_order.receiver_pk
+                child_order_ex['buy_currency'] = existing_order.buy_currency
+                child_order_ex['sell_currency'] = existing_order.sell_currency
+                child_order_ex['buy_amount'] = existing_order.buy_amount
+    
+                #any value such that the implied exchange rate of the new order is at least that of the old order
+                
+                exchange_rate_ex = existing_order.buy_amount/existing_order.sell_amount
+                
+                child_ex_sell_amount = existing_order.sell_amount-new_order_obj.buy_amount
+                child_ex_buy_amount = exchange_rate_ex * child_ex_sell_amount
+                
+                child_order_ex['sell_amount'] = child_ex_sell_amount
+                child_order_ex['buy_amount'] = child_ex_buy_amount
+                
+                child_order_exobj = Order( sender_pk=child_order_ex['sender_pk'],receiver_pk=child_order_ex['receiver_pk'], \
+                                        buy_currency=child_order_ex['buy_currency'],sell_currency=child_order_ex['sell_currency'],\
+                                        buy_amount=child_order_ex['buy_amount'], sell_amount=child_order_ex['sell_amount'] )
+
+                g.session.add(child_order_exobj) 
+                child_order_exobj.creator_id = existing_order.id
+                g.session.commit()
+                
         
         # not verify then, insert into Log table
         if result ==False:
