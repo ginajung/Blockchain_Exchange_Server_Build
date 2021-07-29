@@ -81,19 +81,20 @@ class TXO:
 
 
     def get_inputs(self,d=1):
-            
+        
+        
         # - connect to the Bitcoin blockchain, 
         # - populate the list of inputs, up to a depth d.
         if d >=1 :
             
             temp_inputs =[self]
             
-            for i in range (d-1):
+            for i in range (d):
                 for tx_ob in temp_inputs:
 #                     if len(tx_ob.inputs)==0:
-                    d_temp = TXO.set_inputs(tx_ob)
-                    temp_inputs += d_temp
-                    #self.inputs += d_temp
+                    tx_inputs = TXO.set_inputs(tx_ob)
+                    temp_inputs += tx_inputs
+                    #self.inputs += tx_inputs
                     temp_inputs.remove(tx_ob)
                # print("set_inputs :", len(self.inputs))        
         #return len(temp_inputs)                    
