@@ -91,7 +91,7 @@ class TXO:
                 while queue:
                     tx_ob = queue.pop(0)                
                     tx_ob_inputs = TXO.set_inputs(tx_ob)
-                    visited.append(tx_ob)
+                    
                     for t_in in tx_ob_inputs:
                         queue.append(t_in) 
                     
