@@ -123,14 +123,14 @@ def trade():
     
           # Handle matching order            
             # Set the filled field to be the current timestamp on both orders
-                new_order_obj.filled = datetime.now()
-                existing_order.filled = datetime.now()  
+                    new_order_obj.filled = datetime.now()
+                    existing_order.filled = datetime.now()  
             
             # Set counterparty_id to be the id of the other order
-                new_order_obj.counterparty_id = existing_order.id  
-                existing_order.counterparty_id = new_order_obj.id 
+                    new_order_obj.counterparty_id = existing_order.id  
+                    existing_order.counterparty_id = new_order_obj.id 
             
-                break;
+                    break;
 
     # 3. If one of the orders is not completely filled (i.e. the counterparty’s sell_amount is less than buy_amount):
             if new_order_obj.sell_amount > existing_order.buy_amount :
@@ -215,11 +215,10 @@ def trade():
 def order_book():
     #Your code here
     #Note that you can access the database session using g.session
-    
-     orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
+    orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None,\ Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
 #     orders = g.session.query(Order).all()
-    
-    data_dic ={'data': []}
+    data_dic =[]
+    #data_dic ={'data': []}
     
 #     # save orders as a list of dicts / convert to JSON
     for order in orders:
@@ -233,7 +232,8 @@ def order_book():
         new_order_dict['buy_amount'] = order.buy_amount
         new_order_dict['sell_amount'] = order.sell_amount
         new_order_dict['signature'] = order.signature
-        data_dic['data'].append(new_order_dict)
+        #data_dic['data'].append(new_order_dict)
+        data_dic.append(new_order_dict)
 
   
     return jsonify(data_dic)
