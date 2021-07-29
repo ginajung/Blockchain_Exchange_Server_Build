@@ -79,38 +79,35 @@ class TXO:
         
         return Tx_obj
 
-    
-    
     def get_inputs(self,d=1):
         
+        # - connect to the Bitcoin blockchain, 
+        # - populate the list of inputs, up to a depth d.
         if d >=1 :
             
-            visited =[self]
             queue = [self] 
             
             for i in range (d):
                 while queue:
                     tx_ob = queue.pop(0)                
                     tx_ob_inputs = TXO.set_inputs(tx_ob)
-                    visited += tx_ob_inputs
-                    queue += tx_ob_inputs
+                    visited.append(tx_ob)
+                    for t_in in tx_ob_inputs:
+                        queue.append(t_in) 
                     
                                  
     
-    def set_inputs (self):
+    def set_inputs (tx_ob):
         
-        # - connect to the Bitcoin blockchain, 
-        # - populate the list of inputs, up to a depth d.
-        self_tx = rpc_connection.getrawtransaction(self.tx_hash,True)
+        self_tx = rpc_connection.getrawtransaction(tx_ob.tx_hash,True)
         
         if self_tx['vin']:
             
             for intx in self_tx['vin']:
                 # creat list of objects from vin tx (self.inputs)
                 tx_oj = TXO.from_tx_hash(intx['txid'],intx['vout'])
-                self.inputs.append(tx_oj)
+                tx_ob.inputs.append(tx_oj)
        # print("set_inputs :", len(self.inputs))
-    
         return self.inputs
             
 # In other words, if   d=1  it should create TXO objects to populate self.inputs with the appropriate TXO objects. 
