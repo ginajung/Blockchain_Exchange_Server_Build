@@ -83,30 +83,18 @@ class TXO:
     def get_inputs(self,d=1):
             
         # - connect to the Bitcoin blockchain, 
-
         # - populate the list of inputs, up to a depth d.
-        temp_inputs =[]        
+        temp_inputs =[self]
         
-        # try to find parent of self... could be many (self.inputs)
-        if d >=1:
+        for i in range (0,d):
                 
-            d_inputs = TXO.get_inputs_self(self)
-            temp_inputs += d_inputs
-            
-            if d >= 2:
-                for tx in temp_inputs:
-                    d2_inputs = TXO.get_inputs_self(tx)
-                    temp_inputs += d2_inputs
-                    
-#         if d==3:
-#             for d2_tx in d2_inputs:
-#                 d3_inputs = get_inputs_self(d2_tx)
-#                 temp_inputs += d3_inputs
-         
-        self.inputs = temp_inputs
-        return self.inputs
+            for tx in temp_inputs:
+                if tx.inputs==0:
+                    d_temp = TXO.set_inputs(tx)
+                    temp_inputs +=d_temp
+                        
     
-    def get_inputs_self (self):
+    def set_inputs (self):
         
         self_tx = rpc_connection.getrawtransaction(self.tx_hash,True)
         
