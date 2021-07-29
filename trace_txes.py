@@ -88,12 +88,12 @@ class TXO:
             
             temp_inputs =[self]
         
-        for i in range (0,d):
+            for i in range (0,d):
                 
-            for tx in temp_inputs:
-                if len(tx.inputs)==0:
-                    d_temp = TXO.set_inputs(tx)
-                    temp_inputs += d_temp
+                for tx in temp_inputs:
+                    if len(tx.inputs)==0:
+                        d_temp = TXO.set_inputs(tx)
+                        temp_inputs += d_temp
                         
     
     def set_inputs (self):
