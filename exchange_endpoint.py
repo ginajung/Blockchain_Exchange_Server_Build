@@ -202,8 +202,7 @@ def trade():
 
 
         # TODO: Check the signature
-    
-    
+      
         # TODO: Add the order to the database
         
         # TODO: Fill the order
@@ -218,13 +217,11 @@ def order_book():
     orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
 #     orders = g.session.query(Order).all()
     
-    #data_dic =[]
     data_dic ={'data': []}
     
 #     # save orders as a list of dicts / convert to JSON
     for order in orders:
-        #data_dic['data'].append(order.__dict__)
-
+        
         new_order_dict = {}
         new_order_dict['sender_pk'] = order.sender_pk
         new_order_dict['receiver_pk'] = order.receiver_pk
@@ -234,8 +231,6 @@ def order_book():
         new_order_dict['sell_amount'] = order.sell_amount
         new_order_dict['signature'] = order.signature
         data_dic['data'].append(new_order_dict)
-        #data_dic.add(new_order_dict)
-
   
     return jsonify(data_dic)
     
