@@ -19,30 +19,26 @@ def get_token_address(token: uint256) -> address:
 # Sets the on chain market maker with its owner, and initial token quantities
 @external
 def provideLiquidity(tokenA_addr: address, tokenB_addr: address, tokenA_quantity: uint256, tokenB_quantity: uint256):
-	assert self.invariant == 0 #This ensures that liquidity can only be provided once
-	
-    # Your code here
-    # def initiate(token_addr: address, token_quantity: uint256):    
+    assert self.invariant == 0 #This ensures that liquidity can only be provided once
     self.tokenA = ERC20(tokenA_addr)
     self.tokenB = ERC20(tokenB_addr)
     
     # the owner must first 'approve' the receiver before the transferFrom call
-    approve(tokenA_addr, tokenA_quantity)
-    # def transferFrom(_from : address, _to : address, _value : uint256)
-    self.tokenA.transferFrom(msg.sender, self, tokenA_quantity)
-    approve(tokenB_addr, tokenB_quantity):    
-    self.tokenB.transferFrom(msg.sender, self, tokenB_quantity)
+    if approve(tokenA_addr, tokenA_quantity):
+        self.tokenA.transferFrom(msg.sender, self, tokenA_quantity)
+    if approve(tokenB_addr, tokenB_quantity):    
+        self.tokenB.transferFrom(msg.sender, self, tokenB_quantity)
     self.owner = msg.sender
     self.tokenAQty = tokenA_quantity
     self.tokenBQty = tokenB_quantity
     self.invariant = tokenAQty*tokenBQty 
 
-	assert self.invariant > 0
+    assert self.invariant > 0
 
 # Trades one token for the other
 @external
 def tradeTokens(sell_token: address, sell_quantity: uint256):
-	assert sell_token == self.tokenA.address or sell_token == self.tokenB.address
+    assert sell_token == self.tokenA.address or sell_token == self.tokenB.address
     
     
     self.sell_token.transferFrom(msg.sender, self, sell_quantity)
