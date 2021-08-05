@@ -48,7 +48,7 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
     # 1. from A to B 
     if sell_token == self.tokenA.address:
         
-        self.tokenA.transferFrom(self.tokenA, self.tokenB, sell_quantity)
+        self.tokenA.transferFrom(self.tokenA.address, self.tokenB.address, sell_quantity)
         new_A_tokens: uint256 = self.tokenAQty - sell_quantity
         new_B_tokens: uint256 = self.tokenBQty + self.invariant / new_A_tokens
         transfer(msg.sender, eth_to_send)
@@ -58,7 +58,7 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
     # 2. from B to A
     if sell_token == self.tokenB.address:
         
-        self.tokenA.transferFrom(self.tokenB, self.tokenA, sell_quantity)
+        self.tokenA.transferFrom(self.tokenB.address, self.tokenA.address, sell_quantity)
         new_B_tokens: uint256 = self.tokenBQty - sell_quantity
         new_A_tokens: uint256 = self.tokenAQty + self.invariant / new_B_tokens
         self.toktransfer(msg.sender, eth_to_send)
