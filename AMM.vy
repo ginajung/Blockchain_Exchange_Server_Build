@@ -26,10 +26,10 @@ def provideLiquidity(tokenA_addr: address, tokenB_addr: address, tokenA_quantity
     self.tokenB = ERC20(tokenB_addr)
     
     # the owner must first 'approve' the receiver before the transferFrom call
-    if self.tokenA.approve(tokenA_addr, tokenA_quantity):
-        self.tokenA.transferFrom(msg.sender, self.tokenA, tokenA_quantity)
-    if self.tokenB.approve(tokenB_addr, tokenB_quantity):    
-        self.tokenB.transferFrom(msg.sender, self.tokenB, tokenB_quantity)
+    if self.tokenA.approve(self.tokenA.address, tokenA_quantity):
+        self.tokenA.transferFrom(msg.sender, self.tokenA.address, tokenA_quantity)
+    if self.tokenB.approve(self.tokenB.address, tokenB_quantity):    
+        self.tokenB.transferFrom(msg.sender, self.tokenB.address, tokenB_quantity)
         
     self.owner = msg.sender
     self.tokenAQty = tokenA_quantity
@@ -45,14 +45,27 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
     assert sell_token == self.tokenA.address or sell_token == self.tokenB.address
     
     # < YOUR CODE >
-    self.sell_token.transferFrom(msg.sender, self, sell_quantity)
-    new_A_tokens: uint256 = self.tokenA_quantity + sell_quantity
-    new_B_tokens: uint256 = self.invariant / new_A_tokens
-    #     eth_to_send: uint256 = self.totalEthQty - new_total_eth
-    # def transfer(_to : address, _value : uint256) 
-    transfer(msg.sender, eth_to_send)
-    self.tokenAQty = new_A_tokens
-    self.tokenBQty = new_B_tokens    
+    # 1. from A to B 
+    if self_token == self.tokenA.address:
+        
+        self.tokenA.transferFrom(self.tokenA, self.tokenB, sell_quantity)
+        new_A_tokens: uint256 = self.tokenAQty - sell_quantity
+        new_B_tokens: uint256 = self.tokenBQty + self.invariant / new_A_tokens
+        transfer(msg.sender, eth_to_send)
+        self.tokenAQty = new_A_tokens
+        self.tokenBQty = new_B_tokens 
+        
+    # 2. from B to A
+    if self_token == self.tokenB.address:
+        
+        self.tokenA.transferFrom(self.tokenB, self.tokenA, sell_quantity)
+        new_B_tokens: uint256 = self.tokenBQty - sell_quantity
+        new_A_tokens: uint256 = self.tokenAQty + self.invariant / new_B_tokens
+        self.toktransfer(msg.sender, eth_to_send)
+        self.tokenAQty = new_A_tokens
+        self.tokenBQty = new_B_tokens 
+        
+        
     
 #     #Your code here
 #     def tokensToEth(sell_quantity: uint256):
