@@ -20,19 +20,23 @@ def get_token_address(token: uint256) -> address:
 @external
 def provideLiquidity(tokenA_addr: address, tokenB_addr: address, tokenA_quantity: uint256, tokenB_quantity: uint256):
     assert self.invariant == 0 #This ensures that liquidity can only be provided once
-    self.tokenA = ERC20(tokenA_addr)
-    self.tokenB = ERC20(tokenB_addr)
+    
+    # < YOUR CODE >
+    self.tokenA_address = ERC20(tokenA_addr)
+    self.tokenB_address = ERC20(tokenB_addr)
     
     # the owner must first 'approve' the receiver before the transferFrom call
-    if self.tokenA.approve(tokenA_addr, tokenA_quantity):
-        self.tokenA.transferFrom(msg.sender, self, tokenA_quantity)
-    if self.tokenB.approve(tokenB_addr, tokenB_quantity):    
-        self.tokenB.transferFrom(msg.sender, self, tokenB_quantity)
+    if self.tokenA_address.approve(tokenA_addr, tokenA_quantity):
+        self.tokenA_address.transferFrom(msg.sender, self.tokenA_address, tokenA_quantity)
+    if self.tokenB_address.approve(tokenB_addr, tokenB_quantity):    
+        self.tokenB_address.transferFrom(msg.sender, self.tokenB_address, tokenB_quantity)
+        
     self.owner = msg.sender
     self.tokenAQty = tokenA_quantity
     self.tokenBQty = tokenB_quantity
     self.invariant = self.tokenAQty*self.tokenBQty 
-
+    
+    # < YOUR CODE >
     assert self.invariant > 0
 
 # Trades one token for the other
@@ -40,11 +44,11 @@ def provideLiquidity(tokenA_addr: address, tokenB_addr: address, tokenA_quantity
 def tradeTokens(sell_token: address, sell_quantity: uint256):
     assert sell_token == self.tokenA.address or sell_token == self.tokenB.address
     
-    
+    # < YOUR CODE >
     self.sell_token.transferFrom(msg.sender, self, sell_quantity)
     new_A_tokens: uint256 = self.tokenA_quantity + sell_quantity
     new_B_tokens: uint256 = self.invariant / new_A_tokens
-#     eth_to_send: uint256 = self.totalEthQty - new_total_eth
+    #     eth_to_send: uint256 = self.totalEthQty - new_total_eth
     # def transfer(_to : address, _value : uint256) 
     transfer(msg.sender, eth_to_send)
     self.tokenAQty = new_A_tokens
@@ -66,6 +70,7 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
 def ownerWithdraw():
     assert self.owner == msg.sender
 
-    #Your code here
-    self.transfer(self.owner, self.totalTokenQty)
+    # < YOUR CODE >
+    self.tokenA_address.transfer(self.owner, self.tokenAQty)
+    self.tokenB_address.transfer(self.owner, self.tokenBQty)
     selfdestruct(self.owner)
