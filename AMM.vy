@@ -50,9 +50,9 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
         if self.tokenA.approve(self.tokenA.address, sell_quantity):
             self.tokenA.transferFrom(msg.sender, self.tokenA.address, sell_quantity)
             new_A_tokens: uint256 = self.tokenAQty + sell_quantity
-            token_to_send: unit256 =self.invariant / new_A_tokens
-            new_B_tokens: uint256 = self.tokenBQty - token_to_send
-            self.tokenB.transfer(msg.sender, new_B_tokens)
+            new_B_tokens: unit256 =self.invariant / new_A_tokens
+            
+            self.tokenB.transfer(msg.sender, self.tokenBQty - new_B_tokens)
             self.tokenAQty = new_A_tokens
             self.tokenBQty = new_B_tokens 
         
@@ -61,9 +61,9 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
         if self.tokenB.approve(self.tokenB.address, sell_quantity): 
             self.tokenB.transferFrom(msg.sender, self.tokenB.address, sell_quantity)
             new_B_tokens: uint256 = self.tokenBQty + sell_quantity
-            token_to_send: unit256 =self.invariant / new_B_tokens
-            new_A_tokens: uint256 = self.tokenAQty - token_to_send
-            self.tokenA.transfer(msg.sender, new_A_tokens)
+            new_A_tokens: unit256 = self.invariant / new_B_tokens
+            
+            self.tokenA.transfer(msg.sender, self.tokenAQty - new_A_tokens)
             self.tokenAQty = new_A_tokens
             self.tokenBQty = new_B_tokens 
         
