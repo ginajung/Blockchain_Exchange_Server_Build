@@ -47,23 +47,23 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
     # < YOUR CODE >
     # 1. from A to B 
     if sell_token == self.tokenA.address:
-        
-        self.tokenA.transferFrom(msg.sender, self.tokenA.address, sell_quantity)
-        new_A_tokens: uint256 = self.tokenAQty + sell_quantity
-        new_B_tokens: uint256 = self.tokenBQty - self.invariant / new_A_tokens
-        self.tokenB.transfer(msg.sender, new_B_tokens)
-        self.tokenAQty = new_A_tokens
-        self.tokenBQty = new_B_tokens 
+        if self.tokenA.approve(self.tokenA.address, sell_quantity):
+            self.tokenA.transferFrom(msg.sender, self.tokenA.address, sell_quantity)
+            new_A_tokens: uint256 = self.tokenAQty + sell_quantity
+            new_B_tokens: uint256 = self.tokenBQty - self.invariant / new_A_tokens
+            self.tokenB.transfer(msg.sender, new_B_tokens)
+            self.tokenAQty = new_A_tokens
+            self.tokenBQty = new_B_tokens 
         
     # 2. from B to A
     if sell_token == self.tokenB.address:
-        
-        self.tokenB.transferFrom(msg.sender, self.tokenB.address, sell_quantity)
-        new_B_tokens: uint256 = self.tokenBQty + sell_quantity
-        new_A_tokens: uint256 = self.tokenAQty - self.invariant / new_B_tokens
-        self.tokenA.transfer(msg.sender, new_A_tokens)
-        self.tokenAQty = new_A_tokens
-        self.tokenBQty = new_B_tokens 
+        if self.tokenB.approve(self.tokenB.address, sell_quantity): 
+            self.tokenB.transferFrom(msg.sender, self.tokenB.address, sell_quantity)
+            new_B_tokens: uint256 = self.tokenBQty + sell_quantity
+            new_A_tokens: uint256 = self.tokenAQty - self.invariant / new_B_tokens
+            self.tokenA.transfer(msg.sender, new_A_tokens)
+            self.tokenAQty = new_A_tokens
+            self.tokenBQty = new_B_tokens 
         
 
 # Owner can withdraw their funds and destroy the market maker
