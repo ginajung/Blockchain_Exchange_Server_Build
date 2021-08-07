@@ -34,7 +34,7 @@ def provideLiquidity(tokenA_addr: address, tokenB_addr: address, tokenA_quantity
     self.owner = msg.sender
     self.tokenAQty = tokenA_quantity
     self.tokenBQty = tokenB_quantity
-    self.invariant = self.tokenAQty*self.tokenBQty     
+    self.invariant = self.tokenAQty * self.tokenBQty     
     # < YOUR CODE >
     
     assert self.invariant > 0
@@ -50,23 +50,25 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
     if sell_token == self.tokenA.address:
         if self.tokenA.approve(self.tokenA.address, sell_quantity):
             self.tokenA.transferFrom(msg.sender, self.tokenA.address, sell_quantity)
-            new_A_tokens: uint256 = self.tokenAQty - sell_quantity
+            new_A_tokens: uint256 = self.tokenAQty + sell_quantity
             new_B_tokens: uint256 = self.invariant / new_A_tokens
             
-            self.tokenB.transfer(msg.sender, self.tokenBQty + new_B_tokens)
+            self.tokenB.transfer(msg.sender, self.tokenBQty - new_B_tokens)
             self.tokenAQty = new_A_tokens
-            self.tokenBQty = new_B_tokens 
+            self.tokenBQty = new_B_tokens
+            self.invariant = self.tokenAQty * self.tokenBQty
         
     # 2. from B to A
     if sell_token == self.tokenB.address:
         if self.tokenB.approve(self.tokenB.address, sell_quantity): 
             self.tokenB.transferFrom(msg.sender, self.tokenB.address, sell_quantity)
-            new_B_tokens: uint256 = self.tokenBQty - sell_quantity
+            new_B_tokens: uint256 = self.tokenBQty + sell_quantity
             new_A_tokens: uint256 = self.invariant / new_B_tokens
             
-            self.tokenA.transfer(msg.sender, self.tokenAQty + new_A_tokens)
+            self.tokenA.transfer(msg.sender, self.tokenAQty - new_A_tokens)
             self.tokenAQty = new_A_tokens
             self.tokenBQty = new_B_tokens 
+            self.invariant = self.tokenAQty * self.tokenBQty
         
 
 # Owner can withdraw their funds and destroy the market maker
