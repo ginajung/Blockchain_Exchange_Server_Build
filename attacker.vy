@@ -17,7 +17,7 @@ def _attack() -> bool:
     
     # TODO: Use the DAO interface to withdraw funds.
     # Make sure you add a "base case" to end the recursion
-    self.DAO.withdraw()
+    DAO.withdraw()
     return True
 
 @external
@@ -44,5 +44,5 @@ def __default__():
     # This method gets invoked when ETH is sent to this contract's address (i.e., when "withdraw" is called on the DAO contract)
     
     # TODO: Add code here to complete the recursive call
-    self.DAO.withdraw()
+    DAO.withdraw()
     pass
