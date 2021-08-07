@@ -57,7 +57,7 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
             self.tokenB.transfer(msg.sender, self.tokenBQty - new_B_tokens)
             self.tokenAQty = new_A_tokens
             self.tokenBQty = new_B_tokens
-            log(self.invariant)
+            log Transfer(self.invariant)
         
     # 2. from B to A
     if sell_token == self.tokenA.address:
