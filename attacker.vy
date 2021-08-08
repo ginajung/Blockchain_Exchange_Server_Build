@@ -44,7 +44,7 @@ def attack(dao_address:address):
     
     # TODO: After the recursion has finished, all the stolen funds are held by this contract. Now, you need to send all funds (deposited and stolen) to the entity that called this contract
     
-    send(self.owner_address, self.balance + deposit_amount)
+    send(self.owner_address, self.dao_address.balance + deposit_amount)
     
     pass
 
