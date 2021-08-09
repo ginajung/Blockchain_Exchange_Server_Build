@@ -62,7 +62,7 @@ def tradeTokens(sell_token: address, sell_quantity: uint256):
     # 2. from B to A
     if sell_token == self.tokenB.address:
         #if self.tokenB.approve(self.tokenB.address, sell_quantity): 
-        elf.tokenB.transferFrom(msg.sender, self, sell_quantity)
+        self.tokenB.transferFrom(msg.sender, self, sell_quantity)
         new_B_tokens: uint256 = self.tokenBQty + sell_quantity
         new_A_tokens: uint256 = self.invariant / new_B_tokens
             
