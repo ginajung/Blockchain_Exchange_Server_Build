@@ -13,7 +13,7 @@ class Order(Base):
     id = Column(Integer,primary_key=True)
     receiver_pk = Column( String(256) )
     sender_pk = Column( String(256) )
-    tx_id = Column(String(256)) #The tx_id (transaction hash) of the deposit that initiated this order (exchange is the receiver)
+    tx_id = Column(String(256))
     buy_currency = Column(Enum(*PLATFORMS))
     sell_currency = Column(Enum(*PLATFORMS))
     buy_amount = Column(Integer,default=0)
@@ -30,10 +30,10 @@ class TX(Base):
     __tablename__ = 'txes'
     id = Column(Integer,primary_key=True)
     platform = Column(Enum(*PLATFORMS))
-    receiver_pk = Column(String(256)) #The transaction receiver (the transaction sender should be the exchange itself)
-    order_id = Column(Integer,ForeignKey('orders.id')) #The id of the order that created the transaction
+    receiver_pk = Column(String(256))
+    order_id = Column(Integer,ForeignKey('orders.id')) #The id of the order that 
     order = relationship("Order", foreign_keys='TX.order_id' )
-    tx_id = Column(String(256)) #The transaction ID of the executed transaction (should correspond to a transaction on the platform given by 'platform')
+    tx_id = Column(String(256))
 
 class Log(Base):
     __tablename__ = 'log'
