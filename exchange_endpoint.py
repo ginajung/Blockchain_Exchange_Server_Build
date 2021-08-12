@@ -106,15 +106,84 @@ def get_eth_keys(filename = "eth_mnemonic.txt"):
     
     # TODO: Generate or read (using the mnemonic secret) 
     # the ethereum public/private keys
-
+    
     return eth_sk, eth_pk
+
+# from algosdk import mnemonic
+# from algosdk import account
+# from web3 import Web3
+
+
+
+# w3.eth.account.enable_unaudited_hdwallet_features()
+# acct,mnemonic_secret = w3.eth.account.create_with_mnemonic()
+
+# acct = w3.eth.account.from_mnemonic(mnemonic_secret)
+# eth_pk = acct._address
+# eth_sk = acct._private_key
+
+
   
 def fill_order(order, txes=[]):
-    # TODO: 
+    # TODO: Process order !!  txes=[]??
     # Match orders (same as Exchange Server II)
     # Validate the order has a payment to back it (make sure the counterparty also made a payment)
     # Make sure that you end up executing all resulting transactions!
     
+    
+#INSERT : generate new_order_obj from new_order dictionary
+    new_order_obj = Order(sender_pk=new_order['sender_pk'],receiver_pk=new_order['receiver_pk'], buy_currency=new_order['buy_currency'],                  sell_currency=new_order['sell_currency'],buy_amount=new_order['buy_amount'], sell_amount=new_order['sell_amount'] )
+   
+    g.session.add(new_order_obj)
+    g.session.commit()
+    
+# CHECK MATCH : check if matching to any existing orders
+    orders = g.session.query(Order).all()
+    for existing_order in orders:
+        correct = True
+        if existing_order.buy_currency == order_obj.sell_currency and \
+        existing_order.sell_currency == order_obj.buy_currency and \
+        existing_order.sell_amount / existing_order.buy_amount >= order_obj.buy_amount/order_obj.sell_amount:
+            
+            # Handle matching order
+            # set filled with current timestamp
+            order_obj.filled = datetime.now()
+            existing_order.filled = datetime.now()  
+            # set counterparty_id
+            order_obj.counterparty_id = existing_order.id   
+            
+            # 3. If one of the orders is not completely filled (i.e. the counterparty’s sell_amount is less than buy_amount):
+            if existing_order.sell_amount<= existing_order.buy_amount:
+                # You can then try to fill the new order
+
+                # 4 Create a new order for remaining balance ==> make_order? 
+                #       - The new order should have the created_by field set to the id of its parent order
+                #       - The new order should have the same pk and platform as its parent order
+                #       - The sell_amount of the new order can be any value such that 
+                #.        the implied exchange rate of the new order is at least that of the old order
+                child_order = {}
+                child_order['sender_pk'] = order_obj.sender_pk
+                child_order['receiver_pk'] = order_obj.receiver_pk
+                child_order['buy_currency'] = order_obj.buy_currency
+                child_order['sell_currency'] = order_obj.sell_currency
+                child_order['buy_amount'] = order_obj.buy_amount
+    
+                #any value such that the implied exchange rate of the new order is at least that of the old order
+                exchange_rate = order_obj.buy_amount/order_obj.sell_amount
+                child_order['sell_amount'] = random.randint(exchange_rate,10)
+    
+    
+                child_order_obj = Order( sender_pk=child_order['sender_pk'],receiver_pk=child_order['receiver_pk'], \
+                                        buy_currency=child_order['buy_currency'],sell_currency=child_order['sell_currency'],\
+                                        buy_amount=child_order['buy_amount'], sell_amount=child_order['sell_amount'] )
+
+#                 session.add(child_order_obj) 
+            
+#                 session.commit()
+                child_order_obj.filled = datetime.now() 
+                child_order_obj.creator_id = order_obj.id
+                order_obj.child=child_order_obj
+                
     pass
   
 def execute_txes(txes):
@@ -249,8 +318,8 @@ def order_book():
     
     #Your code here : return a list of all orders in the database.
     #Note that you can access the database session using g.session 
-    orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
-#     orders = g.session.query(Order).all()
+#     orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
+    orders = g.session.query(Order).all()
     
     data_dic ={'data': []}
     
