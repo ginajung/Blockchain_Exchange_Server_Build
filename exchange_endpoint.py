@@ -13,6 +13,7 @@ import math
 import sys
 import traceback
 
+
 # TODO: make sure you implement connect_to_algo, send_tokens_algo, and send_tokens_eth
 from send_tokens import connect_to_algo, connect_to_eth, send_tokens_algo, send_tokens_eth
 
@@ -97,30 +98,30 @@ def get_algo_keys():
     
     # TODO: Generate or read (using the mnemonic secret) 
     # the algorand public/private keys
+    w3 = Web3()
+    #w3 = connect_to_eth()
+    w3.eth.account.enable_unaudited_hdwallet_features()
+    acct,mnemonic_secret = w3.eth.account.create_with_mnemonic()
     
+    sk = mnemonic.to_private_key(mnemonic_secret)
+    pk = mnemonic.to_public_key(mnemonic_secret)
     return algo_sk, algo_pk
 
 
 def get_eth_keys(filename = "eth_mnemonic.txt"):
     w3 = Web3()
-    
+    #w3 = connect_to_eth()
+    w3.eth.account.enable_unaudited_hdwallet_features()
+    acct,mnemonic_secret = w3.eth.account.create_with_mnemonic()
+#     acct = w3.eth.account.from_mnemonic(mnemonic_secret)
+    eth_pk = acct._address
+    eth_sk = acct._private_key
     # TODO: Generate or read (using the mnemonic secret) 
     # the ethereum public/private keys
     
     return eth_sk, eth_pk
 
-# from algosdk import mnemonic
-# from algosdk import account
-# from web3 import Web3
 
-
-
-# w3.eth.account.enable_unaudited_hdwallet_features()
-# acct,mnemonic_secret = w3.eth.account.create_with_mnemonic()
-
-# acct = w3.eth.account.from_mnemonic(mnemonic_secret)
-# eth_pk = acct._address
-# eth_sk = acct._private_key
 
 
   
@@ -223,14 +224,13 @@ def address():
             print( f"Error: {content['platform']} is an invalid platform" )
             return jsonify( f"Error: invalid platform provided: {content['platform']}"  )
         
-        if content['payload']['platform'] == "Ethereum":
+        if content['platform'] == "Ethereum":
             #Your code here
             eth_sk, eth_pk = get_eth_keys(filename = "eth_mnemonic.txt")
             return jsonify( eth_pk )
         if content['platform'] == "Algorand":
             #Your code here
-                algo_sk, algo_pk = get_algo_keys()
-            
+            algo_sk, algo_pk = get_algo_keys()
             return jsonify( algo_pk )
 
 @app.route('/trade', methods=['POST'])
@@ -240,7 +240,7 @@ def trade():
     get_keys()
     if request.method == "POST":
         content = request.get_json(silent=True)
-        columns = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "platform", "tx_id", "receiver_pk"]
+        columns = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "platform", "tx_id", "receiver_pk",  "sender_pk"]
         fields = [ "sig", "payload" ]
         error = False
         for field in fields:
@@ -274,8 +274,7 @@ def trade():
         
         # If all goes well, return jsonify(True). else return jsonify(False)
        
-        
-        
+
         sig = content['sig']
         pk = content['payload']['sender_pk']
         platform = content['payload']['platform']
@@ -283,6 +282,7 @@ def trade():
 
         result = False
     
+    # 1. Check the signature
         # for eth and algo 
         if platform == "Ethereum":        
             eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
@@ -298,9 +298,12 @@ def trade():
                 result = True
             
         #print(result)
+        
+     # 2. Add the order to the table
+    
         # if verified, insert into Order table
         if result == True :
-            new_order_obj = Order( receiver_pk=content['payload']['receiver_pk'],sender_pk=content['payload']['sender_pk'], buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'], buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'], signature = content['sig'])
+            new_order_obj = Order( receiver_pk=content['payload']['receiver_pk'],sender_pk=content['payload']['sender_pk'], buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'], buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'], signature = content['sig'],tx_id =content['payload']['tx_id'])
   
             #print( "Order generated" )   
             g.session.add(new_order_obj)
@@ -338,6 +341,7 @@ def order_book():
         new_order_dict['buy_amount'] = order.buy_amount
         new_order_dict['sell_amount'] = order.sell_amount
         new_order_dict['signature'] = order.signature
+        new_order_dict['tx_id'] = order.tx_id
         data_dic['data'].append(new_order_dict)
 
     #json.dumps(data_dic)
