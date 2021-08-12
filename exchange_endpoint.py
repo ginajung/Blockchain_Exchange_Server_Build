@@ -223,7 +223,7 @@ def address():
             print( f"Error: {content['platform']} is an invalid platform" )
             return jsonify( f"Error: invalid platform provided: {content['platform']}"  )
         
-        if content['payload']['sell_currency'] == "Ethereum":
+        if content['payload']['platform'] == "Ethereum":
             #Your code here
             eth_sk, eth_pk = get_eth_keys(filename = "eth_mnemonic.txt")
             return jsonify( eth_pk )
