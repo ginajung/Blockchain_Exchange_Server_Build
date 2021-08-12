@@ -223,11 +223,14 @@ def address():
             print( f"Error: {content['platform']} is an invalid platform" )
             return jsonify( f"Error: invalid platform provided: {content['platform']}"  )
         
-        if content['platform'] == "Ethereum":
+        if content['payload']['sell_currency'] == "Ethereum":
             #Your code here
+            eth_sk, eth_pk = get_eth_keys(filename = "eth_mnemonic.txt")
             return jsonify( eth_pk )
         if content['platform'] == "Algorand":
             #Your code here
+                algo_sk, algo_pk = get_algo_keys()
+            
             return jsonify( algo_pk )
 
 @app.route('/trade', methods=['POST'])
