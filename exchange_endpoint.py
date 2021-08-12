@@ -5,6 +5,7 @@ from flask import jsonify
 import json
 import eth_account
 import algosdk
+from algosdk import mnemonic
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import load_only
@@ -98,7 +99,7 @@ def get_algo_keys():
     
     # TODO: Generate or read (using the mnemonic secret) 
     # the algorand public/private keys
-    from algosdk import mnemonic
+    
     mnemonic_secret = "soft quiz moral bread repeat embark shed steak chalk joy fetch pilot shift floor identify poverty index yard cannon divorce fatal angry mistake abandon voyage"
     algo_sk = mnemonic.to_private_key(mnemonic_secret)
     algo_pk = mnemonic.to_public_key(mnemonic_secret)
@@ -111,6 +112,8 @@ def get_eth_keys(filename = "eth_mnemonic.txt"):
     #w3 = connect_to_eth()
     w3.eth.account.enable_unaudited_hdwallet_features()
    # acct,mnemonic_secret = w3.eth.account.create_with_mnemonic()
+    mnemonic_secret = "soft quiz moral bread repeat embark shed steak chalk joy fetch pilot shift floor identify poverty index yard cannon divorce fatal angry mistake abandon voyage"
+    
     acct = w3.eth.account.from_mnemonic(mnemonic_secret)
     eth_pk = acct._address
     eth_sk = acct._private_key.hex()
@@ -168,7 +171,7 @@ def address():
         
         if content['platform'] == "Ethereum":
             #Your code here
-            eth_sk, eth_pk = get_eth_keys(filename = "eth_mnemonic.txt")
+            eth_sk, eth_pk = get_eth_keys()
             return jsonify( eth_pk )
         if content['platform'] == "Algorand":
             #Your code here
