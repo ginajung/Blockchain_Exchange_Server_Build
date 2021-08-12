@@ -108,8 +108,8 @@ def get_algo_keys():
 
 
 def get_eth_keys(filename = "eth_mnemonic.txt"):
-    w3 = Web3()
-    #w3 = connect_to_eth()
+    #w3 = Web3()
+    w3 = connect_to_eth()
     w3.eth.account.enable_unaudited_hdwallet_features()
    # acct,mnemonic_secret = w3.eth.account.create_with_mnemonic()
     mnemonic_secret = "soft quiz moral bread repeat embark shed steak chalk joy fetch pilot shift floor identify poverty index yard cannon divorce fatal angry mistake abandon voyage"
@@ -153,6 +153,15 @@ def execute_txes(txes):
     #       1. Send tokens on the Algorand and eth testnets, appropriately
     #          We've provided the send_tokens_algo and send_tokens_eth skeleton methods in send_tokens.py
     #       2. Add all transactions to the TX table
+
+# class TX(Base):
+#     __tablename__ = 'txes'
+#     id = Column(Integer,primary_key=True)
+#     platform = Column(Enum(*PLATFORMS))
+#     receiver_pk = Column(String(256)) #The transaction receiver (the transaction sender should be the exchange itself)
+#     order_id = Column(Integer,ForeignKey('orders.id')) #The id of the order that created the transaction
+#     order = relationship("Order", foreign_keys='TX.order_id' )
+#     tx_id = Column(String(256)) #The transaction ID of the executed transaction (should correspond to a transaction on the platform given by 'platform')
 
     pass
 
