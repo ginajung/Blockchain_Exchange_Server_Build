@@ -55,15 +55,15 @@ def send_tokens_algo( acl, sender_sk, txes):
             print(f"Sending {tx['amount']} microalgo from {sender_pk} to {tx['receiver_pk']}" )
             
             # TODO: Send the transaction to the testnet
-            tx_confirm = acl.send_transaction(signed_tx)
+            acl.send_transaction(signed_tx)
             
             tx_id = signed_tx.transaction.get_txid()
-            txinfo = wait_for_confirmation_algo(acl, txid=tx_id )
+            wait_for_confirmation_algo(acl, txid=tx_id )
             print(f"Sent {tx['amount']} microalgo in transaction: {tx_id}\n" )
             tx_ids.append(tx_id)
+
         except Exception as e:
             print(e)
-
 
     return tx_ids
 
@@ -135,13 +135,7 @@ def send_tokens_eth(w3,sender_sk,txes):
     
     for i,tx in enumerate(txes):
         # Your code here
-        
-
-    #      initial_balance = w3.eth.get_balance(sender_pk)
-
-        # nonce = w3.eth.get_transaction_count(sender_pk)
-        # nonce += 1
-
+    
         #nonce = tx['nonce']
         amt = tx['amount'] 
         receiver_pk = tx['receiver_pk']
@@ -155,37 +149,20 @@ def send_tokens_eth(w3,sender_sk,txes):
             'data':b'' }
 
         signed_txn = w3.eth.account.sign_transaction(tx_dict, sender_sk)
-        tx_id = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
-
-        tx_ids.append(tx_id.hex())
         
-        # in_queue = 0
-        # try:
-        #     print( f"Sending {tx_dict['value']} WEI from {sender_pk} to {tx_dict['to']}" )
-        #     tx_id = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
-        # except ValueError as e:
-        #     pending_block = w3.eth.get_block('pending',full_transactions=True)
-        #     pending_txes = pending_block['transactions']
-        #     for tx in pending_txes:
-        #         if tx['to'] == receiver_pk and tx['from'] == sender_pk and tx['value'] == amt and tx['nonce'] == nonce:
-        #             tx_id = tx['hash']
-        #             in_queue = 1
-        #             print( "TX already in queue" )
-        #     if not in_queue:
-        #         print( "Error sending Ethereum transaction" )
-        #         print( f"nonce_offset == {nonce_offset}" )
-        #         print( e )
-        #         if 'message' in e.keys():
-        #             if e['message'] == 'replacement transaction underpriced':
-        #                 print( e['message'])
-    #     return None
+        try:
+            print( f"Sending {tx_dict['value']} WEI from {sender_pk} to {tx_dict['to']}" )
+            
+            # TODO: Send the transaction to the testnet
+            tx_id = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+            wait_for_confirmation_eth(w3, txid=tx_id )
+            print(f"Sent {tx['amount']} microalgo in transaction: {tx_id}\n" )
+            tx_ids.append(tx_id)
 
-    # #receipt = wait_for_eth_confirmation(tx_hash)
-    #     if isinstance(tx_id,HexBytes):
-    #         tx_id = tx_id.hex()
-    #         tx_ids.append(tx_id)
+        except Exception as e:
+            print(e)
+        tx_ids.append(tx_id.hex())
         continue
 
     return tx_ids
-
 

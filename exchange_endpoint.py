@@ -21,7 +21,7 @@ from web3 import Web3
 # TODO: make sure you implement connect_to_algo, send_tokens_algo, and send_tokens_eth
 from send_tokens import connect_to_algo, connect_to_eth, send_tokens_algo, send_tokens_eth
 
-from models import Base, Order, Log
+from models import Base, Order, TX, Log
 engine = create_engine('sqlite:///orders.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
@@ -109,7 +109,6 @@ def get_algo_keys():
     # TODO: Generate or read (using the mnemonic secret) 
     # the algorand public/private keys
     
-    
     mnemonic_phrase = "sight garment riot tattoo tortoise  talk sea ill walnut leg robot myth toe perfect rifle dizzy spend april build legend brother above hospital"
     algo_sk = mnemonic.to_private_key(mnemonic_phrase)
     algo_pk = mnemonic.to_public_key(mnemonic_phrase)
@@ -160,7 +159,18 @@ def execute_txes(txes):
     #       1. Send tokens on the Algorand and eth testnets, appropriately
     #          We've provided the send_tokens_algo and send_tokens_eth skeleton methods in send_tokens.py
     #       2. Add all transactions to the TX table
-  
+
+    w3 = connect_to_eth()
+    acl = connect_to_algo()
+    send_tokens_algo(acl,algo_sk,algo_txes)
+    send_tokens_eth(w3,eth_sk,eth_txes)
+
+    for tx in algo_txes:
+
+        new_algo_tx_object = TX(platform = tx['platform'], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = tx['tx_id'] )
+        g.session.add(new_algo_tx_object)
+        g.session.commit()
+    
     pass
 
 """ End of Helper methods"""
