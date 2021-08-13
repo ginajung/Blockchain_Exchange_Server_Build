@@ -97,7 +97,12 @@ def log_message(message_dict):
 
     # TODO: Add message to the Log table
     
-    return
+    new_log_obj = Log(message = msg)
+            #print( "Log generated" )   
+    g.session.add(new_log_obj)
+    g.session.commit()
+            
+    return 
 
 def get_algo_keys():
     
@@ -337,7 +342,7 @@ def trade():
                 
         
         # not verify then, insert into Log table
-        if result ==False:
+        if result ==False:    
             new_log_obj = Log(message = payload)
             #print( "Log generated" )   
             g.session.add(new_log_obj)
