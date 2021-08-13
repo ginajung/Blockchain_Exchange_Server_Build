@@ -130,17 +130,19 @@ def send_tokens_eth(w3,sender_sk,txes):
 
     # TODO: For each of the txes, sign and send them to the testnet
     # Make sure you track the nonce -locally-
-    
+    nonce = w3.eth.get_transaction_count(sender_pk)
     tx_ids = []
+    
     for i,tx in enumerate(txes):
         # Your code here
         
 
     #      initial_balance = w3.eth.get_balance(sender_pk)
 
-        nonce = w3.eth.get_transaction_count(sender_pk)
-        nonce += 1
+        # nonce = w3.eth.get_transaction_count(sender_pk)
+        # nonce += 1
 
+        #nonce = tx['nonce']
         amt = tx['amount'] 
         receiver_pk = tx['receiver_pk']
         
@@ -154,7 +156,7 @@ def send_tokens_eth(w3,sender_sk,txes):
 
         signed_txn = w3.eth.account.sign_transaction(tx_dict, sender_sk)
         tx_id = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
-        
+
         tx_ids.append(tx_id.hex())
         
         # in_queue = 0
