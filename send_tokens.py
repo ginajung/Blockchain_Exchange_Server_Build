@@ -43,10 +43,11 @@ def send_tokens_algo( acl, sender_sk, txes):
         
         # Create and sign transaction
         # send_to_address and send_amount???
+        first_valid_round += i
         send_amount = tx['amount']
         send_to_address = tx['receiver_pk']
         
-        unsigned_tx = transaction.PaymentTxn(sender_pk, fee, first_valid_round, last_valid_round, gh, send_to_address, send_amount, flat_fee=True)
+        unsigned_tx = transaction.PaymentTxn(sender_pk, fee, first_valid_round, last_valid_round, gh, gen, send_to_address, send_amount, flat_fee=True)
         
         # TODO: Sign the transaction
         signed_tx = unsigned_tx.sign(sender_sk)
@@ -141,7 +142,7 @@ def send_tokens_eth(w3,sender_sk,txes):
         receiver_pk = tx['receiver_pk']
         
         tx_dict = {
-            'nonce':nonce,
+            'nonce':nonce + i,
             'gasPrice':w3.eth.gas_price,
             'gas': w3.eth.estimate_gas( { 'from': sender_pk, 'to': receiver_pk, 'data': b'', 'amount': amt } ),
             'to': receiver_pk,
