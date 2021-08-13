@@ -162,13 +162,25 @@ def execute_txes(txes):
 
     w3 = connect_to_eth()
     acl = connect_to_algo()
-    send_tokens_algo(acl,algo_sk,algo_txes)
-    send_tokens_eth(w3,eth_sk,eth_txes)
+    eth_txids = send_tokens_algo(acl,algo_sk,algo_txes)
+    algo_txids = send_tokens_eth(w3,eth_sk,eth_txes)
 
-    for tx in algo_txes:
+    for txid in eth_txids:
+        
 
-        new_algo_tx_object = TX(platform = tx['platform'], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = tx['tx_id'] )
-        g.session.add(new_algo_tx_object)
+        tx = w3.eth.get_transaction(txid)
+        
+
+        new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = txid )
+        g.session.add(new_tx_object)
+        g.session.commit()
+
+
+    for txid in algo_txids:
+        tx = acl.search_transactions(txid)
+
+        new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = txid )
+        g.session.add(new_tx_object)
         g.session.commit()
     
     pass
@@ -202,7 +214,7 @@ def trade():
     # get_keys()
     if request.method == "POST":
         content = request.get_json(silent=True)
-        columns = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "platform", "tx_id", "receiver_pk"]
+        columns = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "platform", "tx_id", "receiver_pk","sender_pk"]
         fields = [ "sig", "payload" ]
         error = False
         for field in fields:
@@ -369,7 +381,7 @@ def trade():
 
 @app.route('/order_book')
 def order_book():
-    fields = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "signature", "tx_id", "receiver_pk" ]
+    fields = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "signature", "tx_id", "receiver_pk", "sender_pk"]
     
     
     orders = g.session.query(Order).all()
