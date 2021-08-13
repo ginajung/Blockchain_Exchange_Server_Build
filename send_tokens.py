@@ -138,9 +138,12 @@ def send_tokens_eth(w3,sender_sk,txes):
 
     #      initial_balance = w3.eth.get_balance(sender_pk)
 
-        nonce = w3.eth.get_transaction_count(sender_pk,'pending')
-        nonce += nonce_offset
+        nonce = w3.eth.get_transaction_count(sender_pk)
+        nonce += 1
 
+        amt = tx['amount'] 
+        receiver_pk = tx['receiver_pk']
+        
         tx_dict = {
             'nonce':nonce,
             'gasPrice':w3.eth.gas_price,
@@ -150,34 +153,36 @@ def send_tokens_eth(w3,sender_sk,txes):
             'data':b'' }
 
         signed_txn = w3.eth.account.sign_transaction(tx_dict, sender_sk)
+        tx_id = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
         
+        tx_ids.append(tx_id.hex())
         
-        in_queue = 0
-        try:
-            print( f"Sending {tx_dict['value']} WEI from {sender_pk} to {tx_dict['to']}" )
-            tx_id = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
-        except ValueError as e:
-            pending_block = w3.eth.get_block('pending',full_transactions=True)
-            pending_txes = pending_block['transactions']
-            for tx in pending_txes:
-                if tx['to'] == receiver_pk and tx['from'] == sender_pk and tx['value'] == amt and tx['nonce'] == nonce:
-                    tx_id = tx['hash']
-                    in_queue = 1
-                    print( "TX already in queue" )
-            if not in_queue:
-                print( "Error sending Ethereum transaction" )
-                print( f"nonce_offset == {nonce_offset}" )
-                print( e )
-                if 'message' in e.keys():
-                    if e['message'] == 'replacement transaction underpriced':
-                        print( e['message'])
-        return None
+        # in_queue = 0
+        # try:
+        #     print( f"Sending {tx_dict['value']} WEI from {sender_pk} to {tx_dict['to']}" )
+        #     tx_id = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+        # except ValueError as e:
+        #     pending_block = w3.eth.get_block('pending',full_transactions=True)
+        #     pending_txes = pending_block['transactions']
+        #     for tx in pending_txes:
+        #         if tx['to'] == receiver_pk and tx['from'] == sender_pk and tx['value'] == amt and tx['nonce'] == nonce:
+        #             tx_id = tx['hash']
+        #             in_queue = 1
+        #             print( "TX already in queue" )
+        #     if not in_queue:
+        #         print( "Error sending Ethereum transaction" )
+        #         print( f"nonce_offset == {nonce_offset}" )
+        #         print( e )
+        #         if 'message' in e.keys():
+        #             if e['message'] == 'replacement transaction underpriced':
+        #                 print( e['message'])
+    #     return None
 
-    #receipt = wait_for_eth_confirmation(tx_hash)
-        if isinstance(tx_id,HexBytes):
-            tx_id = tx_id.hex()
-            tx_ids.append(tx_id)
-    continue
+    # #receipt = wait_for_eth_confirmation(tx_hash)
+    #     if isinstance(tx_id,HexBytes):
+    #         tx_id = tx_id.hex()
+    #         tx_ids.append(tx_id)
+        continue
 
     return tx_ids
 
