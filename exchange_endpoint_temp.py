@@ -5,6 +5,7 @@ from flask import jsonify
 import json
 import eth_account
 import algosdk
+from algosdk import mnemonic
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import load_only
@@ -13,14 +14,14 @@ import math
 import sys
 import traceback
 
+
 # TODO: make sure you implement connect_to_algo, send_tokens_algo, and send_tokens_eth
 from send_tokens import connect_to_algo, connect_to_eth, send_tokens_algo, send_tokens_eth
 
-from models import Base, Order, Log
+from models import Base, Order, TX
 engine = create_engine('sqlite:///orders.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
-
 
 app = Flask(__name__)
 
@@ -99,23 +100,36 @@ def get_algo_keys():
     # TODO: Generate or read (using the mnemonic secret) 
     # the algorand public/private keys
     
+    mnemonic_secret = "soft quiz moral bread repeat embark shed steak chalk joy fetch pilot shift floor identify poverty index yard cannon divorce fatal angry mistake abandon voyage"
+    algo_sk = mnemonic.to_private_key(mnemonic_secret)
+    algo_pk = mnemonic.to_public_key(mnemonic_secret)
+  
     return algo_sk, algo_pk
 
 
 def get_eth_keys(filename = "eth_mnemonic.txt"):
-    w3 = Web3()
+    #w3 = Web3()
+    w3 = connect_to_eth()
+    w3.eth.account.enable_unaudited_hdwallet_features()
+   # acct,mnemonic_secret = w3.eth.account.create_with_mnemonic()
+    mnemonic_secret = "soft quiz moral bread repeat embark shed steak chalk joy fetch pilot shift floor identify poverty index yard cannon divorce fatal angry mistake abandon voyage"
     
+    acct = w3.eth.account.from_mnemonic(mnemonic_secret)
+    eth_pk = acct._address
+    eth_sk = acct._private_key.hex()
     # TODO: Generate or read (using the mnemonic secret) 
     # the ethereum public/private keys
-
+    
     return eth_sk, eth_pk
+
+
   
 def fill_order(order, txes=[]):
-    # TODO: 
+    # TODO: Process order !!  txes=[]??
     # Match orders (same as Exchange Server II)
     # Validate the order has a payment to back it (make sure the counterparty also made a payment)
     # Make sure that you end up executing all resulting transactions!
-    
+          
     pass
   
 def execute_txes(txes):
@@ -139,7 +153,16 @@ def execute_txes(txes):
     #       1. Send tokens on the Algorand and eth testnets, appropriately
     #          We've provided the send_tokens_algo and send_tokens_eth skeleton methods in send_tokens.py
     #       2. Add all transactions to the TX table
-  
+
+# class TX(Base):
+#     __tablename__ = 'txes'
+#     id = Column(Integer,primary_key=True)
+#     platform = Column(Enum(*PLATFORMS))
+#     receiver_pk = Column(String(256)) #The transaction receiver (the transaction sender should be the exchange itself)
+#     order_id = Column(Integer,ForeignKey('orders.id')) #The id of the order that created the transaction
+#     order = relationship("Order", foreign_keys='TX.order_id' )
+#     tx_id = Column(String(256)) #The transaction ID of the executed transaction (should correspond to a transaction on the platform given by 'platform')
+
     pass
 
 """ End of Helper methods"""
@@ -171,7 +194,7 @@ def trade():
     get_keys()
     if request.method == "POST":
         content = request.get_json(silent=True)
-        columns = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "platform", "tx_id", "receiver_pk"]
+        columns = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "platform", "tx_id", "receiver_pk",  "sender_pk"]
         fields = [ "sig", "payload" ]
         error = False
         for field in fields:
@@ -180,7 +203,6 @@ def trade():
                 error = True
         if error:
             print( json.dumps(content) )
-            log_message(content)
             return jsonify( False )
         
         error = False
@@ -190,13 +212,23 @@ def trade():
                 error = True
         if error:
             print( json.dumps(content) )
-            log_message(content)
             return jsonify( False )
         
         # Your code here
         
         # 1. Check the signature
         
+        # 2. Add the order to the table
+        
+        # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)
+
+        # 3b. Fill the order (as in Exchange Server II) if the order is valid
+        
+        # 4. Execute the transactions
+        
+        # If all goes well, return jsonify(True). else return jsonify(False)
+       
+
         sig = content['sig']
         pk = content['payload']['sender_pk']
         platform = content['payload']['platform']
@@ -204,6 +236,7 @@ def trade():
 
         result = False
     
+    # 1. Check the signature
         # for eth and algo 
         if platform == "Ethereum":        
             eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
@@ -217,25 +250,23 @@ def trade():
             if algosdk.util.verify_bytes(payload.encode('utf-8'),sig,pk):
                 #print( "Algo_verified" ) 
                 result = True
-                
-                
-        # 2. Add the order to the table
-        
-        if result == True :
-            # if verified, insert into Order table
-            # 1. INSERT : generate new_order_obj from new_order dictionary
             
+        #print(result)
+        
+     # 2. Add the order to the table
+    
+         # if verified, insert into Order table
+        if result == True :
             new_order_obj = Order( receiver_pk=content['payload']['receiver_pk'],sender_pk=content['payload']['sender_pk'], buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'], buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'], signature = content['sig'],tx_id =content['payload']['tx_id'])
   
-           
+            #print( "Order generated" )   
             g.session.add(new_order_obj)
             g.session.commit()
-        
-        
-        # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)
-        # 3b. Fill the order (as in Exchange Server II) if the order is valid
-        
-    # 2. CHECK MATCH : check if matching to any existing order, stop
+            
+                    
+# FROM PROCESS_ORDER() code
+    
+        # 2. CHECK MATCH : check if matching to any existing order, stop
             orders = g.session.query(Order).filter(Order.filled == None).all()   
    
             for existing_order in orders:    
@@ -319,25 +350,21 @@ def trade():
             g.session.add(new_log_obj)
             g.session.commit()
             
-       
-        
-        # 4. Execute the transactions
-       
-    
-    
-        # If all goes well, return jsonify(True). else return jsonify(False)
-        return jsonify(True)
+            
+    return jsonify(True)
+
 
 @app.route('/order_book')
 def order_book():
     fields = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "signature", "tx_id", "receiver_pk" ]
     
-    
+    #Your code here : return a list of all orders in the database.
+
     orders = g.session.query(Order).all()
     
     data_dic ={'data': []}
     
-#     # save orders as a list of dicts / convert to JSON
+    # save orders as a list of dicts / convert to JSON
     for order in orders:
         
         new_order_dict = {}
@@ -352,7 +379,6 @@ def order_book():
         data_dic['data'].append(new_order_dict)
   
     return jsonify(data_dic)
-    
 
 if __name__ == '__main__':
     app.run(port='5002')
