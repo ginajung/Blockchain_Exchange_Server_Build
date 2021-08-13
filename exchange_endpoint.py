@@ -110,7 +110,7 @@ def get_algo_keys():
     # the algorand public/private keys
     
     
-    mnemonic_phrase = "sight garment riot tattoo tortoise  talk sea ill walnut leg robot myth toe perfect rifle dizzy spend april build legend brother above hospital";
+    mnemonic_phrase = "sight garment riot tattoo tortoise  talk sea ill walnut leg robot myth toe perfect rifle dizzy spend april build legend brother above hospital"
     algo_sk = mnemonic.to_private_key(mnemonic_phrase)
     algo_pk = mnemonic.to_public_key(mnemonic_phrase)
 
@@ -124,7 +124,7 @@ def get_eth_keys(filename = "eth_mnemonic.txt"):
     # acct,mnemonic_secret = w3.eth.account.create_with_mnemonic()
     # TODO: Generate or read (using the mnemonic secret) 
     # the ethereum public/private keys
-    mnemonic_secret = "sight garment riot tattoo tortoise  talk sea ill walnut leg robot myth toe perfect rifle dizzy spend april build legend brother above hospital";
+    mnemonic_secret = "sight garment riot tattoo tortoise  talk sea ill walnut leg robot myth toe perfect rifle dizzy spend april build legend brother above hospital"
     acct = w3.eth.account.from_mnemonic(mnemonic_secret)
     eth_pk = acct._address
     eth_sk = acct._private_key
