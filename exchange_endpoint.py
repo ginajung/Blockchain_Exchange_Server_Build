@@ -103,20 +103,24 @@ def get_algo_keys():
     
     # TODO: Generate or read (using the mnemonic secret) 
     # the algorand public/private keys
-    algo_sk, algo_pk = generate_account()
     
+    
+    mnemonic_phrase = "sight garment riot tattoo tortoise  talk sea ill walnut leg robot myth toe perfect rifle dizzy spend april build legend brother above hospital";
+    algo_sk = mnemonic.to_private_key(mnemonic_phrase)
+    algo_pk = mnemonic.to_public_key(mnemonic_phrase)
+
     return algo_sk, algo_pk
 
 
 def get_eth_keys(filename = "eth_mnemonic.txt"):
     w3 = Web3()
     
-    w3.eth.account.enable_unaudited_hdwallet_features()
-    acct,mnemonic_secret = w3.eth.account.create_with_mnemonic()
+    # w3.eth.account.enable_unaudited_hdwallet_features()
+    # acct,mnemonic_secret = w3.eth.account.create_with_mnemonic()
     # TODO: Generate or read (using the mnemonic secret) 
     # the ethereum public/private keys
-    
-    #acct = w3.eth.account.from_mnemonic(mnemonic_secret)
+    mnemonic_secret = "sight garment riot tattoo tortoise  talk sea ill walnut leg robot myth toe perfect rifle dizzy spend april build legend brother above hospital";
+    acct = w3.eth.account.from_mnemonic(mnemonic_secret)
     eth_pk = acct._address
     eth_sk = acct._private_key
     
@@ -167,11 +171,11 @@ def address():
             print( f"Error: {content['platform']} is an invalid platform" )
             return jsonify( f"Error: invalid platform provided: {content['platform']}"  )
         
-        if content['payload']['sell_currency'] == "Ethereum":
+        if content['platform'] == "Ethereum":
             #Your code here
-            eth_sk, eth_pk = get_eth_keys()
+            eth_sk, eth_pk = get_eth_keys(filename = "eth_mnemonic.txt")
             return jsonify( eth_pk )
-        if content['payload']['sell_currency'] == "Algorand":
+        if content['platform'] == "Algorand":
             #Your code here
             algo_sk, algo_pk = get_algo_keys()
             return jsonify( algo_pk )
@@ -180,7 +184,7 @@ def address():
 def trade():
     print( "In trade", file=sys.stderr )
     connect_to_blockchains()
-    get_keys()
+    # get_keys()
     if request.method == "POST":
         content = request.get_json(silent=True)
         columns = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "platform", "tx_id", "receiver_pk"]
