@@ -13,6 +13,11 @@ import math
 import sys
 import traceback
 
+
+from algosdk import mnemonic
+from algosdk import account
+from web3 import Web3
+
 # TODO: make sure you implement connect_to_algo, send_tokens_algo, and send_tokens_eth
 from send_tokens import connect_to_algo, connect_to_eth, send_tokens_algo, send_tokens_eth
 
@@ -98,6 +103,7 @@ def get_algo_keys():
     
     # TODO: Generate or read (using the mnemonic secret) 
     # the algorand public/private keys
+    algo_sk, algo_pk = generate_account()
     
     return algo_sk, algo_pk
 
@@ -105,9 +111,15 @@ def get_algo_keys():
 def get_eth_keys(filename = "eth_mnemonic.txt"):
     w3 = Web3()
     
+    w3.eth.account.enable_unaudited_hdwallet_features()
+    acct,mnemonic_secret = w3.eth.account.create_with_mnemonic()
     # TODO: Generate or read (using the mnemonic secret) 
     # the ethereum public/private keys
-
+    
+    #acct = w3.eth.account.from_mnemonic(mnemonic_secret)
+    eth_pk = acct._address
+    eth_sk = acct._private_key
+    
     return eth_sk, eth_pk
   
 def fill_order(order, txes=[]):
@@ -225,7 +237,10 @@ def trade():
             # if verified, insert into Order table
             # 1. INSERT : generate new_order_obj from new_order dictionary
             
-            new_order_obj = Order( receiver_pk=content['payload']['receiver_pk'],sender_pk=content['payload']['sender_pk'], buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'], buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'], signature = content['sig'],tx_id =content['payload']['tx_id'])
+            new_order_obj = Order( receiver_pk=content['payload']['receiver_pk'],sender_pk=content['payload']['sender_pk'],\
+                                  buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'], \
+                                  buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'],\
+                                  signature = content['sig'],tx_id =content['payload']['tx_id'])
   
            
             g.session.add(new_order_obj)
@@ -233,6 +248,11 @@ def trade():
         
         
         # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)
+        
+            # when an order comes in 
+            # - check that user transmitted "sell_amount" to the exchanges' address
+            # - if the signature verifies and the order matches, \
+            #   the exchange must send tokens to both counterparties on the appropriate changes
         # 3b. Fill the order (as in Exchange Server II) if the order is valid
         
     # 2. CHECK MATCH : check if matching to any existing order, stop
