@@ -31,15 +31,18 @@ app = Flask(__name__)
 
 """ Pre-defined methods (do not need to change) """
 
+
 @app.before_request
 def create_session():
     g.session = scoped_session(DBSession)
+
 
 @app.teardown_appcontext
 def shutdown_session(response_or_exc):
     sys.stdout.flush()
     g.session.commit()
     g.session.remove()
+
 
 def connect_to_blockchains():
     try:
@@ -48,7 +51,7 @@ def connect_to_blockchains():
         g.acl
     except AttributeError as ae:
         acl_flag = True
-    
+
     try:
         if acl_flag or not g.acl.status():
             # Define Algorand client for the application
@@ -57,13 +60,13 @@ def connect_to_blockchains():
         print("Trying to connect to algorand client again")
         print(traceback.format_exc())
         g.acl = connect_to_algo()
-    
+
     try:
         icl_flag = False
         g.icl
     except AttributeError as ae:
         icl_flag = True
-    
+
     try:
         if icl_flag or not g.icl.health():
             # Define the index client
@@ -73,13 +76,12 @@ def connect_to_blockchains():
         print(traceback.format_exc())
         g.icl = connect_to_algo(connection_type='indexer')
 
-        
     try:
         w3_flag = False
         g.w3
     except AttributeError as ae:
         w3_flag = True
-    
+
     try:
         if w3_flag or not g.w3.isConnected():
             g.w3 = connect_to_eth()
@@ -87,28 +89,31 @@ def connect_to_blockchains():
         print("Trying to connect to web3 again")
         print(traceback.format_exc())
         g.w3 = connect_to_eth()
-        
+
+
 """ End of pre-defined methods """
-        
+
 """ Helper Methods (skeleton code for you to implement) """
+
 
 def log_message(message_dict):
     msg = json.dumps(message_dict)
 
     # TODO: Add message to the Log table
-    
-    new_log_obj = Log(message = msg)
-            #print( "Log generated" )   
+
+    new_log_obj = Log(message=msg)
+            # print( "Log generated" )
     g.session.add(new_log_obj)
     g.session.commit()
-            
-    return 
+
+    return
+
 
 def get_algo_keys():
-    
-    # TODO: Generate or read (using the mnemonic secret) 
+
+    # TODO: Generate or read (using the mnemonic secret)
     # the algorand public/private keys
-    
+
     mnemonic_phrase = "soft quiz moral bread repeat embark shed steak chalk joy fetch pilot shift floor identify poverty index yard cannon divorce fatal angry mistake abandon voyage"
     algo_sk = mnemonic.to_private_key(mnemonic_phrase)
     algo_pk = mnemonic.to_public_key(mnemonic_phrase)
@@ -116,26 +121,97 @@ def get_algo_keys():
     return algo_sk, algo_pk
 
 
-def get_eth_keys(filename = "eth_mnemonic.txt"):
+def get_eth_keys(filename="eth_mnemonic.txt"):
     w3 = Web3()
-    
+
     w3.eth.account.enable_unaudited_hdwallet_features()
-    acct,mnemonic_secret = w3.eth.account.create_with_mnemonic()
-    # TODO: Generate or read (using the mnemonic secret) 
+    acct, mnemonic_secret = w3.eth.account.create_with_mnemonic()
+    # TODO: Generate or read (using the mnemonic secret)
     # the ethereum public/private keys
     # mnemonic_secret = "sight garment riot tattoo tortoise  talk sea ill walnut leg robot myth toe perfect rifle dizzy spend april build legend brother above hospital"
     # acct = w3.eth.account.from_mnemonic(mnemonic_secret)
     eth_pk = acct._address
     eth_sk = acct._private_key
-    
+
     return eth_sk, eth_pk
-  
-def fill_order(order, txes=[]):
-    # TODO: 
+
+
+def fill_order(new_order_obj, orders):
+    # TODO:
     # Match orders (same as Exchange Server II)
     # Validate the order has a payment to back it (make sure the counterparty also made a payment)
     # Make sure that you end up executing all resulting transactions!
-    
+
+    for existing_order in orders:
+
+        if existing_order.buy_currency == new_order_obj.sell_currency and \
+        existing_order.sell_currency == new_order_obj.buy_currency and \
+        existing_order.sell_amount / existing_order.buy_amount >= new_order_obj.buy_amount/new_order_obj.sell_amount:
+
+          # Handle matching order
+            # Set the filled field to be the current timestamp on both orders
+            new_order_obj.filled = datetime.now()
+            existing_order.filled = datetime.now()
+
+            # Set counterparty_id to be the id of the other order
+            new_order_obj.counterparty_id = existing_order.id
+            existing_order.counterparty_id = new_order_obj.id
+
+            break;
+
+    # 3. If one of the orders is not completely filled (i.e. the counterparty’s sell_amount is less than buy_amount):
+        if new_order_obj.sell_amount > existing_order.buy_amount:
+
+    # 4 Create a new order for remaining balance
+
+            child_order_new = {}
+
+            child_order_new['sender_pk'] = new_order_obj.sender_pk
+            child_order_new['receiver_pk'] = new_order_obj.receiver_pk
+            child_order_new['buy_currency'] = new_order_obj.buy_currency
+            child_order_new['sell_currency'] = new_order_obj.sell_currency
+
+            exchange_rate_new = new_order_obj.buy_amount/new_order_obj.sell_amount
+
+            child_sell_amount = new_order_obj.sell_amount-existing_order.buy_amount
+            child_buy_amount = exchange_rate_new * child_sell_amount
+
+            child_order_new['sell_amount'] = child_sell_amount
+            child_order_new['buy_amount'] = child_buy_amount
+
+            child_order_newobj = Order(sender_pk=child_order_new['sender_pk'], receiver_pk=child_order_new['receiver_pk'],buy_currency=child_order_new['buy_currency'], sell_currency=child_order_new['sell_currency'],buy_amount=child_order_new['buy_amount'], sell_amount=child_order_new['sell_amount'])
+
+            g.session.add(child_order_newobj)
+            child_order_newobj.creator_id = new_order_obj.id
+            g.session.commit()
+
+        if new_order_obj.buy_amount < existing_order.sell_amount:
+                # child order for counterparty
+            child_order_ex = {}
+            child_order_ex['sender_pk'] = existing_order.sender_pk
+            child_order_ex['receiver_pk'] = existing_order.receiver_pk
+            child_order_ex['buy_currency'] = existing_order.buy_currency
+            child_order_ex['sell_currency'] = existing_order.sell_currency
+            child_order_ex['buy_amount'] = existing_order.buy_amount
+
+                # any value such that the implied exchange rate of the new order is at least that of the old order
+
+            exchange_rate_ex = existing_order.buy_amount/existing_order.sell_amount
+
+            child_ex_sell_amount = existing_order.sell_amount-new_order_obj.buy_amount
+            child_ex_buy_amount = exchange_rate_ex * child_ex_sell_amount
+
+            child_order_ex['sell_amount'] = child_ex_sell_amount
+            child_order_ex['buy_amount'] = child_ex_buy_amount
+
+            child_order_exobj = Order(sender_pk=child_order_ex['sender_pk'], receiver_pk=child_order_ex['receiver_pk'],
+                                    buy_currency=child_order_ex['buy_currency'], sell_currency=child_order_ex['sell_currency'],
+                                    buy_amount=child_order_ex['buy_amount'], sell_amount=child_order_ex['sell_amount'])
+
+            g.session.add(child_order_exobj)
+            child_order_exobj.creator_id = existing_order.id
+            g.session.commit()
+
     pass
   
 def execute_txes(txes):
@@ -165,11 +241,7 @@ def execute_txes(txes):
     eth_txids = send_tokens_algo(acl,algo_sk,algo_txes)
     algo_txids = send_tokens_eth(w3,eth_sk,eth_txes)
 
-
-
-  
     for txid in eth_txids:
-        
 
         tx = w3.eth.get_transaction(txid)
         
@@ -201,11 +273,11 @@ def address():
             return jsonify( f"Error: invalid platform provided: {content['platform']}"  )
         
         if content['platform'] == "Ethereum":
-            #Your code here
+            # Your code here
             eth_sk, eth_pk = get_eth_keys()
             return jsonify( eth_pk )
         if content['platform'] == "Algorand":
-            #Your code here
+            # Your code here
             algo_sk, algo_pk = get_algo_keys()
             return jsonify( algo_pk )
 
@@ -254,18 +326,19 @@ def trade():
             eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
             eth_sig_obj = sig        
             if eth_account.Account.recover_message(eth_encoded_msg,signature=sig) == pk:
-                #print( "Eth_verified" ) 
+                # print( "Eth_verified" ) 
                 result = True
            
             
         if platform == "Algorand":        
             if algosdk.util.verify_bytes(payload.encode('utf-8'),sig,pk):
-                #print( "Algo_verified" ) 
+                # print( "Algo_verified" ) 
                 result = True
                 
                 
         # 2. Add the order to the table
-        
+
+        # checking limit order with sell_amount
         if (result == True and content['payload']['sell_amount']) :
             # if verified, insert into Order table
             # 1. INSERT : generate new_order_obj from new_order dictionary
@@ -280,102 +353,106 @@ def trade():
             g.session.commit()
         
         
-        # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)
-        
+        # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)        
             # when an order comes in 
             # - check that user transmitted "sell_amount" to the exchanges' address
             # - if the signature verifies and the order matches, \
             #   the exchange must send tokens to both counterparties on the appropriate changes
+
         # 3b. Fill the order (as in Exchange Server II) if the order is valid
         
     # 2. CHECK MATCH : check if matching to any existing order, stop
             orders = g.session.query(Order).filter(Order.filled == None).all()   
-   
-            for existing_order in orders:    
-        
-                if existing_order.buy_currency == new_order_obj.sell_currency and \
-                existing_order.sell_currency == new_order_obj.buy_currency and \
-                existing_order.sell_amount / existing_order.buy_amount >= new_order_obj.buy_amount/new_order_obj.sell_amount:
-    
-          # Handle matching order            
-            # Set the filled field to be the current timestamp on both orders
-                    new_order_obj.filled = datetime.now()
-                    existing_order.filled = datetime.now()  
             
-            # Set counterparty_id to be the id of the other order
-                    new_order_obj.counterparty_id = existing_order.id  
-                    existing_order.counterparty_id = new_order_obj.id 
             
-                    break;
+            
+            fill_order(new_order_obj, orders)
 
-    # 3. If one of the orders is not completely filled (i.e. the counterparty’s sell_amount is less than buy_amount):
-            if new_order_obj.sell_amount > existing_order.buy_amount :
+    #         for existing_order in orders:    
+        
+    #             if existing_order.buy_currency == new_order_obj.sell_currency and \
+    #             existing_order.sell_currency == new_order_obj.buy_currency and \
+    #             existing_order.sell_amount / existing_order.buy_amount >= new_order_obj.buy_amount/new_order_obj.sell_amount:
+    
+    #       # Handle matching order            
+    #         # Set the filled field to be the current timestamp on both orders
+    #                 new_order_obj.filled = datetime.now()
+    #                 existing_order.filled = datetime.now()  
+            
+    #         # Set counterparty_id to be the id of the other order
+    #                 new_order_obj.counterparty_id = existing_order.id  
+    #                 existing_order.counterparty_id = new_order_obj.id 
+            
+    #                 break;
+
+    # # 3. If one of the orders is not completely filled (i.e. the counterparty’s sell_amount is less than buy_amount):
+    #         if new_order_obj.sell_amount > existing_order.buy_amount :
         
                 
-    # 4 Create a new order for remaining balance 
+    # # 4 Create a new order for remaining balance 
         
-                child_order_new = {}
+    #             child_order_new = {}
         
-                child_order_new['sender_pk'] = new_order_obj.sender_pk
-                child_order_new['receiver_pk'] = new_order_obj.receiver_pk
-                child_order_new['buy_currency'] = new_order_obj.buy_currency
-                child_order_new['sell_currency'] = new_order_obj.sell_currency
+    #             child_order_new['sender_pk'] = new_order_obj.sender_pk
+    #             child_order_new['receiver_pk'] = new_order_obj.receiver_pk
+    #             child_order_new['buy_currency'] = new_order_obj.buy_currency
+    #             child_order_new['sell_currency'] = new_order_obj.sell_currency
  
-                exchange_rate_new = new_order_obj.buy_amount/new_order_obj.sell_amount
+    #             exchange_rate_new = new_order_obj.buy_amount/new_order_obj.sell_amount
             
-                child_sell_amount = new_order_obj.sell_amount-existing_order.buy_amount
-                child_buy_amount = exchange_rate_new * child_sell_amount
+    #             child_sell_amount = new_order_obj.sell_amount-existing_order.buy_amount
+    #             child_buy_amount = exchange_rate_new * child_sell_amount
                 
-                child_order_new['sell_amount'] = child_sell_amount
-                child_order_new['buy_amount'] = child_buy_amount
+    #             child_order_new['sell_amount'] = child_sell_amount
+    #             child_order_new['buy_amount'] = child_buy_amount
     
-                child_order_newobj = Order( sender_pk=child_order_new['sender_pk'],receiver_pk=child_order_new['receiver_pk'], \
-                                   buy_currency=child_order_new['buy_currency'],sell_currency=child_order_new['sell_currency'],\
-                                        buy_amount=child_order_new['buy_amount'], sell_amount=child_order_new['sell_amount'] )
+    #             child_order_newobj = Order( sender_pk=child_order_new['sender_pk'],receiver_pk=child_order_new['receiver_pk'], \
+    #                                buy_currency=child_order_new['buy_currency'],sell_currency=child_order_new['sell_currency'],\
+    #                                     buy_amount=child_order_new['buy_amount'], sell_amount=child_order_new['sell_amount'] )
 
-                g.session.add(child_order_newobj) 
-                child_order_newobj.creator_id = new_order_obj.id
-                g.session.commit()
+    #             g.session.add(child_order_newobj) 
+    #             child_order_newobj.creator_id = new_order_obj.id
+    #             g.session.commit()
                 
-            if new_order_obj.buy_amount < existing_order.sell_amount :
-                # child order for counterparty
-                child_order_ex = {}
-                child_order_ex['sender_pk'] = existing_order.sender_pk
-                child_order_ex['receiver_pk'] = existing_order.receiver_pk
-                child_order_ex['buy_currency'] = existing_order.buy_currency
-                child_order_ex['sell_currency'] = existing_order.sell_currency
-                child_order_ex['buy_amount'] = existing_order.buy_amount
+    #         if new_order_obj.buy_amount < existing_order.sell_amount :
+    #             # child order for counterparty
+    #             child_order_ex = {}
+    #             child_order_ex['sender_pk'] = existing_order.sender_pk
+    #             child_order_ex['receiver_pk'] = existing_order.receiver_pk
+    #             child_order_ex['buy_currency'] = existing_order.buy_currency
+    #             child_order_ex['sell_currency'] = existing_order.sell_currency
+    #             child_order_ex['buy_amount'] = existing_order.buy_amount
     
-                #any value such that the implied exchange rate of the new order is at least that of the old order
+    #             #any value such that the implied exchange rate of the new order is at least that of the old order
                 
-                exchange_rate_ex = existing_order.buy_amount/existing_order.sell_amount
+    #             exchange_rate_ex = existing_order.buy_amount/existing_order.sell_amount
                 
-                child_ex_sell_amount = existing_order.sell_amount-new_order_obj.buy_amount
-                child_ex_buy_amount = exchange_rate_ex * child_ex_sell_amount
+    #             child_ex_sell_amount = existing_order.sell_amount-new_order_obj.buy_amount
+    #             child_ex_buy_amount = exchange_rate_ex * child_ex_sell_amount
                 
-                child_order_ex['sell_amount'] = child_ex_sell_amount
-                child_order_ex['buy_amount'] = child_ex_buy_amount
+    #             child_order_ex['sell_amount'] = child_ex_sell_amount
+    #             child_order_ex['buy_amount'] = child_ex_buy_amount
                 
-                child_order_exobj = Order( sender_pk=child_order_ex['sender_pk'],receiver_pk=child_order_ex['receiver_pk'], \
-                                        buy_currency=child_order_ex['buy_currency'],sell_currency=child_order_ex['sell_currency'],\
-                                        buy_amount=child_order_ex['buy_amount'], sell_amount=child_order_ex['sell_amount'] )
+    #             child_order_exobj = Order( sender_pk=child_order_ex['sender_pk'],receiver_pk=child_order_ex['receiver_pk'], \
+    #                                     buy_currency=child_order_ex['buy_currency'],sell_currency=child_order_ex['sell_currency'],\
+    #                                     buy_amount=child_order_ex['buy_amount'], sell_amount=child_order_ex['sell_amount'] )
 
-                g.session.add(child_order_exobj) 
-                child_order_exobj.creator_id = existing_order.id
-                g.session.commit()
+    #             g.session.add(child_order_exobj) 
+    #             child_order_exobj.creator_id = existing_order.id
+    #             g.session.commit()
                 
         
         # not verify then, insert into Log table
         if result ==False:    
             new_log_obj = Log(message = payload)
-            #print( "Log generated" )   
+            # print( "Log generated" )   
             g.session.add(new_log_obj)
             g.session.commit()
             
        
         
         # 4. Execute the transactions
-       
+        execute_txes(orders)
     
     
         # If all goes well, return jsonify(True). else return jsonify(False)
@@ -384,8 +461,7 @@ def trade():
 @app.route('/order_book')
 def order_book():
     fields = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "signature", "tx_id", "receiver_pk", "sender_pk"]
-    
-    
+
     orders = g.session.query(Order).all()
     
     data_dic ={'data': []}
