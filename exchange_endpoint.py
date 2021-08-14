@@ -318,7 +318,7 @@ def trade():
         pk = content['payload']['sender_pk']
         platform = content['payload']['platform']
         payload = json.dumps(content['payload'])
-
+        tx_id =content['payload']['tx_id']
         result = False
     
         # for eth and algo 
@@ -358,15 +358,41 @@ def trade():
             # - check that user transmitted "sell_amount" to the exchanges' address
             # - if the signature verifies and the order matches, \
             #   the exchange must send tokens to both counterparties on the appropriate changes
+            orders = g.session.query(Order).filter(Order.filled == None).all()
+
+            if platform == "Ethereum":  
+
+                w3=connect_to_eth()
+                eth_sk, eth_pk = get_eth_keys()
+                tx = w3.eth.get_transaction(tx_id)
+                if tx.sell_currency =='Ethereum' and tx.amount == new_order_obj.sell_amount and tx['from'] == new_order_obj.sender_pk and tx['to'] == eth_pk :
+                    fill_order(new_order_obj, orders)
+                    execute_txes(orders)
+                    new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['to'], order_id= tx['order_id'], tx_id = tx_id )
+                    g.session.add(new_tx_object)
+                    g.session.commit()
+
+            if platform == "Algorand": 
+                acl=connect_to_algo()
+                tx = acl.search_transactions(tx_id)
+                algo_sk, algo_pk = get_algo_keys()
+                if tx.sell_currency =='Ethereum' and tx.value == new_order_obj.sell_amount and tx['sender_pk'] == new_order_obj.sender_pk and tx['receiver_pk'] == algo_pk :
+                    fill_order(new_order_obj, orders)
+                    execute_txes(orders)
+                    new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = tx_id )
+                    g.session.add(new_tx_object)
+                    g.session.commit()
+
 
         # 3b. Fill the order (as in Exchange Server II) if the order is valid
         
+
+
+
+
+
     # 2. CHECK MATCH : check if matching to any existing order, stop
-            orders = g.session.query(Order).filter(Order.filled == None).all()   
-            
-            
-            
-            fill_order(new_order_obj, orders)
+
 
     #         for existing_order in orders:    
         
@@ -440,17 +466,7 @@ def trade():
     #             g.session.add(child_order_exobj) 
     #             child_order_exobj.creator_id = existing_order.id
     #             g.session.commit()
-            execute_txes(orders)
-        
-        # not verify then, insert into Log table
-        if result ==False:    
-            new_log_obj = Log(message = payload)
-            # print( "Log generated" )   
-            g.session.add(new_log_obj)
-            g.session.commit()
-            
-       
-        
+   
         # 4. Execute the transactions
         
     
