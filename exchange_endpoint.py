@@ -167,28 +167,23 @@ def execute_txes(txes):
 
 
 
-    for tx in txes:
-        new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = tx['tx_id'] )
+  
+    for txid in eth_txids:
+        
+
+        tx = w3.eth.get_transaction(txid)
+
+        new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = txid )
         g.session.add(new_tx_object)
         g.session.commit()
-    
-    # for txid in eth_txids:
-        
-
-    #     tx = w3.eth.get_transaction(txid)
-        
-
-    #     new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = txid )
-    #     g.session.add(new_tx_object)
-    #     g.session.commit()
 
 
-    # for txid in algo_txids:
-    #     tx = acl.search_transactions(txid)
+    for txid in algo_txids:
+        tx = acl.search_transactions(txid)
 
-    #     new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = txid )
-    #     g.session.add(new_tx_object)
-    #     g.session.commit()
+        new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = txid )
+        g.session.add(new_tx_object)
+        g.session.commit()
     
     pass
 
