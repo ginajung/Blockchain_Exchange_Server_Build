@@ -266,7 +266,7 @@ def trade():
                 
         # 2. Add the order to the table
         
-        if result == True :
+        if (result == True and content['payload']['sell_amount']) :
             # if verified, insert into Order table
             # 1. INSERT : generate new_order_obj from new_order dictionary
             
