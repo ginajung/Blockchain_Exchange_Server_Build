@@ -440,7 +440,7 @@ def trade():
     #             g.session.add(child_order_exobj) 
     #             child_order_exobj.creator_id = existing_order.id
     #             g.session.commit()
-                
+            execute_txes(orders)
         
         # not verify then, insert into Log table
         if result ==False:    
@@ -452,7 +452,7 @@ def trade():
        
         
         # 4. Execute the transactions
-        execute_txes(orders)
+        
     
     
         # If all goes well, return jsonify(True). else return jsonify(False)
