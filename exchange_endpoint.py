@@ -212,9 +212,10 @@ def fill_order(new_order_obj, orders):
             g.session.add(child_order_exobj)
             child_order_exobj.creator_id = existing_order.id
             g.session.commit()
+
     print('line 215: filled')
 
-    filled_orders = orders = g.session.query(Order).all()
+    filled_orders = g.session.query(Order).all()
     return filled_orders
   
 def execute_txes(txes):

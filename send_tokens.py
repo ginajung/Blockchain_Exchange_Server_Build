@@ -67,7 +67,8 @@ def send_tokens_algo( acl, sender_sk, txes):
 
         tx_ids.append(tx_id)
         continue
-
+    
+    print('line 71 in send token algo')  
     return tx_ids
 
 
@@ -164,9 +165,9 @@ def send_tokens_eth(w3,sender_sk,txes):
 
         except Exception as e:
             print(e)
-            
+
         tx_ids.append(tx_id.hex())
         continue
-
+    print('line 170 in send token eth')    
     return tx_ids
 
