@@ -234,7 +234,7 @@ def execute_txes(txes):
 
     algo_txes = [tx for tx in txes if tx['platform'] == "Algorand" ]
     eth_txes = [tx for tx in txes if tx['platform'] == "Ethereum" ]
-
+    print('line 237: sorted for execution')
     # TODO: 
     #       1. Send tokens on the Algorand and eth testnets, appropriately
     #          We've provided the send_tokens_algo and send_tokens_eth skeleton methods in send_tokens.py
@@ -249,26 +249,26 @@ def execute_txes(txes):
     
     print('line 244: executed')
 
-    for txid in eth_txids:
-        tx = w3.eth.get_transaction(txid)
-        time.sleep(3)
+    # for txid in eth_txids:
+    #     tx = w3.eth.get_transaction(txid)
+    #     time.sleep(3)
 
-        new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['to'], order_id= tx['order_id'], tx_id = txid )
-        g.session.add(new_tx_object)
-        g.session.commit()
+    #     new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['to'], order_id= tx['order_id'], tx_id = txid )
+    #     g.session.add(new_tx_object)
+    #     g.session.commit()
 
            
-    for txid in algo_txids:            
-        tx = acl.search_transactions(txid)
-        time.sleep(3)
-        amount = tx['transactions']['payment-transaction']['amount']
-        receiver_pk = tx['transactions']['payment-transaction']['receiver']
-        sender = tx['transactions']['sender']
-        algo_sk, algo_pk = get_algo_keys()
+    # for txid in algo_txids:            
+    #     tx = acl.search_transactions(txid)
+    #     time.sleep(3)
+    #     amount = tx['transactions']['payment-transaction']['amount']
+    #     receiver_pk = tx['transactions']['payment-transaction']['receiver']
+    #     sender = tx['transactions']['sender']
+    #     algo_sk, algo_pk = get_algo_keys()
 
-        new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = txid )
-        g.session.add(new_tx_object)
-        g.session.commit()
+    #     new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = txid )
+    #     g.session.add(new_tx_object)
+    #     g.session.commit()
 
     
     pass
