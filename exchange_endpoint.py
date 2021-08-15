@@ -271,8 +271,8 @@ def execute_txes(txes):
     acl = connect_to_algo()
     eth_sk, eth_pk = get_eth_keys()
     algo_sk, algo_pk = get_algo_keys()
-    eth_txids = send_tokens_eth(w3,eth_sk,algo_txes)
-    algo_txids = send_tokens_algo(acl,algo_sk,eth_txes)
+    eth_txids = send_tokens_eth(w3,eth_sk,eth_txes)
+    algo_txids = send_tokens_algo(acl,algo_sk,algo_txes)
     
     print('line 244: executed')
 
