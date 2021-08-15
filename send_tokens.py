@@ -47,7 +47,7 @@ def send_tokens_algo( acl, sender_sk, txes):
         send_amount = tx['amount']
         send_to_address = tx['receiver_pk']
         
-        unsigned_tx = transaction.PaymentTxn(sender_pk, fee, first_valid_round, last_valid_round, gh, send_to_address, send_amount,flat_fee=False)
+        unsigned_tx = transaction.PaymentTxn(sender_pk, fee, first_valid_round, last_valid_round, gh, send_to_address, send_amount)
         
         # TODO: Sign the transaction
         signed_tx = unsigned_tx.sign(sender_sk)

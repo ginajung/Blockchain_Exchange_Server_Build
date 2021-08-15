@@ -271,13 +271,14 @@ def execute_txes(txes):
     acl = connect_to_algo()
     eth_sk, eth_pk = get_eth_keys()
     algo_sk, algo_pk = get_algo_keys()
-    eth_txids = send_tokens_algo(acl,algo_sk,algo_txes)
-    algo_txids = send_tokens_eth(w3,eth_sk,eth_txes)
+    eth_txids = send_tokens_eth(acl,algo_sk,algo_txes)
+    algo_txids = send_tokens_algo(w3,eth_sk,eth_txes)
     
     print('line 244: executed')
 
     for txid in eth_txids:
         tx = w3.eth.get_transaction(txid)
+        print (tx)
         time.sleep(1)
 
         new_tx_object = TX(platform = "Ethereum", receiver_pk = tx['to'], order_id= tx['order_id'], tx_id = txid )
@@ -286,15 +287,19 @@ def execute_txes(txes):
 
            
     for txid in algo_txids:            
-        tx = acl.search_transactions(txid)
+        algo_tx = acl.search_transactions(txid)
+        print(algo_tx)
         time.sleep(1)
-        amount = tx['transactions'][txid]['payment-transaction']['amount']
-        receiver = tx['transactions'][txid]['payment-transaction']['receiver']
-        sender = tx['transactions'][txid]['sender']
+
+        for tx in algo_tx['transactions']:
+
+            amount = tx['payment-transaction']['amount']
+            receiver = tx['payment-transaction']['receiver']
+            algo_id = algo_tx['transactions']['id']
         
-        new_tx_object = TX(platform = "Algorand", receiver_pk = receiver, order_id= tx['order_id'], tx_id = txid )
-        g.session.add(new_tx_object)
-        g.session.commit()
+            new_tx_object = TX(platform = "Algorand", receiver_pk = receiver, order_id= algo_id, tx_id = txid )
+            g.session.add(new_tx_object)
+            g.session.commit()
 
     
     pass
