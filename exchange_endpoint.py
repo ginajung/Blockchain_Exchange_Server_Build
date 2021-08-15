@@ -215,14 +215,15 @@ def fill_order(new_order_obj, orders):
 
     print('line 215: filled')
 
-    filled_orders = g.session.query(Order).all()
-    return filled_orders
+    pass
   
 def execute_txes(txes):
+
     if txes is None:
         return True
     if len(txes) == 0:
         return True
+        
     print( f"Trying to execute {len(txes)} transactions" )
     print( f"IDs = {[tx['order_id'] for tx in txes]}" )
     eth_sk, eth_pk = get_eth_keys()
@@ -369,8 +370,11 @@ def trade():
             print('line 358: new_Order made') 
 
             orders = g.session.query(Order).filter(Order.filled == None).all()
-            filled_orders =fill_order(new_order_obj, orders)
+            fill_order(new_order_obj, orders)
+            filled_orders =g.session.query(Order).all()
             execute_txes(filled_orders)
+
+
         # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)        
             # when an order comes in 
             # - check that user transmitted "sell_amount" to the exchanges' address
