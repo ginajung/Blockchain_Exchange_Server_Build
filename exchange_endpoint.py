@@ -421,7 +421,7 @@ def trade():
             print('line 421: enter with filled orders') 
 
             txes = []
-            for tx in filled_orders:
+            for order_obj in filled_orders:
                 
                 tx_dict = {
                     'platform':tx.sell_currency,
