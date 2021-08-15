@@ -375,7 +375,7 @@ def trade():
             filled_orders = g.session.query(Order).filter(Order.filled != None).all()
 
             for tx in filled_orders:
-
+                print('line 378' + tx)     
                 new_tx_object = TX(platform = tx.platform, receiver_pk = tx.receiver_pk, order_id= tx.id, tx_id = tx.tx_id )
                 g.session.add(new_tx_object)
                 g.session.commit()
