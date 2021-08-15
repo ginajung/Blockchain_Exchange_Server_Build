@@ -160,10 +160,11 @@ def send_tokens_eth(w3,sender_sk,txes):
             tx_id = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
             wait_for_confirmation_eth(w3, txid=tx_id )
             print(f"Sent {tx['amount']} microalgo in transaction: {tx_id}\n" )
-            tx_ids.append(tx_id)
+            
 
         except Exception as e:
             print(e)
+            
         tx_ids.append(tx_id.hex())
         continue
 
