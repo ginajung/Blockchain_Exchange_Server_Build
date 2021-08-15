@@ -135,6 +135,8 @@ def send_tokens_eth(w3,sender_sk,txes):
     # TODO: For each of the txes, sign and send them to the testnet
     # Make sure you track the nonce -locally-
     nonce = w3.eth.get_transaction_count(sender_pk)
+    
+    
     tx_ids = []
     
     for i,tx in enumerate(txes):
@@ -162,13 +164,13 @@ def send_tokens_eth(w3,sender_sk,txes):
             tx_id = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
             wait_for_confirmation_eth(w3, tx_id )
             print(f"Sent {tx['amount']} microalgo in transaction: {tx_id}\n" )
-            tx_ids.append(tx_id.hex())
+            tx_id = tx_id.hex()
+            tx_ids.append(tx_id)
+
         except Exception as e:
             print(e)
 
-        
         continue
-
     print('line 170 in send token eth')    
     
     return tx_ids
