@@ -331,13 +331,13 @@ def trade():
         
         sig = content['sig']
         pk = content['payload']['sender_pk']
-        platform = content['payload']['platform']
+        plt = content['payload']['platform']
         payload = json.dumps(content['payload'])
         tx_id =content['payload']['tx_id']
         result = False
     
         # for eth and algo 
-        if platform == "Ethereum":        
+        if plt == "Ethereum":        
             eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
             eth_sig_obj = sig        
             if eth_account.Account.recover_message(eth_encoded_msg,signature=sig) == pk:
@@ -345,7 +345,7 @@ def trade():
                 result = True
            
             
-        if platform == "Algorand":        
+        if plt == "Algorand":        
             if algosdk.util.verify_bytes(payload.encode('utf-8'),sig,pk):
                 print( "Algo_verified" ) 
                 result = True
@@ -372,15 +372,17 @@ def trade():
             orders = g.session.query(Order).filter(Order.filled == None).all()
             
             fill_order(new_order_obj, orders)
+
             filled_orders = g.session.query(Order).filter(Order.filled != None).all()
 
-            for tx in filled_orders:
-                print('line 378' + tx)     
-                new_tx_object = TX(platform = tx.platform, receiver_pk = tx.receiver_pk, order_id= tx.id, tx_id = tx.tx_id )
+            for order in filled_orders:
+                print('line 378', order.platform, order.receiver_pk, order.id, order.tx_id)    
+
+                new_tx_object = TX(platform = order.platform, receiver_pk = order.receiver_pk, order_id= order.id, tx_id = order.tx_id )
                 g.session.add(new_tx_object)
                 g.session.commit()
 
-            txes = g.session.Query(TX).filter(TX.order_id == new_order_obj['id'])
+            txes = g.session.Query(TX).all()
 
             execute_txes(txes)
 
