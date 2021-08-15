@@ -225,7 +225,7 @@ def execute_txes(txes):
         return True
         
     print( f"Trying to execute {len(txes)} transactions" )
-    #print( f"IDs = {[tx['order_id'] for tx in txes]}" )
+    print( f"IDs = {[tx['order_id'] for tx in txes]}" )
     eth_sk, eth_pk = get_eth_keys()
     algo_sk, algo_pk = get_algo_keys()
     
@@ -235,6 +235,7 @@ def execute_txes(txes):
 
     algo_txes = [tx for tx in txes if tx['platform'] == "Algorand" ]
     eth_txes = [tx for tx in txes if tx['platform'] == "Ethereum" ]
+
     print('line 237: sorted for execution')
     # TODO: 
     #       1. Send tokens on the Algorand and eth testnets, appropriately
@@ -244,7 +245,7 @@ def execute_txes(txes):
     w3 = connect_to_eth()
     acl = connect_to_algo()
     eth_sk, eth_pk = get_eth_keys()
-
+    algo_sk, algo_pk = get_algo_keys()
     eth_txids = send_tokens_algo(acl,algo_sk,algo_txes)
     algo_txids = send_tokens_eth(w3,eth_sk,eth_txes)
     
@@ -252,7 +253,7 @@ def execute_txes(txes):
 
     for txid in eth_txids:
         tx = w3.eth.get_transaction(txid)
-        time.sleep(3)
+        time.sleep(1)
 
         new_tx_object = TX(platform = "Ethereum", receiver_pk = tx['to'], order_id= tx['order_id'], tx_id = txid )
         g.session.add(new_tx_object)
@@ -261,12 +262,11 @@ def execute_txes(txes):
            
     for txid in algo_txids:            
         tx = acl.search_transactions(txid)
-        time.sleep(3)
+        time.sleep(1)
         amount = tx['transactions']['payment-transaction']['amount']
         receiver = tx['transactions']['payment-transaction']['receiver']
         sender = tx['transactions']['sender']
-        algo_sk, algo_pk = get_algo_keys()
-
+        
         new_tx_object = TX(platform = "Algorand", receiver_pk = receiver, order_id= tx['order_id'], tx_id = txid )
         g.session.add(new_tx_object)
         g.session.commit()
@@ -373,7 +373,16 @@ def trade():
             
             fill_order(new_order_obj, orders)
             filled_orders = g.session.query(Order).filter(Order.filled != None).all()
-            execute_txes(filled_orders)
+
+            for tx in filled_orders:
+
+                new_tx_object = TX(platform = tx["platform"], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = tx['tx_id'] )
+                g.session.add(new_tx_object)
+                g.session.commit()
+
+            txes = g.session.Query(TX).filter(TX.order_id == new_order_obj['id'])
+
+            execute_txes(txes)
 
             # filled_orders =g.session.query(Order).all()
             # execute_txes(filled_orders)
