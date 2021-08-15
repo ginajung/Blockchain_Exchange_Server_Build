@@ -391,6 +391,8 @@ def trade():
 
             execute_txes(txes)
 
+            return jsonify( True )
+
 
 
         # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)        
@@ -464,6 +466,8 @@ def trade():
             #print( "Log generated" )   
             g.session.add(new_log_obj)
             g.session.commit()
+            
+            return jsonify(False)
             
 
         return jsonify(True)
