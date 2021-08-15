@@ -300,7 +300,7 @@ def address():
 def trade():
     print( "In trade", file=sys.stderr )
     connect_to_blockchains()
-    # get_keys()
+    #get_keys()
     if request.method == "POST":
         content = request.get_json(silent=True)
         columns = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "platform", "tx_id", "receiver_pk","sender_pk"]
@@ -341,13 +341,13 @@ def trade():
             eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
             eth_sig_obj = sig        
             if eth_account.Account.recover_message(eth_encoded_msg,signature=sig) == pk:
-                # print( "Eth_verified" ) 
+                #print( "Eth_verified" ) 
                 result = True
            
             
         if platform == "Algorand":        
             if algosdk.util.verify_bytes(payload.encode('utf-8'),sig,pk):
-                # print( "Algo_verified" ) 
+                #print( "Algo_verified" ) 
                 result = True
                 
         print('line 340: verified')        
@@ -371,7 +371,7 @@ def trade():
 
             orders = g.session.query(Order).filter(Order.filled == None).all()
             
-            # fill_order(new_order_obj, orders)
+            #fill_order(new_order_obj, orders)
 
 
             # filled_orders =g.session.query(Order).all()
@@ -396,9 +396,12 @@ def trade():
                 tx = w3.eth.get_transaction(tx_id)
                 
 
-                if tx['value'] == new_order_obj.sell_amount and tx['from'] == eth_pk :
+                if tx['value'] == new_order_obj.sell_amount and tx['from'] == new_order_obj.sender_pk and tx['to'] == eth_pk :
+
+                    print('line 401: ethOrder is valid') 
+                    orders = g.session.query(Order).filter(Order.filled == None).all()
                     fill_order(new_order_obj, orders)
-                    filled_orders = g.session.query(Order).all()
+                    filled_orders = g.session.query(Order).filter(Order.filled != None).all()
                     execute_txes(filled_orders)
                     
 
@@ -413,9 +416,11 @@ def trade():
                 sender = tx['transactions']['sender']
                 algo_sk, algo_pk = get_algo_keys()
 
-                if amount == new_order_obj.sell_amount and receiver_pk == algo_pk :
+                if amount == new_order_obj.sell_amount and sender == new_order_obj.sender_pk and  receiver_pk == algo_pk :
+                    print('line 420: algoOrder is valid') 
+                    orders = g.session.query(Order).filter(Order.filled == None).all()
                     fill_order(new_order_obj, orders)
-                    filled_orders = g.session.query(Order).all()
+                    filled_orders = g.session.query(Order).filter(Order.filled != None).all()
                     execute_txes(filled_orders)
 
         return jsonify(True)
@@ -425,7 +430,6 @@ def order_book():
     fields = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "signature", "tx_id", "receiver_pk", "sender_pk"]
 
     orders = g.session.query(Order).all()
-    
     data_dic ={'data': []}
     
 #     # save orders as a list of dicts / convert to JSON
@@ -444,6 +448,5 @@ def order_book():
   
     return jsonify(data_dic)
     
-
 if __name__ == '__main__':
     app.run(port='5002')
