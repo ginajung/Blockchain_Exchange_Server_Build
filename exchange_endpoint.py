@@ -215,6 +215,31 @@ def fill_order(new_order_obj, orders):
 
     print('line 215: filled')
 
+    # new_order_obj.id 
+    # filled_orders = g.session.query(Order).filter(Order.id == new_order_obj.id ).all()
+    
+    txes = []
+    
+    tx_neworder = {
+            'platform':new_order_obj.sell_currency,
+            'amount': min(new_order_obj.sell_amount, existing_order.sell_amount),
+            'order_id': new_order_obj.id,
+            'receiver_pk': new_order_obj.receiver_pk,
+            'tx_id': new_order_obj.tx_id }    
+
+    txes.append(tx_neworder)
+
+    tx_exorder = {
+            'platform':existing_order.sell_currency,
+            'amount': min(new_order_obj.sell_amount, existing_order.sell_amount),
+            'order_id': existing_order.id,
+            'receiver_pk': existing_order.receiver_pk,
+            'tx_id': existing_order.tx_id } 
+       
+    
+    execute_txes(txes)
+
+
     pass
   
 def execute_txes(txes):
@@ -263,9 +288,9 @@ def execute_txes(txes):
     for txid in algo_txids:            
         tx = acl.search_transactions(txid)
         time.sleep(1)
-        amount = tx['transactions']['payment-transaction']['amount']
-        receiver = tx['transactions']['payment-transaction']['receiver']
-        sender = tx['transactions']['sender']
+        amount = tx['transactions'][txid]['payment-transaction']['amount']
+        receiver = tx['transactions'][txid]['payment-transaction']['receiver']
+        sender = tx['transactions'][txid]['sender']
         
         new_tx_object = TX(platform = "Algorand", receiver_pk = receiver, order_id= tx['order_id'], tx_id = txid )
         g.session.add(new_tx_object)
@@ -371,28 +396,9 @@ def trade():
 
             orders = g.session.query(Order).filter(Order.filled == None).all()
             
-            fill_order(new_order_obj, orders)
-
-            filled_orders = g.session.query(Order).filter(Order.id == new_order_obj.id).all()
+            fill_order(new_order_obj, orders)            
+            print('line 400: filled orders') 
             
-            print('line 378: enter with filled orders') 
-            txes = []
-            for tx in filled_orders:
-                
-                tx_dict = {
-                    'platform':tx.sell_currency,
-                    'amount': tx.sell_amount,
-                    'order_id': tx.id,
-                    'receiver_pk': tx.receiver_pk,
-                    'tx_id': tx.tx_id }    
-
-                txes.append(tx_dict)
-
-
-            execute_txes(txes)
-
-            
-
 
 
         # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)        
@@ -439,26 +445,6 @@ def trade():
             #             print('line 420: algoOrder is valid') 
             #             orders = g.session.query(Order).filter(Order.filled == None).all()
             #             fill_order(new_order_obj, orders)
-                        
-
-            # filled_orders = g.session.query(Order).filter(Order.filled != None).all()
-
-                    
-            
-            # print('line 425: enter with filled orders') 
-
-            # txes = []
-            # for tx in filled_orders:
-                
-            #     tx_dict = {
-            #         'platform':tx.sell_currency,
-            #         'amount': tx.buy_amount,
-            #         'order_id': tx.id,
-            #         'receiver_pk': tx.receiver_pk,
-            #         'tx_id': tx.tx_id }    
-
-            #     txes.append(tx_dict)
-            # execute_txes(txes)
 
  # not verify then, insert into Log table
         if result ==False:
@@ -466,10 +452,7 @@ def trade():
             #print( "Log generated" )   
             g.session.add(new_log_obj)
             g.session.commit()
-            
-            
-            
-
+  
         return jsonify(True)
 
 @app.route('/order_book')
