@@ -370,9 +370,12 @@ def trade():
             print('line 358: new_Order made') 
 
             orders = g.session.query(Order).filter(Order.filled == None).all()
-            fill_order(new_order_obj, orders)
-            filled_orders =g.session.query(Order).all()
-            execute_txes(filled_orders)
+            
+            # fill_order(new_order_obj, orders)
+
+
+            # filled_orders =g.session.query(Order).all()
+            # execute_txes(filled_orders)
 
 
         # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)        
@@ -385,36 +388,35 @@ def trade():
         
             
 
-            # if new_order_obj.sell_currency == "Ethereum":  
+            if new_order_obj.sell_currency == "Ethereum":  
 
-            #     w3=connect_to_eth()
-            #     time.sleep(3)
-            #     eth_sk, eth_pk = get_eth_keys()
-            #     tx = w3.eth.get_transaction(tx_id)
+                w3=connect_to_eth()
+                time.sleep(3)
+                eth_sk, eth_pk = get_eth_keys()
+                tx = w3.eth.get_transaction(tx_id)
                 
 
-            #     if tx['value'] == new_order_obj.sell_amount and tx['to'] == eth_pk :
-            #         filled_orders =fill_order(new_order_obj, orders)
-            #         execute_txes(filled_orders)
+                if tx['value'] == new_order_obj.sell_amount and tx['from'] == eth_pk :
+                    fill_order(new_order_obj, orders)
+                    filled_orders = g.session.query(Order).all()
+                    execute_txes(filled_orders)
                     
 
-            # if new_order_obj.sell_currency == "Algorand": 
-            #     acl=connect_to_algo()
-            #     time.sleep(3)
-            #     tx = acl.search_transactions(tx_id)
+            if new_order_obj.sell_currency == "Algorand": 
+                acl=connect_to_algo()
+                time.sleep(3)
+                tx = acl.search_transactions(tx_id)
                 
 
-            #     amount = tx['transactions']['payment-transaction']['amount']
-            #     receiver_pk = tx['transactions']['payment-transaction']['receiver']
-            #     sender = tx['transactions']['sender']
-            #     algo_sk, algo_pk = get_algo_keys()
+                amount = tx['transactions']['payment-transaction']['amount']
+                receiver_pk = tx['transactions']['payment-transaction']['receiver']
+                sender = tx['transactions']['sender']
+                algo_sk, algo_pk = get_algo_keys()
 
-            #     if amount == new_order_obj.sell_amount and receiver_pk == algo_pk :
-            #         filled_orders =fill_order(new_order_obj, orders)
-            #         execute_txes(filled_orders)
-
-
-    
+                if amount == new_order_obj.sell_amount and receiver_pk == algo_pk :
+                    fill_order(new_order_obj, orders)
+                    filled_orders = g.session.query(Order).all()
+                    execute_txes(filled_orders)
 
         return jsonify(True)
 

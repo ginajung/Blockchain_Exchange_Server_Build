@@ -47,7 +47,7 @@ def send_tokens_algo( acl, sender_sk, txes):
         send_amount = tx['amount']
         send_to_address = tx['receiver_pk']
         
-        unsigned_tx = transaction.PaymentTxn(sender_pk, fee, first_valid_round, last_valid_round, gh, gen, send_to_address, send_amount, flat_fee=True)
+        unsigned_tx = transaction.PaymentTxn(sender_pk, params, send_to_address, send_amount)
         
         # TODO: Sign the transaction
         signed_tx = unsigned_tx.sign(sender_sk)
@@ -59,7 +59,7 @@ def send_tokens_algo( acl, sender_sk, txes):
             acl.send_transaction(signed_tx)
             
             tx_id = signed_tx.transaction.get_txid()
-            txinfo = wait_for_confirmation_algo(acl, txid=tx_id )
+            txinfo = wait_for_confirmation_algo(acl, tx_id )
             print(f"Sent {tx['amount']} microalgo in transaction: {tx_id}\n" )
 
         except Exception as e:
@@ -159,15 +159,16 @@ def send_tokens_eth(w3,sender_sk,txes):
             
             # TODO: Send the transaction to the testnet
             tx_id = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
-            wait_for_confirmation_eth(w3, txid=tx_id )
+            wait_for_confirmation_eth(w3, tx_id )
             print(f"Sent {tx['amount']} microalgo in transaction: {tx_id}\n" )
             
-
         except Exception as e:
             print(e)
 
         tx_ids.append(tx_id.hex())
         continue
+
     print('line 170 in send token eth')    
+    
     return tx_ids
 
