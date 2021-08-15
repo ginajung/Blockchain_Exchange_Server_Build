@@ -380,7 +380,7 @@ def trade():
 
                 print('line 381', tx.sell_currency, tx.receiver_pk, tx.id, tx.tx_id)    
 
-                new_tx_object = TX(platform = tx.sell_currency, receiver_pk = tx.receiver_pk, order_id= tx.id, tx_id = tx.tx_id )
+                new_tx_object = TX(platform = tx.sell_currency, receiver_pk = tx.receiver_pk, order_id= tx.id, tx_id = tx.tx_id.hex() )
                 g.session.add(new_tx_object)
                 g.session.commit()
 
