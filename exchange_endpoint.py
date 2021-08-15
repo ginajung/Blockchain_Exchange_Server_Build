@@ -376,7 +376,7 @@ def trade():
 
             for tx in filled_orders:
 
-                new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = tx['tx_id'] )
+                new_tx_object = TX(platform = tx.platform, receiver_pk = tx.receiver_pk, order_id= tx.id, tx_id = tx.tx_id )
                 g.session.add(new_tx_object)
                 g.session.commit()
 
