@@ -378,12 +378,14 @@ def trade():
             print('line 378: enter with filled orders') 
             for tx in filled_orders:
 
-                print('line 381', tx.sell_currency, tx.receiver_pk, tx.id, tx.tx_id)    
+                print('line 381:', tx.sell_currency, tx.receiver_pk, tx.id, tx.tx_id)    
 
                 new_tx_object = TX(platform = tx.sell_currency, receiver_pk = tx.receiver_pk, order_id= tx.id, tx_id = tx.tx_id )
                 g.session.add(new_tx_object)
                 g.session.commit()
 
+            print([t.id for t in g.session.query(TX).all()])
+            
             txes = g.session.query(TX).all()
 
             execute_txes(txes)
