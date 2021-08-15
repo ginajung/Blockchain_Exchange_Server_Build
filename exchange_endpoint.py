@@ -369,6 +369,29 @@ def trade():
         
             print('line 370: new_Order made') 
 
+            orders = g.session.query(Order).filter(Order.filled == None).all()
+            
+            fill_order(new_order_obj, orders)
+
+            filled_orders = g.session.query(Order).filter(Order.filled != None).all()
+            
+            print('line 378: enter with filled orders') 
+            txes = []
+            for tx in filled_orders:
+                
+                tx_dict = {
+                    'platform':tx.sell_currency,
+                    'amount': tx.buy_amount,
+                    'order_id': tx.id,
+                    'receiver_pk': tx.receiver_pk,
+                    'tx_id': tx.tx_id }    
+
+                txes.append(tx_dict)
+
+
+            execute_txes(txes)
+
+
 
         # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)        
             # when an order comes in 
@@ -379,59 +402,61 @@ def trade():
         # 3b. Fill the order (as in Exchange Server II) if the order is valid
         
             
-            if new_order_obj.sell_currency == "Ethereum":  
 
-                w3=connect_to_eth()
-                time.sleep(3)
-                eth_sk, eth_pk = get_eth_keys()
-                tx = w3.eth.get_transaction(tx_id)
+            # if new_order_obj.sell_currency == "Ethereum":  
+
+            #     w3=connect_to_eth()
+            #     time.sleep(3)
+            #     eth_sk, eth_pk = get_eth_keys()
+            #     tx = w3.eth.get_transaction(tx_id)
                 
 
-                if tx['value'] == new_order_obj.sell_amount and tx['to'] == new_order_obj.receiver_pk and tx['from'] == eth_pk :
+            #     if tx['value'] == new_order_obj.sell_amount and tx['to'] == new_order_obj.receiver_pk and tx['from'] == eth_pk :
 
-                    print('line 401: ethOrder is valid') 
-                    orders = g.session.query(Order).filter(Order.filled == None).all()
-                    fill_order(new_order_obj, orders)
+            #         print('line 401: ethOrder is valid') 
+            #         orders = g.session.query(Order).filter(Order.filled == None).all()
+            #         fill_order(new_order_obj, orders)
                     
                     
 
-            if new_order_obj.sell_currency == "Algorand": 
-                acl=connect_to_algo()
-                time.sleep(3)
-                tx = acl.search_transactions(tx_id)
+            # if new_order_obj.sell_currency == "Algorand": 
+            #     acl=connect_to_algo()
+            #     time.sleep(3)
+            #     tx = acl.search_transactions(tx_id)
                 
 
-                amount = tx['transactions']['payment-transaction']['amount']
-                receiver_pk = tx['transactions']['payment-transaction']['receiver']
-                sender = tx['transactions']['sender']
-                algo_sk, algo_pk = get_algo_keys()
+            #     amount = tx['transactions']['payment-transaction']['amount']
+            #     receiver_pk = tx['transactions']['payment-transaction']['receiver']
+            #     sender = tx['transactions']['sender']
+            #     algo_sk, algo_pk = get_algo_keys()
 
-                for tx in tx['transactions']:
+            #     for tx in tx['transactions']:
                     
-                    if tx['payment-transaction']['amount'] == new_order_obj.sell_amount and tx['payment-transaction']['receiver'] == new_order_obj.receiver_pk:
+            #         if tx['payment-transaction']['amount'] == new_order_obj.sell_amount and tx['payment-transaction']['receiver'] == new_order_obj.receiver_pk:
                 
-                        print('line 420: algoOrder is valid') 
-                        orders = g.session.query(Order).filter(Order.filled == None).all()
-                        fill_order(new_order_obj, orders)
+            #             print('line 420: algoOrder is valid') 
+            #             orders = g.session.query(Order).filter(Order.filled == None).all()
+            #             fill_order(new_order_obj, orders)
                         
 
-            filled_orders = g.session.query(Order).filter(Order.filled != None).all()
+            # filled_orders = g.session.query(Order).filter(Order.filled != None).all()
 
-                                
-            print('line 421: enter with filled orders') 
+                    
+            
+            # print('line 425: enter with filled orders') 
 
-            txes = []
-            for order_obj in filled_orders:
+            # txes = []
+            # for tx in filled_orders:
                 
-                tx_dict = {
-                    'platform':tx.sell_currency,
-                    'amount': tx.sell_amount,
-                    'order_id': tx.id,
-                    'receiver_pk': tx.receiver_pk,
-                    'tx_id': tx.tx_id }    
+            #     tx_dict = {
+            #         'platform':tx.sell_currency,
+            #         'amount': tx.buy_amount,
+            #         'order_id': tx.id,
+            #         'receiver_pk': tx.receiver_pk,
+            #         'tx_id': tx.tx_id }    
 
-                txes.append(tx_dict)
-            execute_txes(txes)
+            #     txes.append(tx_dict)
+            # execute_txes(txes)
 
  # not verify then, insert into Log table
         if result ==False:
