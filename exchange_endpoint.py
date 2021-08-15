@@ -250,26 +250,26 @@ def execute_txes(txes):
     
     print('line 244: executed')
 
-    # for txid in eth_txids:
-    #     tx = w3.eth.get_transaction(txid)
-    #     time.sleep(3)
+    for txid in eth_txids:
+        tx = w3.eth.get_transaction(txid)
+        time.sleep(3)
 
-    #     new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['to'], order_id= tx['order_id'], tx_id = txid )
-    #     g.session.add(new_tx_object)
-    #     g.session.commit()
+        new_tx_object = TX(platform = "Ethereum", receiver_pk = tx['to'], order_id= tx['order_id'], tx_id = txid )
+        g.session.add(new_tx_object)
+        g.session.commit()
 
            
-    # for txid in algo_txids:            
-    #     tx = acl.search_transactions(txid)
-    #     time.sleep(3)
-    #     amount = tx['transactions']['payment-transaction']['amount']
-    #     receiver_pk = tx['transactions']['payment-transaction']['receiver']
-    #     sender = tx['transactions']['sender']
-    #     algo_sk, algo_pk = get_algo_keys()
+    for txid in algo_txids:            
+        tx = acl.search_transactions(txid)
+        time.sleep(3)
+        amount = tx['transactions']['payment-transaction']['amount']
+        receiver = tx['transactions']['payment-transaction']['receiver']
+        sender = tx['transactions']['sender']
+        algo_sk, algo_pk = get_algo_keys()
 
-    #     new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = txid )
-    #     g.session.add(new_tx_object)
-    #     g.session.commit()
+        new_tx_object = TX(platform = "Algorand", receiver_pk = receiver, order_id= tx['order_id'], tx_id = txid )
+        g.session.add(new_tx_object)
+        g.session.commit()
 
     
     pass
@@ -396,7 +396,7 @@ def trade():
                 tx = w3.eth.get_transaction(tx_id)
                 
 
-                if tx['value'] == new_order_obj.sell_amount and tx['from'] == new_order_obj.sender_pk and tx['to'] == eth_pk :
+                if tx['value'] == new_order_obj.sell_amount and tx['to'] == new_order_obj.receiver_pk and tx['from'] == eth_pk :
 
                     print('line 401: ethOrder is valid') 
                     orders = g.session.query(Order).filter(Order.filled == None).all()
@@ -416,12 +416,15 @@ def trade():
                 sender = tx['transactions']['sender']
                 algo_sk, algo_pk = get_algo_keys()
 
-                if amount == new_order_obj.sell_amount and sender == new_order_obj.sender_pk and  receiver_pk == algo_pk :
-                    print('line 420: algoOrder is valid') 
-                    orders = g.session.query(Order).filter(Order.filled == None).all()
-                    fill_order(new_order_obj, orders)
-                    filled_orders = g.session.query(Order).filter(Order.filled != None).all()
-                    execute_txes(filled_orders)
+                for tx in tx['transactions']:
+                    
+                    if tx['payment-transaction']['amount'] == new_order_obj.sell_amount and tx['payment-transaction']['receiver'] == new_order_obj.receiver_pk:
+                
+                        print('line 420: algoOrder is valid') 
+                        orders = g.session.query(Order).filter(Order.filled == None).all()
+                        fill_order(new_order_obj, orders)
+                        filled_orders = g.session.query(Order).filter(Order.filled != None).all()
+                        execute_txes(filled_orders)
 
         return jsonify(True)
 
