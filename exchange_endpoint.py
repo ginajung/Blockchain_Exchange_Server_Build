@@ -425,6 +425,15 @@ def trade():
                         fill_order(new_order_obj, orders)
                         filled_orders = g.session.query(Order).filter(Order.filled != None).all()
                         execute_txes(filled_orders)
+                        
+ # not verify then, insert into Log table
+        if result ==False:
+            new_log_obj = Log(message = payload)
+            #print( "Log generated" )   
+            g.session.add(new_log_obj)
+            g.session.commit()
+            
+
 
         return jsonify(True)
 
