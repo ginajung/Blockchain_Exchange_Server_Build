@@ -213,7 +213,9 @@ def fill_order(new_order_obj, orders):
             child_order_exobj.creator_id = existing_order.id
             g.session.commit()
     print('line 215: filled')
-    pass
+
+    filled_orders = orders = g.session.query(Order).all()
+    return filled_orders
   
 def execute_txes(txes):
     if txes is None:
@@ -239,26 +241,34 @@ def execute_txes(txes):
 
     w3 = connect_to_eth()
     acl = connect_to_algo()
+    eth_sk, eth_pk = get_eth_keys()
+
     eth_txids = send_tokens_algo(acl,algo_sk,algo_txes)
     algo_txids = send_tokens_eth(w3,eth_sk,eth_txes)
     
     print('line 244: executed')
 
-    # for txid in eth_txids:
+    for txid in eth_txids:
+        tx = w3.eth.get_transaction(txid)
+        time.sleep(3)
 
-    #     tx = w3.eth.get_transaction(txid)
-        
-    #     new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['to'], order_id= tx['order_id'], tx_id = txid )
-    #     g.session.add(new_tx_object)
-    #     g.session.commit()
+        new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['to'], order_id= tx['order_id'], tx_id = txid )
+        g.session.add(new_tx_object)
+        g.session.commit()
 
+           
+    for txid in algo_txids:            
+        tx = acl.search_transactions(txid)
+        time.sleep(3)
+        amount = tx['transactions']['payment-transaction']['amount']
+        receiver_pk = tx['transactions']['payment-transaction']['receiver']
+        sender = tx['transactions']['sender']
+        algo_sk, algo_pk = get_algo_keys()
 
-    # for txid in algo_txids:
-    #     tx = acl.search_transactions(txid)
-        
-    #     new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = txid )
-    #     g.session.add(new_tx_object)
-    #     g.session.commit()
+        new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = txid )
+        g.session.add(new_tx_object)
+        g.session.commit()
+
     
     pass
 
@@ -362,42 +372,41 @@ def trade():
             # - check that user transmitted "sell_amount" to the exchanges' address
             # - if the signature verifies and the order matches, \
             #   the exchange must send tokens to both counterparties on the appropriate changes
+        
+        # 3b. Fill the order (as in Exchange Server II) if the order is valid
+        
             orders = g.session.query(Order).filter(Order.filled == None).all()
 
-            if platform == "Ethereum":  
+            if new_order_obj.sell_currency == "Ethereum":  
 
                 w3=connect_to_eth()
                 time.sleep(3)
                 eth_sk, eth_pk = get_eth_keys()
                 tx = w3.eth.get_transaction(tx_id)
+                
 
-                if tx['value'] == new_order_obj.sell_amount and tx['from'] == new_order_obj.sender_pk and tx['to'] == eth_pk :
-                    fill_order(new_order_obj, orders)
-                    execute_txes(orders)
-                    new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['to'], order_id= tx['order_id'], tx_id = tx_id )
-                    g.session.add(new_tx_object)
-                    g.session.commit()
+                if tx['value'] == new_order_obj.sell_amount and tx['to'] == eth_pk :
+                    filled_orders =fill_order(new_order_obj, orders)
+                    execute_txes(filled_orders)
+                    
 
-            if platform == "Algorand": 
+            if new_order_obj.sell_currency == "Algorand": 
                 acl=connect_to_algo()
                 time.sleep(3)
                 tx = acl.search_transactions(tx_id)
+                
 
                 amount = tx['transactions']['payment-transaction']['amount']
                 receiver_pk = tx['transactions']['payment-transaction']['receiver']
                 sender = tx['transactions']['sender']
                 algo_sk, algo_pk = get_algo_keys()
 
-                if amount == new_order_obj.sell_amount and sender == new_order_obj.sender_pk and receiver_pk == algo_pk :
-                    fill_order(new_order_obj, orders)
-                    execute_txes(orders)
-                    new_tx_object = TX(platform = tx['platform'], receiver_pk = tx['receiver_pk'], order_id= tx['order_id'], tx_id = tx_id )
-                    g.session.add(new_tx_object)
-                    g.session.commit()
+                if amount == new_order_obj.sell_amount and receiver_pk == algo_pk :
+                    filled_orders =fill_order(new_order_obj, orders)
+                    execute_txes(filled_orders)
 
 
-        # 3b. Fill the order (as in Exchange Server II) if the order is valid
-        
+    
 
         return jsonify(True)
 
