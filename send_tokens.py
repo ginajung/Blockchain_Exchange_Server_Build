@@ -61,11 +61,11 @@ def send_tokens_algo( acl, sender_sk, txes):
             tx_id = signed_tx.transaction.get_txid()
             txinfo = wait_for_confirmation_algo(acl, tx_id )
             print(f"Sent {tx['amount']} microalgo in transaction: {tx_id}\n" )
-
+            tx_ids.append(tx_id)
         except Exception as e:
             print(e)
 
-        tx_ids.append(tx_id)
+        
         continue
     
     print('line 71 in send token algo')  
@@ -162,11 +162,11 @@ def send_tokens_eth(w3,sender_sk,txes):
             tx_id = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
             wait_for_confirmation_eth(w3, tx_id )
             print(f"Sent {tx['amount']} microalgo in transaction: {tx_id}\n" )
-            
+            tx_ids.append(tx_id.hex())
         except Exception as e:
             print(e)
 
-        tx_ids.append(tx_id.hex())
+        
         continue
 
     print('line 170 in send token eth')    
