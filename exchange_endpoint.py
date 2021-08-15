@@ -373,11 +373,11 @@ def trade():
             
             fill_order(new_order_obj, orders)
 
-            filled_orders = g.session.query(Order).filter(Order.filled != None).all()
+            filled_orders = g.session.query(Order).filter(Order.id == new_order_obj.id).all()
             
             print('line 378: enter with filled orders') 
             txes = []
-            for tx in orders:
+            for tx in filled_orders:
                 
                 tx_dict = {
                     'platform':tx.sell_currency,
