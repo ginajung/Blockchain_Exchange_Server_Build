@@ -425,7 +425,7 @@ def trade():
                 
                 tx_dict = {
                     'platform':tx.sell_currency,
-                    'amount': tx.buy_amount,
+                    'amount': tx.sell_amount,
                     'order_id': tx.id,
                     'receiver_pk': tx.receiver_pk,
                     'tx_id': tx.tx_id }    
