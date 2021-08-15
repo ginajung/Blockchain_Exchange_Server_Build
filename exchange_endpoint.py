@@ -268,7 +268,7 @@ def execute_txes(txes):
     #       2. Add all transactions to the TX table
 
     w3 = connect_to_eth()
-    acl = connect_to_algo("indexer")
+    acl = connect_to_algo()
     eth_sk, eth_pk = get_eth_keys()
     algo_sk, algo_pk = get_algo_keys()
     eth_txids = send_tokens_eth(w3,eth_sk,algo_txes)
