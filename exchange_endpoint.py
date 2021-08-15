@@ -377,11 +377,11 @@ def trade():
             
             print('line 378: enter with filled orders') 
             txes = []
-            for tx in filled_orders:
+            for tx in orders:
                 
                 tx_dict = {
                     'platform':tx.sell_currency,
-                    'amount': tx.buy_amount,
+                    'amount': tx.sell_amount,
                     'order_id': tx.id,
                     'receiver_pk': tx.receiver_pk,
                     'tx_id': tx.tx_id }    
@@ -391,7 +391,7 @@ def trade():
 
             execute_txes(txes)
 
-            return jsonify( True )
+            
 
 
 
@@ -467,10 +467,10 @@ def trade():
             g.session.add(new_log_obj)
             g.session.commit()
             
-            return jsonify(True)
+            
             
 
-        #return jsonify(True)
+        return jsonify(True)
 
 @app.route('/order_book')
 def order_book():
