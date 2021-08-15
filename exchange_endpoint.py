@@ -467,14 +467,14 @@ def trade():
             g.session.add(new_log_obj)
             g.session.commit()
             
-            return jsonify(False)
+            return jsonify(True)
             
 
-        return jsonify(True)
+        #return jsonify(True)
 
 @app.route('/order_book')
 def order_book():
-    fields = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "signature", "tx_id", "receiver_pk", "sender_pk"]
+    #fields = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "signature", "tx_id", "receiver_pk", "sender_pk"]
 
     orders = g.session.query(Order).all()
     data_dic ={'data': []}
