@@ -122,18 +122,14 @@ def get_algo_keys():
 
 
 def get_eth_keys(filename = "eth_mnemonic.txt"):
-    w3 = Web3()
+    eth_mnemonic = "beauty diagram educate skirt unfold sing chaos depend acoustic science engage rib"
 
+    w3 = Web3()
     w3.eth.account.enable_unaudited_hdwallet_features()
-    acct, mnemonic_secret = w3.eth.account.create_with_mnemonic()
-    
-    # TODO: Generate or read (using the mnemonic secret)
-    # the ethereum public/private keys
-    
-    
-    # acct = w3.eth.account.from_mnemonic(eth_mnemonic)
-    eth_sk = acct._private_key.hex() #private key is of type HexBytes which is not JSON serializable, adding .hex() converts it to a string
+    acct = w3.eth.account.from_mnemonic(eth_mnemonic)
     eth_pk = acct._address
+    eth_sk = acct._private_key.hex() #private key is of type HexBytes which is not JSON serializable, adding .hex() converts it to a string
+
     return eth_sk, eth_pk
 
 
