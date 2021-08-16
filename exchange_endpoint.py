@@ -125,9 +125,9 @@ def get_algo_keys():
 
 
 def get_eth_keys(filename = "eth_mnemonic.txt"):
-    w3 = Web3()
-    w3.eth.account.enable_unaudited_hdwallet_features()
-    acct, mnemonic_secret = w3.eth.account.create_with_mnemonic()
+    #w3 = Web3()
+    g.w3.eth.account.enable_unaudited_hdwallet_features()
+    acct, mnemonic_secret = g.w3.eth.account.create_with_mnemonic()
     # # #mnemonic_secret = "such chapter crane ugly uncover fun kitten duty culture giant skirt reunion pizza pill web monster upon dolphin aunt close marble dune kangaroo ability merit"
     # acct = w3.eth.account.from_mnemonic(mnemonic_secret)
     eth_pk = acct._address
@@ -267,26 +267,26 @@ def execute_txes(txes):
 
     if eth_txes.count != 0:
 
-        eth_txids = send_tokens_eth(g.w3,algo_sk,eth_txes)
+        eth_txids = send_tokens_eth(g.w3,eth_sk,eth_txes)
 
         for eth_txid in eth_txids:
 
             eth_tx = g.w3.eth.getTransaction(eth_txid)
             # how to get 'order_id'???  ,
-            new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx["receiver_pk"], order_id= eth_tx['order_id'], tx_id = eth_txid )
+            new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx["to"], order_id= eth_txes['order_id'], tx_id = eth_txid )
             g.session.add(new_tx_object)
             g.session.commit()
             print('line 285: eth_tx executed')
 
     if algo_txes.count !=0:
-        algo_txids = send_tokens_algo(g.acl,eth_sk,algo_txes)
+        algo_txids = send_tokens_algo(g.acl,algo_sk,algo_txes)
 
         for algo_txid in algo_txids:
             tx = g.icl.search_transactions(algo_txid)
             for algo_tx in tx['transactions']:
 
                 # how to get 'order_id'???   
-                new_tx_object = TX(platform = "Algorand", receiver_pk = algo_tx['payment-transaction']['receiver'],order_id= algo_tx['order_id'], tx_id = algo_txid )
+                new_tx_object = TX(platform = "Algorand", receiver_pk = algo_tx['payment-transaction']['receiver'],order_id= algo_txes['order_id'], tx_id = algo_txid )
                 g.session.add(new_tx_object)
                 g.session.commit()    
                
