@@ -471,7 +471,9 @@ def trade():
             #print( "Log generated" )   
             g.session.add(new_log_obj)
             g.session.commit()
-  
+        
+        return jsonify(True)
+
     return jsonify(True)
 
 @app.route('/order_book')
@@ -498,4 +500,4 @@ def order_book():
     return jsonify(data_dic)
     
 if __name__ == '__main__':
-    app.run(port='5004')
+    app.run(port='5002')
