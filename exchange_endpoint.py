@@ -398,7 +398,8 @@ def trade():
            
             g.session.add(new_order_obj)
             g.session.commit()
-            #print('line 370: new_Order made ' + content['payload']['sell_currency']+ content['payload']['tx_id']) 
+            
+            #print('line 370: new_Order made' + content['payload']['sell_currency']+ content['payload']['tx_id']) 
 
             new_tx_obj = TX ( platform = content['payload']['sell_currency'] , receiver_pk =content['payload']['buy_currency'] , order_id = new_order_obj.id, tx_id = content['payload']['tx_id'])
             
@@ -415,47 +416,48 @@ def trade():
         # 3b. Fill the order (as in Exchange Server II) if the order is valid
         # 
    
-            if new_order_obj.sell_currency == "Ethereum":  
+            # if new_order_obj.sell_currency == "Ethereum":  
 
-                w3=connect_to_eth()
-                time.sleep(3)
-                eth_sk, eth_pk = get_eth_keys()
-                tx = w3.eth.get_transaction(new_order_obj.tx_id)
+            #     w3=connect_to_eth()
+            #     time.sleep(3)
+            #     eth_sk, eth_pk = get_eth_keys()
+            #     tx = w3.eth.get_transaction(new_order_obj.tx_id)
                 
 
-                if tx['value'] == new_order_obj.sell_amount and tx['from'] == new_order_obj.sender_pk and tx['to'] == eth_pk :
+            #     if tx['value'] == new_order_obj.sell_amount and tx['from'] == new_order_obj.sender_pk and tx['to'] == eth_pk :
 
-                    print('line 401: ethOrder is valid') 
+            #         print('line 401: ethOrder is valid') 
                    
-                    orders = g.session.query(Order).filter(Order.filled == None).all()
+            #         orders = g.session.query(Order).filter(Order.filled == None).all()
             
-                    fill_order(new_order_obj, orders)            
-                    print('line 400: filled eth_orders') 
+            #         fill_order(new_order_obj, orders)            
+            #         print('line 400: filled eth_orders') 
                     
              
-            if new_order_obj.sell_currency == "Algorand": 
-                acl=connect_to_algo()
-                time.sleep(3)
-                tx = acl.search_transactions(txid =new_order_obj.tx_id)
+            # if new_order_obj.sell_currency == "Algorand": 
+            #     acl=connect_to_algo()
+            #     time.sleep(3)
+            #     tx = acl.search_transactions(txid =new_order_obj.tx_id)
                 
-                amount = tx['transactions']['payment-transaction']['amount']
-                receiver_pk = tx['transactions']['payment-transaction']['receiver']
-                sender = tx['transactions']['sender']
-                algo_sk, algo_pk = get_algo_keys()
+            #     amount = tx['transactions']['payment-transaction']['amount']
+            #     receiver_pk = tx['transactions']['payment-transaction']['receiver']
+            #     sender = tx['transactions']['sender']
+            #     algo_sk, algo_pk = get_algo_keys()
 
-                for tx in tx['transactions']:
+            #     for tx in tx['transactions']:
                     
-                    if tx['payment-transaction']['amount'] == new_order_obj.sell_amount and tx['payment-transaction']['receiver'] == algo_pk and tx['transactions']['sender'] == new_order_obj.sender_pk :
+            #         if tx['payment-transaction']['amount'] == new_order_obj.sell_amount and tx['payment-transaction']['receiver'] == algo_pk and tx['transactions']['sender'] == new_order_obj.sender_pk :
                 
-                        print('line 450: algoOrder is valid') 
-                        orders = g.session.query(Order).filter(Order.filled == None).all()
-                        fill_order(new_order_obj, orders)            
-                        print('line 453: filled algo orders') 
+            #             print('line 450: algoOrder is valid') 
+            #             orders = g.session.query(Order).filter(Order.filled == None).all()
+            #             fill_order(new_order_obj, orders)            
+            #             print('line 453: filled algo orders') 
 
-            # orders = g.session.query(Order).filter(Order.filled == None).all()
+
+            orders = g.session.query(Order).filter(Order.filled == None).all()
             
-            # fill_order(new_order_obj, orders)            
-            # print('line 400: filled orders') 
+            fill_order(new_order_obj, orders)            
+            print('line 400: filled orders') 
             #return jsonify(True)
    
 
