@@ -288,7 +288,7 @@ def execute_txes(txes):
 
         for i, algo_txid in algo_txids:
             
-            tx = g.icl.search_transactions(algo_txid)
+            tx = g.acl.search_transactions(algo_txid)
             
             for algo_tx in tx['transactions']:
                 if 'payment-transaction' in algo_tx.keys():
@@ -452,7 +452,7 @@ def trade():
             return jsonify(False)
     
     return jsonify(False)
-    
+
 @app.route('/order_book')
 def order_book():
     #fields = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "signature", "tx_id", "receiver_pk", "sender_pk"]
