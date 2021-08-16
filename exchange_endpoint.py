@@ -401,7 +401,7 @@ def trade():
             g.session.add(new_order_obj)
             g.session.commit()
             
-            #print('line 370: new_Order made' + content['payload']['sell_currency']+ content['payload']['tx_id']) 
+            print('line 370: new_Order made' + content['payload']['sell_currency']+ content['payload']['tx_id']) 
 
             # new_tx_obj = TX ( platform = content['payload']['sell_currency'] , receiver_pk =content['payload']['buy_currency'] , order_id = new_order_obj.id, tx_id = content['payload']['tx_id'])
             
