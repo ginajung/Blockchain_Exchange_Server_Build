@@ -459,7 +459,7 @@ def trade():
 
             orders = g.session.query(Order).filter(Order.filled == None).all()
             fill_order(new_order_obj, orders)            
-            print('line 400: filled orders') 
+            print('line 462: filled orders') 
             
         
     
@@ -471,7 +471,7 @@ def trade():
             g.session.commit()
             
         
-        return jsonify(True)
+    return jsonify(True)
 
 @app.route('/order_book')
 def order_book():
