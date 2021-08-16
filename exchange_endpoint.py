@@ -114,7 +114,7 @@ def get_algo_keys():
 
     # TODO: Generate or read (using the mnemonic secret)
     # the algorand public/private keys
-    mnemonic_secret = "soft acid moral bread repeat action shed actual chalk joy fetch pilot shift floor identify poverty index yard cannon divorce fatal angry mistake abandon voyage"
+    mnemonic_secret = "ill purse chaos aisle build awful weather divert man blind sand matter venue heavy awake bachelor own access deer grunt donor nut tent absorb decade"
   
     algo_sk = mnemonic.to_private_key(mnemonic_secret)
     algo_pk = mnemonic.to_public_key(mnemonic_secret)
