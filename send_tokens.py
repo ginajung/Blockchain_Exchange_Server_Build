@@ -140,44 +140,25 @@ def send_tokens_eth(w3,sender_sk,txes):
 
     # TODO: For each of the txes, sign and send them to the testnet
     # Make sure you track the nonce -locally-
-    nonce = w3.eth.get_transaction_count(sender_pk)
     
-    
+    starting_nonce = w3.eth.get_transaction_count(sender_pk,"pending")
     tx_ids = []
-    
     for i,tx in enumerate(txes):
-        # Your code here
-    
+        
         amt = tx['amount']
         receiver_pk = tx['receiver_pk']
-        #nonce += i
 
         tx_dict = {
-            'nonce':nonce +i ,
-            'gasPrice':w3.eth.gas_price,
-            'gas': w3.eth.estimate_gas( { 'from': sender_pk, 'to': receiver_pk, 'data': b'', 'amount': amt } ),
-            'to': receiver_pk,
-            'value': amt,
-            'data':b'' }
-
+                'nonce': starting_nonce+i, #Locally update nonce
+                'gasPrice':w3.eth.gas_price,
+                'gas': w3.eth.estimate_gas( { 'from': sender_pk, 'to': receiver_pk, 'data': b'', 'amount': amt } ),
+                'to': receiver_pk,
+                'value': amt,
+                'data':b'' }
         signed_txn = w3.eth.account.sign_transaction(tx_dict, sender_sk)
-
-  
-        try:
-            print( f"Sending {tx_dict['value']} WEI from {sender_pk} to {tx_dict['to']}" )
-            
-            # TODO: Send the transaction to the testnet
-            tx_id = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
-            wait_for_confirmation_eth(w3, tx_id )
-            print(f"Sent {tx['amount']} microalgo in transaction: {tx_id}\n" )
-            tx_id = tx_id.hex()
-            tx_ids.append(tx_id)
-
-        except Exception as e:
-            print(e)
-        
-        continue
-    print('line 170 in send token eth')    
+        tx_id = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+        wait_for_confirmation_eth(w3, tx_id )
+        tx_ids.append(tx_id)
     
     return tx_ids
 
