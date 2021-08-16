@@ -150,10 +150,10 @@ def send_tokens_eth(w3,sender_sk,txes):
         #nonce = tx['nonce']
         amt = int(tx['amount']) 
         receiver_pk = tx['receiver_pk']
-        nonce += i
+        #nonce += i
 
         tx_dict = {
-            'nonce':nonce ,
+            'nonce':nonce +i ,
             'gasPrice':w3.eth.gas_price,
             'gas': w3.eth.estimate_gas( { 'from': sender_pk, 'to': receiver_pk, 'data': b'', 'amount': amt } ),
             'to': receiver_pk,

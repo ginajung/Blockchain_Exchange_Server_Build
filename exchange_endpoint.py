@@ -270,23 +270,48 @@ def execute_txes(txes):
     algo_sk, algo_pk = get_algo_keys()
 
     if eth_txes.count != 0:
-        for eth_tx in eth_txes:
+        eth_txids = send_tokens_eth(w3,eth_sk,eth_txes)
+        for eth_txid in eth_txids:
 
-            eth_txid = send_tokens_eth(w3,eth_sk,eth_tx)
-        
+            eth_tx = w3.eth.getTransaction(eth_txid)
+            # how to get 'order_id'???
             new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx["receiver_pk"], order_id= eth_tx['order_id'], tx_id = eth_txid )
             g.session.add(new_tx_object)
             g.session.commit()
             print('line 285: eth_tx executed')
 
     if algo_txes.count !=0:
-        for alto_tx in algo_txes:
-            algo_txid = send_tokens_algo(acl,algo_sk,alto_tx)
-            new_tx_object = TX(platform = "Algorand", receiver_pk = alto_tx['receiver_pk'], order_id= alto_tx['order_id'], tx_id = algo_txid )
-            g.session.add(new_tx_object)
-            g.session.commit()
+        algo_txids = send_tokens_algo(acl,algo_sk,algo_txes)
 
-        print('line 292: algo_tx executed')
+        for algo_txid in algo_txids:
+            tx = acl.search_transactions(algo_txid)
+            for algo_tx in tx['transactions']:
+
+                # how to get 'order_id'???
+                new_tx_object = TX(platform = "Algorand", receiver_pk = algo_tx['payment-transaction']['receiver'], order_id= algo_tx['order_id'], tx_id = algo_txid )
+                g.session.add(new_tx_object)
+                g.session.commit()    
+               
+## Instead.. try to generate TX object with tx 
+
+    # if eth_txes.count != 0:
+    #     for eth_tx in eth_txes:
+
+    #         eth_txid = send_tokens_eth(w3,eth_sk,eth_tx)
+        
+    #         new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx["receiver_pk"], order_id= eth_tx['order_id'], tx_id = eth_txid )
+    #         g.session.add(new_tx_object)
+    #         g.session.commit()
+    #         print('line 285: eth_tx executed')
+
+    # if algo_txes.count !=0:
+    #     for alto_tx in algo_txes:
+    #         algo_txid = send_tokens_algo(acl,algo_sk,alto_tx)
+    #         new_tx_object = TX(platform = "Algorand", receiver_pk = alto_tx['receiver_pk'], order_id= alto_tx['order_id'], tx_id = algo_txid )
+    #         g.session.add(new_tx_object)
+    #         g.session.commit()
+
+    #     print('line 292: algo_tx executed')
 
     pass
 
@@ -315,7 +340,7 @@ def address():
 @app.route('/trade', methods=['POST'])
 def trade():
     print( "In trade", file=sys.stderr )
-    connect_to_blockchains()
+    #connect_to_blockchains()
     #get_keys()
     if request.method == "POST":
         content = request.get_json(silent=True)
@@ -358,8 +383,7 @@ def trade():
             eth_sig_obj = sig        
             if eth_account.Account.recover_message(eth_encoded_msg,signature=sig) == pk:
                 print( "Eth_verified" ) 
-                result = True
-           
+                result = True          
             
         if plt == "Algorand":        
             if algosdk.util.verify_bytes(payload.encode('utf-8'),sig,pk):
@@ -383,11 +407,11 @@ def trade():
             
             #print('line 370: new_Order made' + content['payload']['sell_currency']+ content['payload']['tx_id']) 
 
-            # new_tx_obj = TX ( platform = content['payload']['sell_currency'] , receiver_pk =content['payload']['buy_currency'] , order_id = new_order_obj.id, tx_id = content['payload']['tx_id'])
+            new_tx_obj = TX ( platform = content['payload']['sell_currency'] , receiver_pk =content['payload']['buy_currency'] , order_id = new_order_obj.id, tx_id = content['payload']['tx_id'])
             
-            # g.session.add(new_tx_obj)
-            # g.session.commit()
-            # print('line 407: new_TX made') 
+            g.session.add(new_tx_obj)
+            g.session.commit()
+            print('line 407: new_TX made') 
 
         # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)        
             # when an order comes in 
