@@ -276,7 +276,7 @@ def execute_txes(txes):
     print('line 244: executed')
 
     for txid in eth_txids:
-        tx = w3.eth.get_transaction(txid)
+        tx = w3.eth.get_transaction(txid.hex())
         #print (tx['to'])
 
         time.sleep(1)
