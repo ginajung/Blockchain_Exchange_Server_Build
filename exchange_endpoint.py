@@ -261,16 +261,11 @@ def execute_txes(txes):
     algo_txes = [tx for tx in txes if tx['platform'] == "Algorand" ]
     eth_txes = [tx for tx in txes if tx['platform'] == "Ethereum" ]
     
-    atxes_id = []
-    for atx in algo_txes:
-        atxes_id.append(atx['order_id'])
+    atxes_id = [tx['order_id'] for tx in algo_txes]
+    etxes_id = [tx['order_id'] for tx in eth_txes]
+    
+    print(atxes_id, etxes_id)
 
-    etxes_id = []
-    for etx in eth_txes:
-        etxes_id.append(etx['order_id'])
-
-
-    print('line 237: sorted for execution')
     # TODO: 
     #       1. Send tokens on the Algorand and eth testnets, appropriately
     #          We've provided the send_tokens_algo and send_tokens_eth skeleton methods in send_tokens.py
