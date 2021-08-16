@@ -143,7 +143,6 @@ def fill_order(new_order_obj, orders):
     # Make sure that you end up executing all resulting transactions!
 
     txes = []
-
     for existing_order in orders:
 
         if new_order_obj.id != existing_order.id and existing_order.buy_currency == new_order_obj.sell_currency and \
@@ -237,10 +236,7 @@ def fill_order(new_order_obj, orders):
 
     print('line 215: filled')
 
-    
-    execute_txes(txes)
-
-    pass
+    return txes
   
 def execute_txes(txes):
 
@@ -405,73 +401,58 @@ def trade():
                 
         # 2. Add the order to the table
 
-        if (result == True ) :
-            # if verified, insert into Order table
-            # 1. INSERT : generate new_order_obj from new_order dictionary
+        if (result == True ) :  # if verified, insert into Order table
             
+            # 1. INSERT : generate new_order_obj from new_order dictionary           
             new_order_obj = Order( receiver_pk=content['payload']['receiver_pk'],sender_pk=content['payload']['sender_pk'],\
                                   buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'], \
                                   buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'],\
                                   signature = content['sig'],tx_id =content['payload']['tx_id'])
-            
            
             g.session.add(new_order_obj)
             g.session.commit()
-            
                         
-        # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)        
-            # when an order comes in 
-            # - check that user transmitted "sell_amount" to the exchanges' address
-            # - if the signature verifies and the order matches, \
-            #   the exchange must send tokens to both counterparties on the appropriate changes
-        
-        # 3b. Fill the order (as in Exchange Server II) if the order is valid
-        # # 
+        # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)
+            valid = False
 
-
-            # if new_order_obj.sell_currency == "Ethereum":  
-
-            #     eth_tx = g.w3.eth.get_transaction(new_order_obj.tx_id)
+            if new_order_obj.sell_currency == "Ethereum":
                 
-            #     if eth_tx['value'] == new_order_obj.sell_amount and eth_tx['from'] == new_order_obj.sender_pk and eth_tx['to'] == eth_pk :
-
-            #         print('line 401: ethOrder is valid') 
-            #         orders = g.session.query(Order).filter(Order.filled == None).all()            
-            #         fill_order(new_order_obj, orders)            
-            #         print('line 400: filled eth_orders') 
+                eth_tx = g.w3.eth.get_transaction(new_order_obj.tx_id)
+                
+                if eth_tx['value'] == new_order_obj.sell_amount and eth_tx['from'] == new_order_obj.sender_pk and eth_tx['to'] == eth_pk :
+                    valid = True
                     
              
-            # if new_order_obj.sell_currency == "Algorand": 
+            if new_order_obj.sell_currency == "Algorand": 
                 
-               
-            #     tx = g.icl.search_transactions(new_order_obj.tx_id)                
+                tx = g.icl.search_transactions(new_order_obj.tx_id)                
                 
-            #     for algo_tx in tx['transactions']:
+                for algo_tx in tx['transactions']:
                     
-            #         if algo_tx['payment-transaction']['amount'] == new_order_obj.sell_amount and algo_tx['payment-transaction']['receiver'] == algo_pk and algo_tx['transactions']['sender'] == new_order_obj.sender_pk :
+                    if algo_tx['payment-transaction']['amount'] == new_order_obj.sell_amount and algo_tx['transactions']['sender'] == new_order_obj.sender_pk and algo_tx['payment-transaction']['receiver'] == algo_pk:
+                        valid = True
+                        break
                 
-            #             print('line 450: algoOrder is valid') 
-            #             orders = g.session.query(Order).filter(Order.filled == None).all()
-            #             fill_order(new_order_obj, orders)            
-            #             print('line 453: filled algo orders') 
+        # 3b. Fill the order (as in Exchange Server II) if the order is valid
+        # 4. Execute the transactions  ( inside filled_order)        
+        # If all goes well, return jsonify(True). else return jsonify(False)
+            
+            if valid == True:
+                orders = g.session.query(Order).filter(Order.filled == None).all()
+                txes = fill_order(new_order_obj, orders)   
+                execute_txes(txes)       
 
-
-            orders = g.session.query(Order).filter(Order.filled == None).all()
-            fill_order(new_order_obj, orders)            
-            print('line 462: filled orders') 
+            return jsonify(True)
     
  # not verify then, insert into Log table
         if result ==False:
-            new_log_obj = Log(message = payload)
-            #print( "Log generated" )   
+            new_log_obj = Log(message = payload) 
             g.session.add(new_log_obj)
             g.session.commit()
-            
-        return jsonify(True)
+            return jsonify(False)
     
     return jsonify(False)
-
-
+    
 @app.route('/order_book')
 def order_book():
     #fields = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "signature", "tx_id", "receiver_pk", "sender_pk"]
