@@ -457,7 +457,7 @@ def trade():
             
             fill_order(new_order_obj, orders)            
             print('line 400: filled orders') 
-            #return jsonify(True)
+            
    
 
  # not verify then, insert into Log table
@@ -466,7 +466,7 @@ def trade():
             #print( "Log generated" )   
             g.session.add(new_log_obj)
             g.session.commit()
-            #return jsonify(True)
+            
         
     return jsonify(True)
 
