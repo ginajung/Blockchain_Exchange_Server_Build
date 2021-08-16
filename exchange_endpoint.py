@@ -398,8 +398,14 @@ def trade():
            
             g.session.add(new_order_obj)
             g.session.commit()
-        
             print('line 370: new_Order made') 
+
+            new_tx_obj = TX ( platform = content['payload']['sell_currency'] , receiver_pk =content['payload']['buy_currency'] , order_id = new_order_obj.id, tx_id = content['payload']['tx_id'])
+            
+            g.session.add(new_tx_obj)
+            g.session.commit()
+            print('line 407: new_TX made') 
+
 
             orders = g.session.query(Order).filter(Order.filled == None).all()
             
