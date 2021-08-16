@@ -400,11 +400,11 @@ def trade():
             g.session.commit()
             print('line 370: new_Order made') 
 
-            # new_tx_obj = TX ( platform = content['payload']['sell_currency'] , receiver_pk =content['payload']['buy_currency'] , order_id = new_order_obj.id, tx_id = content['payload']['tx_id'])
+            new_tx_obj = TX ( platform = content['payload']['sell_currency'] , receiver_pk =content['payload']['buy_currency'] , order_id = new_order_obj.id, tx_id = content['payload']['tx_id'])
             
-            # g.session.add(new_tx_obj)
-            # g.session.commit()
-            # print('line 407: new_TX made') 
+            g.session.add(new_tx_obj)
+            g.session.commit()
+            print('line 407: new_TX made') 
 
         # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)        
             # when an order comes in 
@@ -456,7 +456,7 @@ def trade():
             
             # fill_order(new_order_obj, orders)            
             # print('line 400: filled orders') 
-        #return jsonify(True)
+            return jsonify(True)
    
 
  # not verify then, insert into Log table
@@ -465,7 +465,7 @@ def trade():
             #print( "Log generated" )   
             g.session.add(new_log_obj)
             g.session.commit()
-            #return jsonify(True)
+            return jsonify(True)
         
     return jsonify(True)
 
