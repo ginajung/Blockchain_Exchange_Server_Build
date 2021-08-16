@@ -272,8 +272,8 @@ def execute_txes(txes):
         eth_txids = send_tokens_eth(g.w3,eth_sk,eth_txes)
 
         for i, eth_txid in eth_txids:
-
             eth_tx = g.w3.eth.getTransaction(eth_txid)
+            time.sleep(3)
             # how to get 'order_id' : I generate list of order_id list from the same intex of eth_txes.
             new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx["to"], order_id= etxes_id[i], tx_id = eth_txid )
             g.session.add(new_tx_object)
@@ -287,17 +287,20 @@ def execute_txes(txes):
 
         for i, algo_txid in algo_txids:
             
-            tx = g.acl.search_transactions(algo_txid)
-            
+            tx = g.icl.search_transactions(algo_txid)
+            time.sleep(3)
             for algo_tx in tx['transactions']:
-                if 'payment-transaction' in algo_tx.keys():
-                   
+                
+                if 'payment-transaction' in algo_tx.keys():   
                     new_tx_object = TX(platform = "Algorand", receiver_pk = algo_tx['payment-transaction']['receiver'],order_id= atxes_id[i], tx_id = algo_txid )
                     g.session.add(new_tx_object)
-                    g.session.commit()    
-            i+=1
+                    g.session.commit() 
+                    i+=1
+                    break   
+            
         print('line 299: algo_tx executed and in TX table')
-
+    
+    pass
 
 ## Instead.. try to generate TX object with tx 
 
@@ -317,9 +320,6 @@ def execute_txes(txes):
     #         new_tx_object = TX(platform = "Algorand", receiver_pk = algo_tx['receiver_pk'], order_id= algo_tx['order_id'], tx_id = algo_txid )
     #         g.session.add(new_tx_object)
     #         g.session.commit()
-
-
-    pass
 
 """ End of Helper methods"""
   
@@ -417,15 +417,13 @@ def trade():
             if new_order_obj.sell_currency == "Ethereum":
                 
                 eth_tx = g.w3.eth.get_transaction(new_order_obj.tx_id)
-                
                 if eth_tx['value'] == new_order_obj.sell_amount and eth_tx['from'] == new_order_obj.sender_pk and eth_tx['to'] == eth_pk :
                     valid = True
-                    
-             
+              
             if new_order_obj.sell_currency == "Algorand": 
                 
-                tx = g.icl.search_transactions(new_order_obj.tx_id)                
-                print(tx)
+                tx = g.icl.search_transactions(new_order_obj.tx_id)  
+                time.sleep(3)              
                 for algo_tx in tx['transactions']:
                     
                     if algo_tx['payment-transaction']['amount'] == new_order_obj.sell_amount and algo_tx['sender'] == new_order_obj.sender_pk and algo_tx['payment-transaction']['receiver'] == algo_pk:
