@@ -115,7 +115,7 @@ def get_algo_keys(pk_only=False):
     # TODO: Generate or read (using the mnemonic secret)
     # the algorand public/private keys
 
-    mnemonic_phrase = "soft hello moral bread repeat embark shed steak book joy fetch pilot shift floor identify poverty index yard cannon divorce fatal angry mistake abandon voyage"
+    mnemonic_phrase = "sight garment riot tattoo tortoise  talk sea ill walnut leg robot myth toe perfect rifle dizzy spend april build legend brother above hospital"
     algo_sk = mnemonic.to_private_key(mnemonic_phrase)
     algo_pk = mnemonic.to_public_key(mnemonic_phrase)
 
@@ -126,21 +126,21 @@ def get_algo_keys(pk_only=False):
 
 
 def get_eth_keys(pk_only=False):
-    w3 = Web3()
+    # w3 = Web3()
 
-    w3.eth.account.enable_unaudited_hdwallet_features()
-    acct, mnemonic_secret = w3.eth.account.create_with_mnemonic()
+    # w3.eth.account.enable_unaudited_hdwallet_features()
+    # acct, mnemonic_secret = w3.eth.account.create_with_mnemonic()
     # TODO: Generate or read (using the mnemonic secret)
     # the ethereum public/private keys
     # mnemonic_secret = "sight garment riot tattoo tortoise  talk sea ill walnut leg robot myth toe perfect rifle dizzy spend april build legend brother above hospital"
     # acct = w3.eth.account.from_mnemonic(mnemonic_secret)
 
 
-    # eth_mnemonic = "beauty diagram educate skirt unfold sing chaos depend acoustic science engage rib"
+    eth_mnemonic = "beauty diagram educate skirt unfold sing chaos depend acoustic science engage rib"
 
-    # w3 = Web3()
-    # w3.eth.account.enable_unaudited_hdwallet_features()
-    # acct = w3.eth.account.from_mnemonic(eth_mnemonic)
+    w3 = Web3()
+    w3.eth.account.enable_unaudited_hdwallet_features()
+    acct = w3.eth.account.from_mnemonic(eth_mnemonic)
     eth_pk = acct._address
     eth_sk = acct._private_key.hex() #private key is of type HexBytes which is not JSON serializable, adding .hex() converts it to a string
 
