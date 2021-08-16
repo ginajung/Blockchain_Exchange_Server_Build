@@ -216,8 +216,8 @@ def fill_order(new_order_obj, orders):
     txes = []
     
     tx_neworder = {
-            'platform':new_order_obj.sell_currency,
-            'amount': min(new_order_obj.sell_amount, existing_order.sell_amount),
+            'platform':new_order_obj.buy_currency,
+            'amount': min(new_order_obj.buy_amount, existing_order.sell_amount),
             'order_id': new_order_obj.id,
             'receiver_pk': new_order_obj.receiver_pk,
             'tx_id': new_order_obj.tx_id }    
@@ -225,12 +225,12 @@ def fill_order(new_order_obj, orders):
     txes.append(tx_neworder)
 
     tx_exorder = {
-            'platform':existing_order.sell_currency,
-            'amount': min(new_order_obj.sell_amount, existing_order.sell_amount),
+            'platform':existing_order.buy_currency,
+            'amount': min(existing_order.buy_amount, new_order_obj.sell_amount),
             'order_id': existing_order.id,
             'receiver_pk': existing_order.receiver_pk,
             'tx_id': existing_order.tx_id } 
-       
+    txes.append(tx_exorder)  
     
     execute_txes(txes)
 
