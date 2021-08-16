@@ -340,6 +340,8 @@ def address():
 def trade():
     print( "In trade", file=sys.stderr )
     connect_to_blockchains()
+    eth_sk, eth_pk = get_eth_keys()
+    algo_sk, algo_pk = get_algo_keys()
     #get_keys()
     if request.method == "POST":
         content = request.get_json(silent=True)
