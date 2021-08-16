@@ -141,10 +141,12 @@ def fill_order(new_order_obj, orders):
     # Match orders (same as Exchange Server II)
     # Validate the order has a payment to back it (make sure the counterparty also made a payment)
     # Make sure that you end up executing all resulting transactions!
+
     txes = []
+
     for existing_order in orders:
 
-        if existing_order.buy_currency == new_order_obj.sell_currency and \
+        if new_order_obj != existing_order and existing_order.buy_currency == new_order_obj.sell_currency and \
         existing_order.sell_currency == new_order_obj.buy_currency and \
         existing_order.sell_amount / existing_order.buy_amount >= new_order_obj.buy_amount/new_order_obj.sell_amount:
 
