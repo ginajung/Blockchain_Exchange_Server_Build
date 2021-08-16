@@ -115,7 +115,7 @@ def get_algo_keys():
     # TODO: Generate or read (using the mnemonic secret)
     # the algorand public/private keys
 
-    mnemonic_phrase = "sight garment riot tattoo tortoise  talk sea ill walnut leg robot myth toe perfect rifle dizzy spend april build legend brother above hospital"
+    mnemonic_phrase = "sight garment riot tattoo tortoise talk sea ill walnut leg robot myth toe perfect rifle dizzy spend april build legend brother above hospital"
     algo_sk = mnemonic.to_private_key(mnemonic_phrase)
     algo_pk = mnemonic.to_public_key(mnemonic_phrase)
 
