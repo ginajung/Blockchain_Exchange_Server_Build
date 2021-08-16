@@ -146,7 +146,7 @@ def fill_order(new_order_obj, orders):
 
     for existing_order in orders:
 
-        if new_order_obj != existing_order and existing_order.buy_currency == new_order_obj.sell_currency and \
+        if new_order_obj.id != existing_order.id and existing_order.buy_currency == new_order_obj.sell_currency and \
         existing_order.sell_currency == new_order_obj.buy_currency and \
         existing_order.sell_amount / existing_order.buy_amount >= new_order_obj.buy_amount/new_order_obj.sell_amount:
 
