@@ -277,11 +277,14 @@ def execute_txes(txes):
     for txid in eth_txids:
         tx = w3.eth.get_transaction(txid)
         print (tx)
-        time.sleep(1)
 
-        new_tx_object = TX(platform = "Ethereum", receiver_pk = tx['to'], order_id= tx['order_id'], tx_id = txid )
+        time.sleep(1)
+        print('line 281: eth_TX ready')
+        new_tx_object = TX(platform = "Ethereum", receiver_pk = tx['to'], tx_id = txid )
         g.session.add(new_tx_object)
         g.session.commit()
+        #order_id= tx['order_id'], 
+        print('line 286: eth_TX added')
 
            
     for txid in algo_txids:            
@@ -294,11 +297,12 @@ def execute_txes(txes):
             amount = tx['payment-transaction']['amount']
             receiver = tx['payment-transaction']['receiver']
             algo_id = algo_tx['transactions']['id']
-        
+
+            print('line 281: algo_TX ready')
             new_tx_object = TX(platform = "Algorand", receiver_pk = receiver, order_id= algo_id, tx_id = txid )
             g.session.add(new_tx_object)
             g.session.commit()
-
+            print('line 281: algo_TX added')
     
     pass
 
