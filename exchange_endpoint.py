@@ -276,20 +276,20 @@ def execute_txes(txes):
 
     for txid in eth_txids:
         tx = w3.eth.get_transaction(txid)
-        print (tx)
+        #print (tx['to'])
 
         time.sleep(1)
         print('line 281: eth_TX ready')
-        new_tx_object = TX(platform = "Ethereum", receiver_pk = tx['to'], tx_id = txid )
+        new_tx_object = TX(platform = "Ethereum", receiver_pk = tx['to'], order_id= tx['order_id'], tx_id = txid )
         g.session.add(new_tx_object)
         g.session.commit()
-        #order_id= tx['order_id'], 
+         
         print('line 286: eth_TX added')
 
            
     for txid in algo_txids:            
         algo_tx = acl.search_transactions(txid)
-        print(algo_tx)
+        #print(algo_tx)
         time.sleep(1)
 
         for tx in algo_tx['transactions']:
