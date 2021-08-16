@@ -114,12 +114,12 @@ def get_algo_keys():
 
     # TODO: Generate or read (using the mnemonic secret)
     # the algorand public/private keys
-    mnemonic_secret = "exotic tuna make peace raw dizzy music heart cycle oval juice cinnamon argue memory inner minor decorate custom market emotion tower sign exact drop solar"
+    # mnemonic_secret = "exotic tuna make peace raw dizzy music heart cycle oval juice cinnamon argue memory inner minor decorate custom market emotion tower sign exact drop solar"
   
-    algo_sk = mnemonic.to_private_key(mnemonic_secret)
-    algo_pk = mnemonic.to_public_key(mnemonic_secret)
+    # algo_sk = mnemonic.to_private_key(mnemonic_secret)
+    # algo_pk = mnemonic.to_public_key(mnemonic_secret)
     
-    #algo_sk, algo_pk = account.generate_account()
+    algo_sk, algo_pk = account.generate_account()
 
     return algo_sk, algo_pk
 
