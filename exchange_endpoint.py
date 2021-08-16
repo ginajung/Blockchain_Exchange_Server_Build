@@ -125,9 +125,9 @@ def get_algo_keys():
 
 
 def get_eth_keys(filename = "eth_mnemonic.txt"):
-    w3 = Web3()
-    w3.eth.account.enable_unaudited_hdwallet_features()
-    acct, mnemonic_secret = w3.eth.account.create_with_mnemonic()
+    #w3 = Web3()
+    g.w3.eth.account.enable_unaudited_hdwallet_features()
+    acct, mnemonic_secret = g.w3.eth.account.create_with_mnemonic()
     # # #mnemonic_secret = "such chapter crane ugly uncover fun kitten duty culture giant skirt reunion pizza pill web monster upon dolphin aunt close marble dune kangaroo ability merit"
     # acct = w3.eth.account.from_mnemonic(mnemonic_secret)
     eth_pk = acct._address
