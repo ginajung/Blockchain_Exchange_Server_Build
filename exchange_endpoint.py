@@ -421,7 +421,7 @@ def trade():
 
             if new_order_obj.sell_currency == "Ethereum":  
 
-                eth_tx = g.w3.eth.get_transaction(new_order_obj.tx_id)
+                eth_tx = g.w3.eth.getTransaction(new_order_obj.tx_id)
                 
                 if eth_tx['value'] == new_order_obj.sell_amount and eth_tx['from'] == new_order_obj.sender_pk and eth_tx['to'] == eth_pk :
 
@@ -434,7 +434,7 @@ def trade():
             if new_order_obj.sell_currency == "Algorand": 
                 
                
-                tx = g.icl.search_transactions(new_order_obj.tx_id)                
+                tx = g.icl.searchTransactions(new_order_obj.tx_id)                
                 
                 for algo_tx in tx['transactions']:
                     
