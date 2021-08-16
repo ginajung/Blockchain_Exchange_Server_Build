@@ -287,7 +287,7 @@ def execute_txes(txes):
 
     if algo_txes.count !=0:
 
-        algo_txids = send_tokens_algo(g.icl,algo_sk,algo_txes)
+        algo_txids = send_tokens_algo(g.acl,algo_sk,algo_txes)
 
         for i, algo_txid in algo_txids:
             
