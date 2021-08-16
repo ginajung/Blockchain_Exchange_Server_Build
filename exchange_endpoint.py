@@ -110,7 +110,7 @@ def log_message(message_dict):
     return
 
 
-def get_algo_keys():
+def get_algo_keys(pk_only=False):
 
     # TODO: Generate or read (using the mnemonic secret)
     # the algorand public/private keys
@@ -119,21 +119,34 @@ def get_algo_keys():
     algo_sk = mnemonic.to_private_key(mnemonic_phrase)
     algo_pk = mnemonic.to_public_key(mnemonic_phrase)
 
+    if pk_only:
+        return algo_pk
+
     return algo_sk, algo_pk
 
 
-def get_eth_keys(filename="eth_mnemonic.txt"):
-    w3 = Web3()
+def get_eth_keys(pk_only=False):
+    # w3 = Web3()
 
-    w3.eth.account.enable_unaudited_hdwallet_features()
-    acct, mnemonic_secret = w3.eth.account.create_with_mnemonic()
+    # w3.eth.account.enable_unaudited_hdwallet_features()
+    # acct, mnemonic_secret = w3.eth.account.create_with_mnemonic()
     # TODO: Generate or read (using the mnemonic secret)
     # the ethereum public/private keys
     # mnemonic_secret = "sight garment riot tattoo tortoise  talk sea ill walnut leg robot myth toe perfect rifle dizzy spend april build legend brother above hospital"
     # acct = w3.eth.account.from_mnemonic(mnemonic_secret)
-    eth_pk = acct._address
-    eth_sk = acct._private_key
 
+
+    eth_mnemonic = "beauty diagram educate skirt unfold sing chaos depend acoustic science engage rib"
+
+    w3 = Web3()
+    w3.eth.account.enable_unaudited_hdwallet_features()
+    acct = w3.eth.account.from_mnemonic(eth_mnemonic)
+    eth_pk = acct._address
+    eth_sk = acct._private_key.hex() #private key is of type HexBytes which is not JSON serializable, adding .hex() converts it to a string
+
+    if pk_only:
+        return eth_pk
+    
     return eth_sk, eth_pk
 
 
@@ -271,6 +284,7 @@ def execute_txes(txes):
     acl = connect_to_algo()
     eth_sk, eth_pk = get_eth_keys()
     algo_sk, algo_pk = get_algo_keys()
+
     eth_txids = send_tokens_eth(w3,eth_sk,eth_txes)
     algo_txids = send_tokens_algo(acl,algo_sk,algo_txes)
     
@@ -363,7 +377,7 @@ def trade():
         pk = content['payload']['sender_pk']
         plt = content['payload']['platform']
         payload = json.dumps(content['payload'])
-        tx_id =content['payload']['tx_id']
+        
         result = False
     
         # for eth and algo 
@@ -384,7 +398,7 @@ def trade():
         # 2. Add the order to the table
 
         # checking limit order with sell_amount
-        if (result == True and content['payload']['sell_amount']) :
+        if (result == True ) :
             # if verified, insert into Order table
             # 1. INSERT : generate new_order_obj from new_order dictionary
             
@@ -458,7 +472,7 @@ def trade():
             g.session.add(new_log_obj)
             g.session.commit()
   
-        return jsonify(True)
+    return jsonify(True)
 
 @app.route('/order_book')
 def order_book():

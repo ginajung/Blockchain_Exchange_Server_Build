@@ -29,12 +29,7 @@ def send_tokens_algo( acl, sender_sk, txes):
     
     # TODO: You might want to adjust the first/last valid rounds in the suggested_params
     #       See guide for details
-    
-    gen = params.gen 
-    gh = params.gh
-    first_valid_round = params.first
-    last_valid_round = params.last
-    fee = params.min_fee  
+    params.last = params.first + 800 
 
     sender_pk = account.address_from_private_key(sender_sk)
 
@@ -43,11 +38,11 @@ def send_tokens_algo( acl, sender_sk, txes):
         
         # Create and sign transaction
         # send_to_address and send_amount???
-        first_valid_round += i
+        #first_valid_round += i
         send_amount = tx['amount']
         send_to_address = tx['receiver_pk']
         
-        unsigned_tx = transaction.PaymentTxn(sender_pk, fee, first_valid_round, last_valid_round, gh, send_to_address, send_amount)
+        unsigned_tx = transaction.PaymentTxn(sender_pk, params, send_to_address, send_amount)
         
         # TODO: Sign the transaction
         signed_tx = unsigned_tx.sign(sender_sk)
@@ -66,7 +61,7 @@ def send_tokens_algo( acl, sender_sk, txes):
             print(e)
 
         
-        continue
+        #continue
     
     print('line 71 in send token algo')  
     return tx_ids
@@ -96,6 +91,7 @@ from web3.middleware import geth_poa_middleware
 from web3.exceptions import TransactionNotFound
 import json
 import progressbar
+from hexbytes import HexBytes
 
 
 def connect_to_eth():
@@ -170,7 +166,7 @@ def send_tokens_eth(w3,sender_sk,txes):
         except Exception as e:
             print(e)
 
-        continue
+        #continue
     print('line 170 in send token eth')    
     
     return tx_ids
