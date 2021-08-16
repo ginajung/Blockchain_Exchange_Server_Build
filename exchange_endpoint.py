@@ -298,7 +298,7 @@ def execute_txes(txes):
     if eth_txes.count != 0:
         for eth_tx in eth_txes:
 
-            eth_txid = send_tokens_eth(g.w3,algo_sk,eth_tx)
+            eth_txid = send_tokens_eth(g.w3,eth_sk,eth_tx)
         
             new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx["receiver_pk"], order_id= eth_tx['order_id'], order = eth_tx.order, tx_id = eth_txid )
             g.session.add(new_tx_object)
@@ -307,7 +307,7 @@ def execute_txes(txes):
     if algo_txes.count !=0:
 
         for algo_tx in algo_txes:
-            algo_txid = send_tokens_algo(g.icl,eth_sk,algo_tx)
+            algo_txid = send_tokens_algo(g.icl,algo_sk,algo_tx)
             new_tx_object = TX(platform = "Algorand", receiver_pk = algo_tx['receiver_pk'], order_id= algo_tx['order_id'], order = algo_tx.order, tx_id = algo_txid )
             g.session.add(new_tx_object)
             g.session.commit()
