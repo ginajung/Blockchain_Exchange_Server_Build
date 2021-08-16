@@ -263,11 +263,11 @@ def execute_txes(txes):
     
     atxes_id = []
     for atx in algo_txes:
-        atxes_id.append(atx.order_id)
+        atxes_id.append(atx['order_id'])
 
     etxes_id = []
     for etx in eth_txes:
-        etxes_id.append(etx.order_id)
+        etxes_id.append(etx['order_id'])
 
 
     print('line 237: sorted for execution')
@@ -309,7 +309,7 @@ def execute_txes(txes):
 
 
 
-                    
+
 ## Instead.. try to generate TX object with tx 
 
     # if eth_txes.count != 0:
