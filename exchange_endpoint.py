@@ -178,8 +178,7 @@ def fill_order(new_order_obj, orders):
                 'tx_id': existing_order.tx_id } 
             txes.append(tx_exorder)  
     
-
-            break;
+            break
 
     # 3. If one of the orders is not completely filled (i.e. the counterparty’s sell_amount is less than buy_amount):
         if new_order_obj.sell_amount > existing_order.buy_amount:
@@ -280,7 +279,7 @@ def execute_txes(txes):
             g.session.add(new_tx_object)
             g.session.commit()
             i +=1
-            print('line 285: eth_tx executed')
+        print('line 285: eth_tx executed and in TX table')
 
     if algo_txes.count !=0:
 
@@ -297,7 +296,7 @@ def execute_txes(txes):
                     g.session.add(new_tx_object)
                     g.session.commit()    
             i+=1
-            print('line 308: algo_tx executed')
+        print('line 299: algo_tx executed and in TX table')
 
 
 ## Instead.. try to generate TX object with tx 
@@ -426,10 +425,10 @@ def trade():
             if new_order_obj.sell_currency == "Algorand": 
                 
                 tx = g.icl.search_transactions(new_order_obj.tx_id)                
-                
+                print(tx)
                 for algo_tx in tx['transactions']:
                     
-                    if algo_tx['payment-transaction']['amount'] == new_order_obj.sell_amount and algo_tx['transactions']['sender'] == new_order_obj.sender_pk and algo_tx['payment-transaction']['receiver'] == algo_pk:
+                    if algo_tx['payment-transaction']['amount'] == new_order_obj.sell_amount and algo_tx['sender'] == new_order_obj.sender_pk and algo_tx['payment-transaction']['receiver'] == algo_pk:
                         valid = True
                         break
                 
