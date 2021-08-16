@@ -282,13 +282,16 @@ def execute_txes(txes):
         algo_txids = send_tokens_algo(g.acl,algo_sk,algo_txes)
 
         for algo_txid in algo_txids:
+            
             tx = g.icl.search_transactions(algo_txid)
+            print(tx[0])
             for algo_tx in tx['transactions']:
-
+                if 'payment-transaction' in algo_tx.keys():
+                    print(algo_tx.keys())
                 # how to get 'order_id'???   
-                new_tx_object = TX(platform = "Algorand", receiver_pk = algo_tx['payment-transaction']['receiver'],order_id= algo_txes['order_id'], tx_id = algo_txid )
-                g.session.add(new_tx_object)
-                g.session.commit()    
+                    new_tx_object = TX(platform = "Algorand", receiver_pk = algo_tx['payment-transaction']['receiver'],order_id= algo_txes['order_id'], tx_id = algo_txid )
+                    g.session.add(new_tx_object)
+                    g.session.commit()    
                
 ## Instead.. try to generate TX object with tx 
 
