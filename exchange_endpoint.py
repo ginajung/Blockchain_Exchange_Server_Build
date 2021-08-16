@@ -265,7 +265,7 @@ def execute_txes(txes):
     #       2. Add all transactions to the TX table
 
     w3 = connect_to_eth()
-    acl = connect_to_algo()
+    acl = connect_to_algo('indexer')
     eth_sk, eth_pk = get_eth_keys()
     algo_sk, algo_pk = get_algo_keys()
 
@@ -438,7 +438,7 @@ def trade():
                     
              
             # if new_order_obj.sell_currency == "Algorand": 
-            #     acl=connect_to_algo()
+            #     acl=connect_to_algo('indexer')
             #     time.sleep(3)
             #     tx = acl.search_transactions(new_order_obj.tx_id)                
             #     algo_sk, algo_pk = get_algo_keys()
