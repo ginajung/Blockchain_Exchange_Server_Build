@@ -157,6 +157,30 @@ def fill_order(new_order_obj, orders):
             new_order_obj.counterparty_id = existing_order.id
             existing_order.counterparty_id = new_order_obj.id
 
+
+            txes = []
+    
+            tx_neworder = {
+                    'platform':new_order_obj.buy_currency,
+                    'amount': min(new_order_obj.buy_amount, existing_order.sell_amount),
+                    'order_id': new_order_obj.id,
+                    'receiver_pk': new_order_obj.receiver_pk,
+                    'order': new_order_obj,
+                    'tx_id': new_order_obj.tx_id }    
+
+            txes.append(tx_neworder)
+
+            tx_exorder = {
+                    'platform':existing_order.buy_currency,
+                    'amount': min(existing_order.buy_amount, new_order_obj.sell_amount),
+                    'order_id': existing_order.id,
+                    'receiver_pk': existing_order.receiver_pk,
+                    'order' : existing_order,
+                    'tx_id': existing_order.tx_id } 
+            txes.append(tx_exorder)  
+    
+            execute_txes(txes)
+
             break;
 
     # 3. If one of the orders is not completely filled (i.e. the counterparty’s sell_amount is less than buy_amount):
