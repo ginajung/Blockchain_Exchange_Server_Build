@@ -121,7 +121,7 @@ def get_algo_keys():
     # algo_sk = mnemonic.to_private_key(mnemonic_secret)
     # algo_pk = mnemonic.to_public_key(mnemonic_secret)
     
-    algo_sk, algo_pk = account.generate_account()
+    algo_sk, algo_pk = account.generateAccount()
 
     return algo_sk, algo_pk
 
