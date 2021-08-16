@@ -171,8 +171,8 @@ def send_tokens_eth(w3,sender_sk,txes):
 
         except Exception as e:
             print(e)
-
-        #continue
+        
+        continue
     print('line 170 in send token eth')    
     
     return tx_ids
