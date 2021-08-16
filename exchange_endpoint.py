@@ -141,7 +141,7 @@ def fill_order(new_order_obj, orders):
     # Match orders (same as Exchange Server II)
     # Validate the order has a payment to back it (make sure the counterparty also made a payment)
     # Make sure that you end up executing all resulting transactions!
-
+    txes = []
     for existing_order in orders:
 
         if existing_order.buy_currency == new_order_obj.sell_currency and \
@@ -158,28 +158,28 @@ def fill_order(new_order_obj, orders):
             existing_order.counterparty_id = new_order_obj.id
 
 
-            txes = []
+            
     
             tx_neworder = {
-                    'platform':new_order_obj.buy_currency,
-                    'amount': min(new_order_obj.buy_amount, existing_order.sell_amount),
-                    'order_id': new_order_obj.id,
-                    'receiver_pk': new_order_obj.receiver_pk,
-                    'order': new_order_obj,
-                    'tx_id': new_order_obj.tx_id }    
+                'platform':new_order_obj.buy_currency,
+                'amount': min(new_order_obj.buy_amount, existing_order.sell_amount),
+                'order_id': new_order_obj.id,
+                'receiver_pk': new_order_obj.receiver_pk,
+                'order': new_order_obj,
+                'tx_id': new_order_obj.tx_id }    
 
             txes.append(tx_neworder)
 
             tx_exorder = {
-                    'platform':existing_order.buy_currency,
-                    'amount': min(existing_order.buy_amount, new_order_obj.sell_amount),
-                    'order_id': existing_order.id,
-                    'receiver_pk': existing_order.receiver_pk,
-                    'order' : existing_order,
-                    'tx_id': existing_order.tx_id } 
+                'platform':existing_order.buy_currency,
+                'amount': min(existing_order.buy_amount, new_order_obj.sell_amount),
+                'order_id': existing_order.id,
+                'receiver_pk': existing_order.receiver_pk,
+                'order' : existing_order,
+                'tx_id': existing_order.tx_id } 
             txes.append(tx_exorder)  
     
-            execute_txes(txes)
+            
 
             break;
 
@@ -238,29 +238,8 @@ def fill_order(new_order_obj, orders):
 
     print('line 215: filled')
 
-    txes = []
-    
-    tx_neworder = {
-            'platform':new_order_obj.buy_currency,
-            'amount': min(new_order_obj.buy_amount, existing_order.sell_amount),
-            'order_id': new_order_obj.id,
-            'receiver_pk': new_order_obj.receiver_pk,
-            'order': new_order_obj,
-            'tx_id': new_order_obj.tx_id }    
-
-    txes.append(tx_neworder)
-
-    tx_exorder = {
-            'platform':existing_order.buy_currency,
-            'amount': min(existing_order.buy_amount, new_order_obj.sell_amount),
-            'order_id': existing_order.id,
-            'receiver_pk': existing_order.receiver_pk,
-            'order' : existing_order,
-            'tx_id': existing_order.tx_id } 
-    txes.append(tx_exorder)  
     
     execute_txes(txes)
-
 
     pass
   
