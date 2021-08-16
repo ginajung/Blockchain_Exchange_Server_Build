@@ -274,8 +274,8 @@ def execute_txes(txes):
         for eth_txid in eth_txids:
 
             eth_tx = w3.eth.getTransaction(eth_txid)
-            # how to get 'order_id'???  order_id= eth_tx['order_id'],
-            new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx["receiver_pk"], tx_id = eth_txid )
+            # how to get 'order_id'???  ,
+            new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx["receiver_pk"], order_id= eth_tx['order_id'], tx_id = eth_txid )
             g.session.add(new_tx_object)
             g.session.commit()
             print('line 285: eth_tx executed')
@@ -287,8 +287,8 @@ def execute_txes(txes):
             tx = acl.search_transactions(algo_txid)
             for algo_tx in tx['transactions']:
 
-                # how to get 'order_id'???   order_id= algo_tx['order_id']
-                new_tx_object = TX(platform = "Algorand", receiver_pk = algo_tx['payment-transaction']['receiver'], tx_id = algo_txid )
+                # how to get 'order_id'???   
+                new_tx_object = TX(platform = "Algorand", receiver_pk = algo_tx['payment-transaction']['receiver'],order_id= algo_tx['order_id'], tx_id = algo_txid )
                 g.session.add(new_tx_object)
                 g.session.commit()    
                
