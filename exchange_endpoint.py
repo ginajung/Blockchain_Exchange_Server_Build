@@ -432,7 +432,7 @@ def trade():
             if new_order_obj.sell_currency == "Algorand": 
                 
                
-                tx = g.acl.search_transactions(new_order_obj.tx_id)                
+                tx = g.icl.search_transactions(new_order_obj.tx_id)                
                 
                 for algo_tx in tx['transactions']:
                     
