@@ -261,6 +261,7 @@ def execute_txes(txes):
     algo_txes = [tx for tx in txes if tx['platform'] == "Algorand" ]
     eth_txes = [tx for tx in txes if tx['platform'] == "Ethereum" ]
     
+    # track a list of order_id for txes.
     atxes_id = [tx['order_id'] for tx in algo_txes]
     etxes_id = [tx['order_id'] for tx in eth_txes]
     
@@ -278,7 +279,7 @@ def execute_txes(txes):
         for i, eth_txid in eth_txids:
 
             eth_tx = g.w3.eth.getTransaction(eth_txid)
-            # how to get 'order_id' : track and save in list
+            # how to get 'order_id' : I generate list of order_id list from the same intex of eth_txes.
             new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx["to"], order_id= etxes_id[i], tx_id = eth_txid )
             g.session.add(new_tx_object)
             g.session.commit()
@@ -295,14 +296,12 @@ def execute_txes(txes):
             
             for algo_tx in tx['transactions']:
                 if 'payment-transaction' in algo_tx.keys():
-                # how to get 'order_id'???   
+                   
                     new_tx_object = TX(platform = "Algorand", receiver_pk = algo_tx['payment-transaction']['receiver'],order_id= atxes_id[i], tx_id = algo_txid )
                     g.session.add(new_tx_object)
                     g.session.commit()    
             i+=1
             print('line 308: algo_tx executed')
-
-
 
 
 ## Instead.. try to generate TX object with tx 
@@ -355,7 +354,7 @@ def trade():
     connect_to_blockchains()
     eth_sk, eth_pk = get_eth_keys()
     algo_sk, algo_pk = get_algo_keys()
-    #get_keys()
+    
     if request.method == "POST":
         content = request.get_json(silent=True)
         columns = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "platform", "tx_id", "receiver_pk","sender_pk"]
@@ -390,7 +389,7 @@ def trade():
         payload = json.dumps(content['payload'])
         
         result = False
-    
+
         # for eth and algo 
         if plt == "Ethereum":        
             eth_encoded_msg = eth_account.messages.encode_defunct(text=payload)
@@ -460,8 +459,6 @@ def trade():
             orders = g.session.query(Order).filter(Order.filled == None).all()
             fill_order(new_order_obj, orders)            
             print('line 462: filled orders') 
-            
-        
     
  # not verify then, insert into Log table
         if result ==False:
@@ -470,19 +467,17 @@ def trade():
             g.session.add(new_log_obj)
             g.session.commit()
             
-        
-    return jsonify(True)
+        return jsonify(True)
+    
+    return jsonify(False)
+
 
 @app.route('/order_book')
 def order_book():
     #fields = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "signature", "tx_id", "receiver_pk", "sender_pk"]
-
     orders = g.session.query(Order).all()
     data_dic ={'data': []}
-    
-#     # save orders as a list of dicts / convert to JSON
     for order in orders:
-        
         new_order_dict = {}
         new_order_dict['sender_pk'] = order.sender_pk
         new_order_dict['receiver_pk'] = order.receiver_pk
