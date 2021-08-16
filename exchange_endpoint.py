@@ -331,7 +331,7 @@ def address():
 @app.route('/trade', methods=['POST'])
 def trade():
     print( "In trade", file=sys.stderr )
-    connect_to_blockchains()
+    #connect_to_blockchains()
     #get_keys()
     if request.method == "POST":
         content = request.get_json(silent=True)
