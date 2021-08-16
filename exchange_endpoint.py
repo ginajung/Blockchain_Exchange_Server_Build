@@ -415,8 +415,6 @@ def trade():
         
         # 3b. Fill the order (as in Exchange Server II) if the order is valid
         # # 
-            eth_sk, eth_pk = get_eth_keys()
-            algo_sk, algo_pk = get_algo_keys()
 
 
             if new_order_obj.sell_currency == "Ethereum":  
