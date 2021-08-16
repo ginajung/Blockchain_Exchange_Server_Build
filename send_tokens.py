@@ -151,6 +151,7 @@ def send_tokens_eth(w3,sender_sk,txes):
         amt = tx['amount'] 
         receiver_pk = tx['receiver_pk']
         nonce += i
+        
         tx_dict = {
             'nonce':nonce ,
             'gasPrice':w3.eth.gas_price,

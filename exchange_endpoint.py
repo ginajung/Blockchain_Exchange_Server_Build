@@ -266,23 +266,25 @@ def execute_txes(txes):
     acl = connect_to_algo()
     eth_sk, eth_pk = get_eth_keys()
     algo_sk, algo_pk = get_algo_keys()
- 
-    for eth_tx in eth_txes:
 
-        eth_txid = send_tokens_eth(w3,eth_sk,eth_tx)
+    if eth_txes.count != 0:
+        for eth_tx in eth_txes:
+
+            eth_txid = send_tokens_eth(w3,eth_sk,eth_tx)
         
-        new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx["receiver_pk"], order_id= eth_tx['order_id'], tx_id = eth_txid )
-        g.session.add(new_tx_object)
-        g.session.commit()
-        print('line 285: eth_tx executed')
+            new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx["receiver_pk"], order_id= eth_tx['order_id'], tx_id = eth_txid )
+            g.session.add(new_tx_object)
+            g.session.commit()
+            print('line 285: eth_tx executed')
 
-    for alto_tx in algo_txes:
-        algo_txid = send_tokens_algo(acl,algo_sk,alto_tx)
-        new_tx_object = TX(platform = "Algorand", receiver_pk = alto_tx['receiver_pk'], order_id= alto_tx['order_id'], tx_id = algo_txid )
-        g.session.add(new_tx_object)
-        g.session.commit()
+    if algo_txes.count !=0:
+        for alto_tx in algo_txes:
+            algo_txid = send_tokens_algo(acl,algo_sk,alto_tx)
+            new_tx_object = TX(platform = "Algorand", receiver_pk = alto_tx['receiver_pk'], order_id= alto_tx['order_id'], tx_id = algo_txid )
+            g.session.add(new_tx_object)
+            g.session.commit()
 
-        print('line 292: algo_tx executed')
+            print('line 292: algo_tx executed')
 
     pass
 
