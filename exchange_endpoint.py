@@ -253,7 +253,7 @@ def execute_txes(txes):
         print( "Error: execute_txes got an invalid platform!" )
         print( tx['platform'] for tx in txes )
 
-    algo_txes = [tx for tx in txes if tx['platform'] == "Algorand" ]00
+    algo_txes = [tx for tx in txes if tx['platform'] == "Algorand" ]
     eth_txes = [tx for tx in txes if tx['platform'] == "Ethereum" ]
 
     print('line 237: sorted for execution')
