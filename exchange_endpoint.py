@@ -269,41 +269,42 @@ def execute_txes(txes):
     acl = connect_to_algo()
     eth_sk, eth_pk = get_eth_keys()
     algo_sk, algo_pk = get_algo_keys()
+ 
 
-    eth_txids = send_tokens_eth(w3,eth_sk,eth_txes)
-    algo_txids = send_tokens_algo(acl,algo_sk,algo_txes)
-    
-    print('line 244: executed')
+    for eth_tx in eth_txes:
 
-    for txid in eth_txids:
-        tx = w3.eth.get_transaction(txid.hex())
-        #print (tx['to'])
-
-        time.sleep(1)
-        print('line 281: eth_TX ready')
-        new_tx_object = TX(platform = "Ethereum", receiver_pk = tx['to'], order_id= tx['order_id'], tx_id = txid )
+        eth_txid = send_tokens_eth(w3,eth_sk,eth_tx)
+        new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx['receiver_pk'], order_id= eth_tx['order_id'], tx_id = eth_txid )
         g.session.add(new_tx_object)
         g.session.commit()
-         
-        print('line 286: eth_TX added')
+        print('line 285: eth_tx executed')
+
+    for alto_tx in algo_txes:
+        algo_txid = send_tokens_algo(acl,algo_sk,alto_tx)
+
+        new_tx_object = TX(platform = "Algorand", receiver_pk = alto_tx['receiver_pk'], order_id= alto_tx['order_id'], tx_id = algo_txid )
+        g.session.add(new_tx_object)
+        g.session.commit()
+
+        print('line 292: algo_tx executed')
 
            
-    for txid in algo_txids:            
-        algo_tx = acl.search_transactions(txid)
-        #print(algo_tx)
-        time.sleep(1)
+    # for txid in algo_txids:            
+    #     algo_tx = acl.search_transactions(txid)
+    #     #print(algo_tx)
+    #     time.sleep(1)
 
-        for tx in algo_tx['transactions']:
+    #     for tx in algo_tx['transactions']:
 
-            amount = tx['payment-transaction']['amount']
-            receiver = tx['payment-transaction']['receiver']
-            algo_id = algo_tx['transactions']['id']
+    #         amount = tx['payment-transaction']['amount']
+    #         receiver = tx['payment-transaction']['receiver']
+    #         algo_id = algo_tx['transactions']['id']
 
-            print('line 281: algo_TX ready')
-            new_tx_object = TX(platform = "Algorand", receiver_pk = receiver, order_id= algo_id, tx_id = txid )
-            g.session.add(new_tx_object)
-            g.session.commit()
-            print('line 281: algo_TX added')
+    #         print('line 281: algo_TX ready')
+    #         new_tx_object = TX(platform = "Algorand", receiver_pk = receiver, order_id= algo_id, tx_id = txid )
+    #         g.session.add(new_tx_object)
+    #         g.session.commit()
+    #         print('line 281: algo_TX added')
     
     pass
 
