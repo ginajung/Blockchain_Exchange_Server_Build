@@ -287,7 +287,7 @@ def execute_txes(txes):
 
     if algo_txes.count !=0:
 
-        algo_txids = send_tokens_algo(g.acl,algo_sk,algo_txes)
+        algo_txids = send_tokens_algo(g.icl,algo_sk,algo_txes)
 
         for i, algo_txid in algo_txids:
             
@@ -299,8 +299,8 @@ def execute_txes(txes):
                     new_tx_object = TX(platform = "Algorand", receiver_pk = algo_tx['payment-transaction']['receiver'],order_id= atxes_id[i], tx_id = algo_txid )
                     g.session.add(new_tx_object)
                     g.session.commit()    
-                    i+=1
-                    print('line 308: algo_tx executed')
+            i+=1
+            print('line 308: algo_tx executed')
 
 
 
