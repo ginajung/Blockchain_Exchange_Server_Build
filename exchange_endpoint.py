@@ -394,11 +394,11 @@ def trade():
                                   buy_currency=content['payload']['buy_currency'], sell_currency=content['payload']['sell_currency'], \
                                   buy_amount=content['payload']['buy_amount'], sell_amount=content['payload']['sell_amount'],\
                                   signature = content['sig'],tx_id =content['payload']['tx_id'])
-  
+            
            
             g.session.add(new_order_obj)
             g.session.commit()
-            print('line 370: new_Order made') 
+            print('line 370: new_Order made ' + content['payload']['sell_currency']+ content['payload']['tx_id']) 
 
             new_tx_obj = TX ( platform = content['payload']['sell_currency'] , receiver_pk =content['payload']['buy_currency'] , order_id = new_order_obj.id, tx_id = content['payload']['tx_id'])
             
@@ -436,7 +436,7 @@ def trade():
             if new_order_obj.sell_currency == "Algorand": 
                 acl=connect_to_algo()
                 time.sleep(3)
-                tx = acl.search_transactions(new_order_obj.tx_id)
+                tx = acl.search_transactions(txid =new_order_obj.tx_id)
                 
                 amount = tx['transactions']['payment-transaction']['amount']
                 receiver_pk = tx['transactions']['payment-transaction']['receiver']
@@ -447,16 +447,16 @@ def trade():
                     
                     if tx['payment-transaction']['amount'] == new_order_obj.sell_amount and tx['payment-transaction']['receiver'] == algo_pk and tx['transactions']['sender'] == new_order_obj.sender_pk :
                 
-                        print('line 420: algoOrder is valid') 
+                        print('line 450: algoOrder is valid') 
                         orders = g.session.query(Order).filter(Order.filled == None).all()
                         fill_order(new_order_obj, orders)            
-                        print('line 400: filled algo orders') 
+                        print('line 453: filled algo orders') 
 
             # orders = g.session.query(Order).filter(Order.filled == None).all()
             
             # fill_order(new_order_obj, orders)            
             # print('line 400: filled orders') 
-            return jsonify(True)
+            #return jsonify(True)
    
 
  # not verify then, insert into Log table
@@ -465,7 +465,7 @@ def trade():
             #print( "Log generated" )   
             g.session.add(new_log_obj)
             g.session.commit()
-            return jsonify(True)
+            #return jsonify(True)
         
     return jsonify(True)
 
