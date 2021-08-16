@@ -417,36 +417,36 @@ def trade():
         # # 
 
 
-            if new_order_obj.sell_currency == "Ethereum":  
+            # if new_order_obj.sell_currency == "Ethereum":  
 
-                eth_tx = g.w3.eth.get_transaction(new_order_obj.tx_id)
+            #     eth_tx = g.w3.eth.get_transaction(new_order_obj.tx_id)
                 
-                if eth_tx['value'] == new_order_obj.sell_amount and eth_tx['from'] == new_order_obj.sender_pk and eth_tx['to'] == eth_pk :
+            #     if eth_tx['value'] == new_order_obj.sell_amount and eth_tx['from'] == new_order_obj.sender_pk and eth_tx['to'] == eth_pk :
 
-                    print('line 401: ethOrder is valid') 
-                    orders = g.session.query(Order).filter(Order.filled == None).all()            
-                    fill_order(new_order_obj, orders)            
-                    print('line 400: filled eth_orders') 
+            #         print('line 401: ethOrder is valid') 
+            #         orders = g.session.query(Order).filter(Order.filled == None).all()            
+            #         fill_order(new_order_obj, orders)            
+            #         print('line 400: filled eth_orders') 
                     
              
-            if new_order_obj.sell_currency == "Algorand": 
+            # if new_order_obj.sell_currency == "Algorand": 
                 
                
-                tx = g.icl.search_transactions(new_order_obj.tx_id)                
+            #     tx = g.icl.search_transactions(new_order_obj.tx_id)                
                 
-                for algo_tx in tx['transactions']:
+            #     for algo_tx in tx['transactions']:
                     
-                    if algo_tx['payment-transaction']['amount'] == new_order_obj.sell_amount and algo_tx['payment-transaction']['receiver'] == algo_pk and algo_tx['transactions']['sender'] == new_order_obj.sender_pk :
+            #         if algo_tx['payment-transaction']['amount'] == new_order_obj.sell_amount and algo_tx['payment-transaction']['receiver'] == algo_pk and algo_tx['transactions']['sender'] == new_order_obj.sender_pk :
                 
-                        print('line 450: algoOrder is valid') 
-                        orders = g.session.query(Order).filter(Order.filled == None).all()
-                        fill_order(new_order_obj, orders)            
-                        print('line 453: filled algo orders') 
+            #             print('line 450: algoOrder is valid') 
+            #             orders = g.session.query(Order).filter(Order.filled == None).all()
+            #             fill_order(new_order_obj, orders)            
+            #             print('line 453: filled algo orders') 
 
 
-            # orders = g.session.query(Order).filter(Order.filled == None).all()
-            # fill_order(new_order_obj, orders)            
-            # print('line 400: filled orders') 
+            orders = g.session.query(Order).filter(Order.filled == None).all()
+            fill_order(new_order_obj, orders)            
+            print('line 400: filled orders') 
             
         
     
