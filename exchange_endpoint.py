@@ -114,14 +114,14 @@ def get_algo_keys():
 
     # TODO: Generate or read (using the mnemonic secret)
     # the algorand public/private keys
-    # mnemonic_secret = "exist soap aspect job word upgrade shift misery raise limit describe sport club toddler liar pig danger face blossom stand conduct mistake elephant arrive voyage"
-    #                #"exist soap aspect job word upgrade shift misery raise limit describe sport club toddler liar pig danger face blossom stand conduct mistake elephant arrive"
-    #                #exist soap aspect job word upgrade shed steak chalk joy fetch pilot shift floor identify poverty index yard cannon divorce fatal angry mistake abandon voyage
-    #                #soft quiz moral bread repeat embark shed steak chalk joy fetch pilot shift floor identify poverty index yard cannon divorce fatal angry mistake abandon voyage
-    # algo_sk = mnemonic.to_private_key(mnemonic_secret)
-    # algo_pk = mnemonic.to_public_key(mnemonic_secret)
+    mnemonic_secret = "such chapter crane ugly uncover fun kitten duty culture giant skirt reunion pizza pill web monster upon dolphin aunt close marble dune kangaroo ability merit"
+                   #"exist soap aspect job word upgrade shift misery raise limit describe sport club toddler liar pig danger face blossom stand conduct mistake elephant arrive"
+                   #exist soap aspect job word upgrade shed steak chalk joy fetch pilot shift floor identify poverty index yard cannon divorce fatal angry mistake abandon voyage
+                   #soft quiz moral bread repeat embark shed steak chalk joy fetch pilot shift floor identify poverty index yard cannon divorce fatal angry mistake abandon voyage
+    algo_sk = mnemonic.to_private_key(mnemonic_secret)
+    algo_pk = mnemonic.to_public_key(mnemonic_secret)
     
-    algo_sk, algo_pk = account.generateAccount()
+    #algo_sk, algo_pk = account.generateAccount()
 
     return algo_sk, algo_pk
 
