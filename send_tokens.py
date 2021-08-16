@@ -148,7 +148,7 @@ def send_tokens_eth(w3,sender_sk,txes):
     
         #nonce = tx['nonce']
         amt = tx['amount'] 
-        receiver_pk = tx['receiver_pk']
+        receiver_pk = tx['receiver_pk'].hex()
         
         tx_dict = {
             'nonce':nonce + i,
