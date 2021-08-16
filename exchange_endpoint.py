@@ -261,16 +261,14 @@ def execute_txes(txes):
     #          We've provided the send_tokens_algo and send_tokens_eth skeleton methods in send_tokens.py
     #       2. Add all transactions to the TX table
 
-    w3 = connect_to_eth()
-    acl = connect_to_algo()
-    eth_sk, eth_pk = get_eth_keys()
-    algo_sk, algo_pk = get_algo_keys()
+    # w3 = connect_to_eth()
+    # acl = connect_to_algo()
 
     if eth_txes.count != 0:
-        eth_txids = send_tokens_eth(w3,eth_sk,eth_txes)
+        eth_txids = send_tokens_eth(g.w3,eth_sk,eth_txes)
         for eth_txid in eth_txids:
 
-            eth_tx = w3.eth.getTransaction(eth_txid)
+            eth_tx = g.w3.eth.getTransaction(eth_txid)
             # how to get 'order_id'???  ,
             new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx["receiver_pk"], order_id= eth_tx['order_id'], tx_id = eth_txid )
             g.session.add(new_tx_object)
@@ -278,10 +276,10 @@ def execute_txes(txes):
             print('line 285: eth_tx executed')
 
     if algo_txes.count !=0:
-        algo_txids = send_tokens_algo(acl,algo_sk,algo_txes)
+        algo_txids = send_tokens_algo(g.acl,algo_sk,algo_txes)
 
         for algo_txid in algo_txids:
-            tx = acl.search_transactions(algo_txid)
+            tx = g.icl.search_transactions(algo_txid)
             for algo_tx in tx['transactions']:
 
                 # how to get 'order_id'???   
@@ -337,7 +335,7 @@ def address():
 @app.route('/trade', methods=['POST'])
 def trade():
     print( "In trade", file=sys.stderr )
-    #connect_to_blockchains()
+    connect_to_blockchains()
     #get_keys()
     if request.method == "POST":
         content = request.get_json(silent=True)
