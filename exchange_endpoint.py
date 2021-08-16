@@ -114,7 +114,7 @@ def get_algo_keys():
 
     # TODO: Generate or read (using the mnemonic secret)
     # the algorand public/private keys
-    mnemonic_secret = "exist soap aspect job word upgrade shift misery raise limit describe sport club toddler liar pig danger face blossom stand conduct mistake elephant arrive"
+    mnemonic_secret = "exist exist soap aspect job word upgrade shift misery raise limit describe sport club toddler liar pig danger face blossom stand conduct mistake elephant arrive"
   
     algo_sk = mnemonic.to_private_key(mnemonic_secret)
     algo_pk = mnemonic.to_public_key(mnemonic_secret)
