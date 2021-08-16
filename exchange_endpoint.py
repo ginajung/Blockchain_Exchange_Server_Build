@@ -213,9 +213,6 @@ def fill_order(new_order_obj, orders):
 
     print('line 215: filled')
 
-    # new_order_obj.id 
-    # filled_orders = g.session.query(Order).filter(Order.id == new_order_obj.id ).all()
-    
     txes = []
     
     tx_neworder = {
@@ -270,7 +267,6 @@ def execute_txes(txes):
     eth_sk, eth_pk = get_eth_keys()
     algo_sk, algo_pk = get_algo_keys()
  
-
     for eth_tx in eth_txes:
 
         eth_txid = send_tokens_eth(w3,eth_sk,eth_tx)
@@ -287,7 +283,6 @@ def execute_txes(txes):
 
         print('line 292: algo_tx executed')
 
-    
     pass
 
 """ End of Helper methods"""
@@ -366,10 +361,8 @@ def trade():
                 print( "Algo_verified" ) 
                 result = True
                 
-            
         # 2. Add the order to the table
 
-        # checking limit order with sell_amount
         if (result == True ) :
             # if verified, insert into Order table
             # 1. INSERT : generate new_order_obj from new_order dictionary
@@ -385,11 +378,11 @@ def trade():
             
             #print('line 370: new_Order made' + content['payload']['sell_currency']+ content['payload']['tx_id']) 
 
-            new_tx_obj = TX ( platform = content['payload']['sell_currency'] , receiver_pk =content['payload']['buy_currency'] , order_id = new_order_obj.id, tx_id = content['payload']['tx_id'])
+            # new_tx_obj = TX ( platform = content['payload']['sell_currency'] , receiver_pk =content['payload']['buy_currency'] , order_id = new_order_obj.id, tx_id = content['payload']['tx_id'])
             
-            g.session.add(new_tx_obj)
-            g.session.commit()
-            print('line 407: new_TX made') 
+            # g.session.add(new_tx_obj)
+            # g.session.commit()
+            # print('line 407: new_TX made') 
 
         # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)        
             # when an order comes in 
@@ -432,7 +425,6 @@ def trade():
 
 
             orders = g.session.query(Order).filter(Order.filled == None).all()
-            
             fill_order(new_order_obj, orders)            
             print('line 400: filled orders') 
             
@@ -450,7 +442,7 @@ def trade():
 
 @app.route('/order_book')
 def order_book():
-    fields = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "signature", "tx_id", "receiver_pk", "sender_pk"]
+    #fields = [ "buy_currency", "sell_currency", "buy_amount", "sell_amount", "signature", "tx_id", "receiver_pk", "sender_pk"]
 
     orders = g.session.query(Order).all()
     data_dic ={'data': []}
