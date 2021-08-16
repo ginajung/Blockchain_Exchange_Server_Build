@@ -498,4 +498,4 @@ def order_book():
     return jsonify(data_dic)
     
 if __name__ == '__main__':
-    app.run(port='5002')
+    app.run(port='5004')
