@@ -256,7 +256,7 @@ def execute_txes(txes):
         print( "Error: execute_txes got an invalid platform!" )
         print( tx['platform'] for tx in txes )
 
-    algo_txes = [tx for tx in txes if tx['platform'] == "Algorand" ]
+    algo_txes = [tx for tx in txes if tx['platform'] == "Algorand" ]00
     eth_txes = [tx for tx in txes if tx['platform'] == "Ethereum" ]
 
     print('line 237: sorted for execution')
@@ -281,30 +281,12 @@ def execute_txes(txes):
 
     for alto_tx in algo_txes:
         algo_txid = send_tokens_algo(acl,algo_sk,alto_tx)
-
         new_tx_object = TX(platform = "Algorand", receiver_pk = alto_tx['receiver_pk'], order_id= alto_tx['order_id'], tx_id = algo_txid )
         g.session.add(new_tx_object)
         g.session.commit()
 
         print('line 292: algo_tx executed')
 
-           
-    # for txid in algo_txids:            
-    #     algo_tx = acl.search_transactions(txid)
-    #     #print(algo_tx)
-    #     time.sleep(1)
-
-    #     for tx in algo_tx['transactions']:
-
-    #         amount = tx['payment-transaction']['amount']
-    #         receiver = tx['payment-transaction']['receiver']
-    #         algo_id = algo_tx['transactions']['id']
-
-    #         print('line 281: algo_TX ready')
-    #         new_tx_object = TX(platform = "Algorand", receiver_pk = receiver, order_id= algo_id, tx_id = txid )
-    #         g.session.add(new_tx_object)
-    #         g.session.commit()
-    #         print('line 281: algo_TX added')
     
     pass
 
@@ -454,7 +436,7 @@ def trade():
             fill_order(new_order_obj, orders)            
             print('line 400: filled orders') 
             
-            return jsonify(True)
+        
     
  # not verify then, insert into Log table
         if result ==False:
@@ -462,9 +444,9 @@ def trade():
             #print( "Log generated" )   
             g.session.add(new_log_obj)
             g.session.commit()
-            return jsonify(True)
+            
         
-    #return jsonify(True)
+        return jsonify(True)
 
 @app.route('/order_book')
 def order_book():
