@@ -157,15 +157,13 @@ def fill_order(new_order_obj, orders):
             new_order_obj.counterparty_id = existing_order.id
             existing_order.counterparty_id = new_order_obj.id
 
-
-            
     
             tx_neworder = {
                 'platform':new_order_obj.buy_currency,
                 'amount': min(new_order_obj.buy_amount, existing_order.sell_amount),
                 'order_id': new_order_obj.id,
+                'order' : new_order_obj,
                 'receiver_pk': new_order_obj.receiver_pk,
-                'order': new_order_obj,
                 'tx_id': new_order_obj.tx_id }    
 
             txes.append(tx_neworder)
@@ -174,12 +172,11 @@ def fill_order(new_order_obj, orders):
                 'platform':existing_order.buy_currency,
                 'amount': min(existing_order.buy_amount, new_order_obj.sell_amount),
                 'order_id': existing_order.id,
+                'order': existing_order,
                 'receiver_pk': existing_order.receiver_pk,
-                'order' : existing_order,
                 'tx_id': existing_order.tx_id } 
             txes.append(tx_exorder)  
     
-            
 
             break;
 
@@ -310,7 +307,7 @@ def execute_txes(txes):
     if algo_txes.count !=0:
 
         for algo_tx in algo_txes:
-            algo_txid = send_tokens_algo(g.acl,eth_sk,algo_tx)
+            algo_txid = send_tokens_algo(g.icl,eth_sk,algo_tx)
             new_tx_object = TX(platform = "Algorand", receiver_pk = algo_tx['receiver_pk'], order_id= algo_tx['order_id'], order = algo_tx.order, tx_id = algo_txid )
             g.session.add(new_tx_object)
             g.session.commit()
