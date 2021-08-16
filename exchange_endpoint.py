@@ -401,7 +401,7 @@ def trade():
             
             fill_order(new_order_obj, orders)            
             print('line 400: filled orders') 
-            
+            return jsonify(True)
 
 
         # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)        
@@ -422,11 +422,14 @@ def trade():
             #     tx = w3.eth.get_transaction(tx_id)
                 
 
-            #     if tx['value'] == new_order_obj.sell_amount and tx['to'] == new_order_obj.receiver_pk and tx['from'] == eth_pk :
+            #     if tx['value'] == new_order_obj.sell_amount and tx['to'] == new_order_obj.receiver_pk :
 
             #         print('line 401: ethOrder is valid') 
-            #         orders = g.session.query(Order).filter(Order.filled == None).all()
-            #         fill_order(new_order_obj, orders)
+            #        
+                        # orders = g.session.query(Order).filter(Order.filled == None).all()
+            
+                        # fill_order(new_order_obj, orders)            
+                        # print('line 400: filled orders') 
                     
                     
 
@@ -446,8 +449,10 @@ def trade():
             #         if tx['payment-transaction']['amount'] == new_order_obj.sell_amount and tx['payment-transaction']['receiver'] == new_order_obj.receiver_pk:
                 
             #             print('line 420: algoOrder is valid') 
-            #             orders = g.session.query(Order).filter(Order.filled == None).all()
-            #             fill_order(new_order_obj, orders)
+            #            # orders = g.session.query(Order).filter(Order.filled == None).all()
+            
+                        # fill_order(new_order_obj, orders)            
+                        # print('line 400: filled orders') 
 
  # not verify then, insert into Log table
         if result ==False:
@@ -455,8 +460,8 @@ def trade():
             #print( "Log generated" )   
             g.session.add(new_log_obj)
             g.session.commit()
+            return jsonify(True)
         
-        return jsonify(True)
 
     return jsonify(True)
 
