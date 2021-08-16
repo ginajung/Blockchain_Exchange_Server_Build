@@ -114,12 +114,10 @@ def get_algo_keys():
 
     # TODO: Generate or read (using the mnemonic secret)
     # the algorand public/private keys
+    mnemonic_secret = "soft quiz moral bread repeat embark shed steak chalk joy fetch pilot shift floor identify poverty index yard cannon divorce fatal angry mistake abandon voyage"
+    algo_sk = mnemonic.to_private_key(mnemonic_secret)
+    algo_pk = mnemonic.to_public_key(mnemonic_secret)
 
-    mnemonic_phrase = "sight garment riot tattoo tortoise talk sea ill walnut leg robot myth toe perfect rifle dizzy spend april build legend brother above hospital"
-    algo_sk = mnemonic.to_private_key(mnemonic_phrase)
-    algo_pk = mnemonic.to_public_key(mnemonic_phrase)
-
-    
     return algo_sk, algo_pk
 
 
@@ -134,10 +132,8 @@ def get_eth_keys(filename = "eth_mnemonic.txt"):
     
     
     # acct = w3.eth.account.from_mnemonic(eth_mnemonic)
-    
-    eth_pk = acct._address
     eth_sk = acct._private_key.hex() #private key is of type HexBytes which is not JSON serializable, adding .hex() converts it to a string
-
+    eth_pk = acct._address
     return eth_sk, eth_pk
 
 
