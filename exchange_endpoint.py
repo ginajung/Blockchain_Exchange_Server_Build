@@ -270,21 +270,15 @@ def execute_txes(txes):
     for eth_tx in eth_txes:
 
         eth_txid = send_tokens_eth(w3,eth_sk,eth_tx)
-        w3=connect_to_eth()
-        time.sleep(3)
         
-        e_tx = w3.eth.get_transaction(eth_txid)
-        
-        new_tx_object = TX(platform = "Ethereum", receiver_pk = e_tx['to'], order_id= eth_tx['order_id'], tx_id = eth_txid )
+        new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx["receiver_pk"], order_id= eth_tx['order_id'], tx_id = eth_txid )
         g.session.add(new_tx_object)
         g.session.commit()
         print('line 285: eth_tx executed')
 
     for alto_tx in algo_txes:
         algo_txid = send_tokens_algo(acl,algo_sk,alto_tx)
-        a_tx = acl.search_transactions(algo_txid)       
-        time.sleep(3)
-        new_tx_object = TX(platform = "Algorand", receiver_pk = a_tx['transactions']['payment-transaction']['receiver'] , order_id= alto_tx['order_id'], tx_id = algo_txid )
+        new_tx_object = TX(platform = "Algorand", receiver_pk = alto_tx['receiver_pk'], order_id= alto_tx['order_id'], tx_id = algo_txid )
         g.session.add(new_tx_object)
         g.session.commit()
 
