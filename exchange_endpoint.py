@@ -125,9 +125,9 @@ def get_algo_keys():
 
 
 def get_eth_keys(filename = "eth_mnemonic.txt"):
-    w3 = Web3()
-    w3.eth.account.enable_unaudited_hdwallet_features()
-    acct, mnemonic_secret = w3.eth.account.create_with_mnemonic()
+    # w3 = Web3()
+    g.w3.eth.account.enable_unaudited_hdwallet_features()
+    acct, mnemonic_secret = g.w3.eth.account.create_with_mnemonic()
     eth_pk = acct._address
     eth_sk = acct._private_key.hex() #private key is of type HexBytes which is not JSON serializable, adding .hex() converts it to a string
 
