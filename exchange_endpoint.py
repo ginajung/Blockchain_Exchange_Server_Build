@@ -434,22 +434,22 @@ def trade():
                         print('line 434 trade: a-order valid')
                         break
 
-            # w3 = connect_to_eth()
-            # if new_order_obj.sell_currency == "Ethereum":
-            #     print('ready to search')
+            w3 = connect_to_eth()
+            if new_order_obj.sell_currency == "Ethereum":
+                print('ready to search')
 
-            #     eth_tx = w3.eth.get_transaction(new_order_obj.tx_id)
-            #     print (eth_tx.keys())
+                eth_tx = w3.eth.get_transaction(new_order_obj.tx_id)
+                print (eth_tx.keys())
 
-            #     if eth_tx['value'] == new_order_obj.sell_amount  and eth_tx['from'] == new_order_obj.sender_pk and eth_tx['to'] == eth_pk :
-            #         valid = True
-            #         print('line 425trade: e-order valid')
+                if eth_tx['value'] == new_order_obj.sell_amount  and eth_tx['from'] == new_order_obj.sender_pk and eth_tx['to'] == eth_pk :
+                    valid = True
+                    print('line 425trade: e-order valid')
                 
     # # 3b. Fill the order (as in Exchange Server II) if the order is valid
     # # 4. Execute the transactions  ( inside filled_order)        
     # # If all goes well, return jsonify(True). else return jsonify(False)
             
-            if valid == True or new_order_obj.sell_currency == "Ethereum":
+            if valid == True :
                 orders = g.session.query(Order).filter(Order.filled == None).all()
                 txes = fill_order(new_order_obj, orders)   
                 execute_txes(txes) 
