@@ -432,7 +432,7 @@ def trade():
                     if algo_tx['payment-transaction']['amount'] == new_order_obj.sell_amount and algo_tx['sender'] == new_order_obj.sender_pk and algo_tx['payment-transaction']['receiver'] == algo_pk:
                         valid = True
                         print('line 434 trade: a-order valid')
-                        break
+                        
 
             w3 = connect_to_eth()
             if new_order_obj.sell_currency == "Ethereum":
