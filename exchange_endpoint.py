@@ -234,9 +234,10 @@ def fill_order(new_order_obj, orders):
             g.session.commit()
 
     print('line 215: filled')
-
+    
     return txes
-  
+
+
 def execute_txes(txes):
 
     if txes is None:
@@ -283,7 +284,7 @@ def execute_txes(txes):
 
     if algo_txes.count !=0:
 
-        algo_txids = send_tokens_algo(g.icl,algo_sk,algo_txes)
+        algo_txids = send_tokens_algo(g.acl,algo_sk,algo_txes)
 
         for i, algo_txid in algo_txids:
             
@@ -419,6 +420,7 @@ def trade():
                 eth_tx = g.w3.eth.get_transaction(new_order_obj.tx_id)
                 if eth_tx['value'] == new_order_obj.sell_amount and eth_tx['from'] == new_order_obj.sender_pk and eth_tx['to'] == eth_pk :
                     valid = True
+                    
               
             if new_order_obj.sell_currency == "Algorand": 
                 
@@ -439,14 +441,14 @@ def trade():
                 txes = fill_order(new_order_obj, orders)   
                 execute_txes(txes)       
 
-            return jsonify(True)
+                return jsonify(True)
     
  # not verify then, insert into Log table
         if result ==False:
             new_log_obj = Log(message = payload) 
             g.session.add(new_log_obj)
             g.session.commit()
-            return jsonify(False)
+            return jsonify(True)
     
     return jsonify(False)
 
