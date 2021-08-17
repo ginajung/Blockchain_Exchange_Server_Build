@@ -143,6 +143,7 @@ def fill_order(new_order_obj, orders):
     # Make sure that you end up executing all resulting transactions!
 
     txes = []
+
     for existing_order in orders:
 
         if new_order_obj.id != existing_order.id and existing_order.buy_currency == new_order_obj.sell_currency and \
@@ -178,7 +179,8 @@ def fill_order(new_order_obj, orders):
                 'tx_id': existing_order.tx_id } 
             txes.append(tx_exorder)  
             print('line 180 fill: pair matching txes ')
-            break
+            
+
 
     # 3. If one of the orders is not completely filled (i.e. the counterparty’s sell_amount is less than buy_amount):
         if new_order_obj.sell_amount > existing_order.buy_amount:
@@ -232,7 +234,9 @@ def fill_order(new_order_obj, orders):
             g.session.add(child_order_exobj)
             child_order_exobj.creator_id = existing_order.id
             g.session.commit()
-
+            
+        if txes.count == 2:
+            break
     print('line 235: filled')
     
     return txes
@@ -412,10 +416,9 @@ def trade():
             g.session.commit()
             print('line 414 trade: order added')
                         
-        # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)
+    # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)
             valid = False
 
-            
             if new_order_obj.sell_currency == "Algorand": 
                 print('ready to search')
                 tx = g.icl.search_transactions(new_order_obj.tx_id)  
@@ -435,15 +438,16 @@ def trade():
                     valid = True
                     print('line 425trade: e-order valid')
                 
-        # 3b. Fill the order (as in Exchange Server II) if the order is valid
-        # 4. Execute the transactions  ( inside filled_order)        
-        # If all goes well, return jsonify(True). else return jsonify(False)
+    # 3b. Fill the order (as in Exchange Server II) if the order is valid
+    # 4. Execute the transactions  ( inside filled_order)        
+    # If all goes well, return jsonify(True). else return jsonify(False)
             
             if valid == True:
                 orders = g.session.query(Order).filter(Order.filled == None).all()
                 txes = fill_order(new_order_obj, orders)   
                 execute_txes(txes) 
                 return jsonify(True)  
+
         # #       
         #     orders = g.session.query(Order).filter(Order.filled == None).all()
         #     txes = fill_order(new_order_obj, orders)   
