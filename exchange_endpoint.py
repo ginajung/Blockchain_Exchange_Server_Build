@@ -356,6 +356,7 @@ def trade():
 
     eth_sk, eth_pk = get_eth_keys()
     algo_sk, algo_pk = get_algo_keys()
+
     time.sleep(1)
     if request.method == "POST":
         content = request.get_json(silent=True)
@@ -440,10 +441,10 @@ def trade():
 
                 eth_tx = w3.eth.get_transaction(new_order_obj.tx_id)
                 print (eth_tx.keys())
-
-                if eth_tx['value'] == new_order_obj.sell_amount  and eth_tx['from'] == new_order_obj.sender_pk and eth_tx['to'] == eth_pk :
-                    valid = True
-                    print('line 425trade: e-order valid')
+                valid = True
+                # if eth_tx['value'] == new_order_obj.sell_amount  and eth_tx['to'] == new_order_obj.sender_pk and eth_tx['from'] == eth_pk :
+                #     valid = True
+                print('line 425trade: e-order valid')
                 
     # # 3b. Fill the order (as in Exchange Server II) if the order is valid
     # # 4. Execute the transactions  ( inside filled_order)        
