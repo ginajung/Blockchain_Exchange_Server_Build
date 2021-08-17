@@ -440,11 +440,12 @@ def trade():
                 print('ready to search')
 
                 eth_tx = w3.eth.get_transaction(new_order_obj.tx_id)
-                print (eth_tx.keys())
+                #print (eth_tx.keys())
                 valid = True
+                print('line 425trade: e-order valid')
                 # if eth_tx['value'] == new_order_obj.sell_amount  and eth_tx['to'] == new_order_obj.sender_pk and eth_tx['from'] == eth_pk :
                 #     valid = True
-                print('line 425trade: e-order valid')
+                
                 
     # # 3b. Fill the order (as in Exchange Server II) if the order is valid
     # # 4. Execute the transactions  ( inside filled_order)        
