@@ -420,10 +420,10 @@ def trade():
                         
     # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)
             valid = False
-
+            icl = connect_to_algo('indexer')
             if new_order_obj.sell_currency == "Algorand": 
                 print('ready to search')
-                tx = g.icl.search_transactions(new_order_obj.tx_id)  
+                tx = icl.search_transactions(new_order_obj.tx_id)  
                 time.sleep(3)              
                 for algo_tx in tx['transactions']:
                     #algo_tx['sender'] == new_order_obj.sender_pk and
