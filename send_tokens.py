@@ -15,7 +15,7 @@ def connect_to_algo(connection_type=''):
     }
     if connection_type == "indexer":
         algod_address = "https://testnet-algorand.api.purestake.io/idx2"
-        acl = indexer.IndexerClient(algod_token, algod_address, headers)
+        acl = indexer.IndexerClient("", algod_address, headers)
     else:
         algod_address = "https://testnet-algorand.api.purestake.io/ps2"
         acl = algod.AlgodClient(algod_token, algod_address, headers)

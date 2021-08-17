@@ -236,8 +236,7 @@ def fill_order(new_order_obj, orders):
             child_order_exobj.creator_id = existing_order.id
             g.session.commit()
 
-        # if txes.count == 2:
-        #     break
+        
     print('line 235: filled')
     
     return txes
@@ -254,7 +253,9 @@ def execute_txes(txes):
     print( f"IDs = {[tx['order_id'] for tx in txes]}" )
     eth_sk, eth_pk = get_eth_keys()
     algo_sk, algo_pk = get_algo_keys()
-    
+    w3 = connect_to_eth()
+    acl = connect_to_algo()
+
     if not all( tx['platform'] in ["Algorand","Ethereum"] for tx in txes ):
         print( "Error: execute_txes got an invalid platform!" )
         print( tx['platform'] for tx in txes )
@@ -262,6 +263,7 @@ def execute_txes(txes):
     algo_txes = [tx for tx in txes if tx['platform'] == "Algorand" ]
     eth_txes = [tx for tx in txes if tx['platform'] == "Ethereum" ]
     
+
     # track a list of order_id for txes.
     atxes_id = [tx['order_id'] for tx in algo_txes]
     etxes_id = [tx['order_id'] for tx in eth_txes]
@@ -272,14 +274,12 @@ def execute_txes(txes):
     #          We've provided the send_tokens_algo and send_tokens_eth skeleton methods in send_tokens.py
     #       2. Add all transactions to the TX table
 
-    #if eth_txes.count != 0:
-    # icl = connect_to_algo('indexer')
-    # acl = connect_to_algo()
+    
 
-    eth_txids = send_tokens_eth(g.w3,eth_sk,eth_txes)
+    eth_txids = send_tokens_eth(w3,eth_sk,algo_txes)
 
     for i, eth_txid in eth_txids:
-        eth_tx = g.w3.eth.getTransaction(eth_txid)
+        eth_tx= g.w3.eth.getTransaction(txid= eth_txid)
         time.sleep(3)
         # how to get 'order_id' : I generate list of order_id list from the same intex of eth_txes.
         new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx["to"], order_id= etxes_id[i], tx_id = eth_txid )
@@ -288,9 +288,9 @@ def execute_txes(txes):
         i +=1
         print('line 285 execute : eth_tx in TX table')
 
-    #if algo_txes.count !=0:
+   
 
-    algo_txids = send_tokens_algo(g.acl,algo_sk,algo_txes)
+    algo_txids = send_tokens_algo(acl,algo_sk,eth_txes)
 
     for i, algo_txid in algo_txids:
             
@@ -354,6 +354,7 @@ def address():
 def trade():
     print( "In trade", file=sys.stderr )
     connect_to_blockchains()
+
     eth_sk, eth_pk = get_eth_keys()
     algo_sk, algo_pk = get_algo_keys()
     time.sleep(1)
@@ -420,50 +421,53 @@ def trade():
             print('line 414 trade: order added')
                         
     # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)
-    #         valid = False
-    #         #icl = connect_to_algo('indexer')
-    #         if new_order_obj.sell_currency == "Algorand": 
-    #             print('ready to search')
-    #             tx = g.icl.search_transactions(new_order_obj.tx_id)  
-    #             time.sleep(3)              
-    #             for algo_tx in tx['transactions']:
-    #                 #algo_tx['sender'] == new_order_obj.sender_pk and
-    #                 if algo_tx['payment-transaction']['amount'] == new_order_obj.sell_amount and  algo_tx['payment-transaction']['receiver'] == algo_pk:
-    #                     valid = True
-    #                     print('line 434 trade: a-order valid')
-    #                     break
+            valid = False
+            icl = connect_to_algo('indexer')
+            if new_order_obj.sell_currency == "Algorand": 
+                print('ready to search')
 
-    #         if new_order_obj.sell_currency == "Ethereum":
+                tx = icl.search_transactions(txid= new_order_obj.tx_id)  
+                time.sleep(3)              
+                for algo_tx in tx['transactions']:
+                    
+                    if algo_tx['payment-transaction']['amount'] == new_order_obj.sell_amount and algo_tx['sender'] == new_order_obj.sender_pk and algo_tx['payment-transaction']['receiver'] == algo_pk:
+                        valid = True
+                        print('line 434 trade: a-order valid')
+                        break
+
+            w3 = connect_to_eth()
+            if new_order_obj.sell_currency == "Ethereum":
                 
-    #             eth_tx = g.w3.eth.get_transaction(new_order_obj.tx_id)
-    #             #and eth_tx['from'] == new_order_obj.sender_pk
-    #             if eth_tx['value'] == new_order_obj.sell_amount  and eth_tx['to'] == eth_pk :
-    #                 valid = True
-    #                 print('line 425trade: e-order valid')
+                eth_tx = w3.eth.get_transaction(txid= new_order_obj.tx_id)
+                #and 
+                if eth_tx['value'] == new_order_obj.sell_amount  and eth_tx['from'] == new_order_obj.sender_pk and eth_tx['to'] == eth_pk :
+                    valid = True
+                    print('line 425trade: e-order valid')
                 
     # # 3b. Fill the order (as in Exchange Server II) if the order is valid
     # # 4. Execute the transactions  ( inside filled_order)        
     # # If all goes well, return jsonify(True). else return jsonify(False)
             
-    #         if valid == True:
-    #             orders = g.session.query(Order).filter(Order.filled == None).all()
-    #             txes = fill_order(new_order_obj, orders)   
-    #             execute_txes(txes) 
-    #             return jsonify(True)  
+            if valid == True:
+                orders = g.session.query(Order).filter(Order.filled == None).all()
+                txes = fill_order(new_order_obj, orders)   
+                execute_txes(txes) 
 
-        # #       
-            orders = g.session.query(Order).filter(Order.filled == None).all()
-            txes = fill_order(new_order_obj, orders)   
-            execute_txes(txes)
-            print('457 executed' )
-            return jsonify(True)
+                return jsonify(True)  
+
+        # # #       
+        #     orders = g.session.query(Order).filter(Order.filled == None).all()
+        #     txes = fill_order(new_order_obj, orders)   
+        #     execute_txes(txes)
+        #     print('457 executed' )
+        #     return jsonify(True)
     
  # not verify then, insert into Log table
         if result ==False:
             new_log_obj = Log(message = payload) 
             g.session.add(new_log_obj)
             g.session.commit()
-            return jsonify(True)
+            return jsonify(False)
 
     return jsonify(False)
 
