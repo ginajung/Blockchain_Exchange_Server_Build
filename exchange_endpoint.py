@@ -234,7 +234,7 @@ def fill_order(new_order_obj, orders):
             g.session.add(child_order_exobj)
             child_order_exobj.creator_id = existing_order.id
             g.session.commit()
-            
+
         if txes.count == 2:
             break
     print('line 235: filled')
@@ -272,6 +272,8 @@ def execute_txes(txes):
     #       2. Add all transactions to the TX table
 
     #if eth_txes.count != 0:
+    icl = connect_to_algo('indexer')
+    acl = connect_to_algo()
 
     eth_txids = send_tokens_eth(g.w3,eth_sk,eth_txes)
 
@@ -287,11 +289,11 @@ def execute_txes(txes):
 
     #if algo_txes.count !=0:
 
-    algo_txids = send_tokens_algo(g.acl,algo_sk,algo_txes)
+    algo_txids = send_tokens_algo(acl,algo_sk,algo_txes)
 
     for i, algo_txid in algo_txids:
             
-        tx = g.icl.search_transactions(algo_txid)
+        tx = icl.search_transactions(algo_txid)
         time.sleep(3)
         for algo_tx in tx['transactions']:
                 
