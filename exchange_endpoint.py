@@ -437,9 +437,10 @@ def trade():
 
             w3 = connect_to_eth()
             if new_order_obj.sell_currency == "Ethereum":
+                print('ready to search')
                 
                 eth_tx = w3.eth.get_transaction(new_order_obj.tx_id)
-                #and 
+                
                 if eth_tx['value'] == new_order_obj.sell_amount  and eth_tx['from'] == new_order_obj.sender_pk and eth_tx['to'] == eth_pk :
                     valid = True
                     print('line 425trade: e-order valid')

@@ -51,7 +51,6 @@ def send_tokens_algo( acl, sender_sk, txes):
         
         unsigned_tx = transaction.PaymentTxn(sender_pk, params, send_to_address, send_amount)
         
-   
         # TODO: Sign the transaction
         signed_tx = unsigned_tx.sign(sender_sk)
         
@@ -72,9 +71,8 @@ def send_tokens_algo( acl, sender_sk, txes):
         
         #continue
     
-    print('line 71 in send token algo')  
+    print('line 74 in send token algo')  
     return tx_ids
-
 
 
 # Function from Algorand Inc.
