@@ -236,8 +236,8 @@ def fill_order(new_order_obj, orders):
             child_order_exobj.creator_id = existing_order.id
             g.session.commit()
 
-        if txes.count == 2:
-            break
+        # if txes.count == 2:
+        #     break
     print('line 235: filled')
     
     return txes
