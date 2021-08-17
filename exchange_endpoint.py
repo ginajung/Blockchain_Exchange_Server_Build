@@ -161,25 +161,24 @@ def fill_order(new_order_obj, orders):
 
     
             tx_neworder = {
-                'platform':new_order_obj.buy_currency,
-                'amount': min(new_order_obj.buy_amount, existing_order.sell_amount),
-                'order_id': new_order_obj.id,
-                'order' : new_order_obj,
-                'receiver_pk': new_order_obj.receiver_pk,
-                'tx_id': new_order_obj.tx_id }    
+                    'platform':new_order_obj.buy_currency,
+                    'amount': min(new_order_obj.buy_amount, existing_order.sell_amount),
+                    'order_id': new_order_obj.id,
+                    'order' : new_order_obj,
+                    'receiver_pk': new_order_obj.receiver_pk }    
 
             txes.append(tx_neworder)
 
             tx_exorder = {
-                'platform':existing_order.buy_currency,
-                'amount': min(existing_order.buy_amount, new_order_obj.sell_amount),
-                'order_id': existing_order.id,
-                'order': existing_order,
-                'receiver_pk': existing_order.receiver_pk,
-                'tx_id': existing_order.tx_id } 
+                    'platform':existing_order.buy_currency,
+                    'amount': min(existing_order.buy_amount, new_order_obj.sell_amount),
+                    'order_id': existing_order.id,
+                    'order': existing_order,
+                    'receiver_pk': existing_order.receiver_pk}
+
             txes.append(tx_exorder)  
             print('line 180 fill: pair matching txes ')
-            break;
+            break
             
 
 
@@ -294,7 +293,7 @@ def execute_txes(txes):
 
     for i, algo_txid in algo_txids:
             
-        tx = icl.search_transactions(algo_txid)
+        tx = icl.search_transactions(txid=algo_txid)
         time.sleep(3)
         for algo_tx in tx['transactions']:
                 
@@ -426,7 +425,7 @@ def trade():
             if new_order_obj.sell_currency == "Algorand": 
                 print('ready to search')
 
-                tx = icl.search_transactions(new_order_obj.tx_id)  
+                tx = icl.search_transactions(txid =new_order_obj.tx_id)  
                 time.sleep(3)              
                 for algo_tx in tx['transactions']:
                     
@@ -438,7 +437,7 @@ def trade():
             w3 = connect_to_eth()
             if new_order_obj.sell_currency == "Ethereum":
                 print('ready to search')
-                
+
                 eth_tx = w3.eth.get_transaction(new_order_obj.tx_id)
                 
                 if eth_tx['value'] == new_order_obj.sell_amount  and eth_tx['from'] == new_order_obj.sender_pk and eth_tx['to'] == eth_pk :
@@ -456,12 +455,6 @@ def trade():
 
                 return jsonify(True)  
 
-        # # #       
-        #     orders = g.session.query(Order).filter(Order.filled == None).all()
-        #     txes = fill_order(new_order_obj, orders)   
-        #     execute_txes(txes)
-        #     print('457 executed' )
-        #     return jsonify(True)
     
  # not verify then, insert into Log table
         if result ==False:
@@ -469,6 +462,8 @@ def trade():
             g.session.add(new_log_obj)
             g.session.commit()
             return jsonify(False)
+
+        
 
     return jsonify(False)
 
