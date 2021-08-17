@@ -179,6 +179,7 @@ def fill_order(new_order_obj, orders):
                 'tx_id': existing_order.tx_id } 
             txes.append(tx_exorder)  
             print('line 180 fill: pair matching txes ')
+            break;
             
 
 
