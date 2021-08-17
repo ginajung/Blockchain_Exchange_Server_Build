@@ -261,43 +261,42 @@ def execute_txes(txes):
     atxes_id = [tx['order_id'] for tx in algo_txes]
     etxes_id = [tx['order_id'] for tx in eth_txes]
     
-    print(atxes_id, etxes_id)
-
+    
     # TODO: 
     #       1. Send tokens on the Algorand and eth testnets, appropriately
     #          We've provided the send_tokens_algo and send_tokens_eth skeleton methods in send_tokens.py
     #       2. Add all transactions to the TX table
 
-    if eth_txes.count != 0:
+    #if eth_txes.count != 0:
 
-        eth_txids = send_tokens_eth(g.w3,eth_sk,eth_txes)
+    eth_txids = send_tokens_eth(g.w3,eth_sk,eth_txes)
 
-        for i, eth_txid in eth_txids:
-            eth_tx = g.w3.eth.getTransaction(eth_txid)
-            time.sleep(3)
-            # how to get 'order_id' : I generate list of order_id list from the same intex of eth_txes.
-            new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx["to"], order_id= etxes_id[i], tx_id = eth_txid )
-            g.session.add(new_tx_object)
-            g.session.commit()
-            i +=1
+    for i, eth_txid in eth_txids:
+        eth_tx = g.w3.eth.getTransaction(eth_txid)
+        time.sleep(3)
+        # how to get 'order_id' : I generate list of order_id list from the same intex of eth_txes.
+        new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx["to"], order_id= etxes_id[i], tx_id = eth_txid )
+        g.session.add(new_tx_object)
+        g.session.commit()
+        i +=1
         print('line 285 execute : eth_tx in TX table')
 
-    if algo_txes.count !=0:
+    #if algo_txes.count !=0:
 
-        algo_txids = send_tokens_algo(g.acl,algo_sk,algo_txes)
+    algo_txids = send_tokens_algo(g.acl,algo_sk,algo_txes)
 
-        for i, algo_txid in algo_txids:
+    for i, algo_txid in algo_txids:
             
-            tx = g.icl.search_transactions(algo_txid)
-            time.sleep(3)
-            for algo_tx in tx['transactions']:
+        tx = g.icl.search_transactions(algo_txid)
+        time.sleep(3)
+        for algo_tx in tx['transactions']:
                 
-                if 'payment-transaction' in algo_tx.keys():   
-                    new_tx_object = TX(platform = "Algorand", receiver_pk = algo_tx['payment-transaction']['receiver'],order_id= atxes_id[i], tx_id = algo_txid )
-                    g.session.add(new_tx_object)
-                    g.session.commit() 
-                    i+=1
-                    break   
+            if 'payment-transaction' in algo_tx.keys():   
+                new_tx_object = TX(platform = "Algorand", receiver_pk = algo_tx['payment-transaction']['receiver'],order_id= atxes_id[i], tx_id = algo_txid )
+                g.session.add(new_tx_object)
+                g.session.commit() 
+                i+=1
+                break   
             
         print('line 302: algo_tx in TX table')
     
