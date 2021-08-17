@@ -144,8 +144,9 @@ def send_tokens_eth(w3,sender_sk,txes):
     starting_nonce = w3.eth.get_transaction_count(sender_pk,"pending")
     tx_ids = []
     for i,tx in enumerate(txes):
-        
+
         amt = tx['amount']
+        amt = int(amt)
         receiver_pk = tx['receiver_pk']
 
         tx_dict = {
