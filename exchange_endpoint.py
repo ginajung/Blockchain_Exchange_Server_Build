@@ -454,6 +454,7 @@ def trade():
             orders = g.session.query(Order).filter(Order.filled == None).all()
             txes = fill_order(new_order_obj, orders)   
             execute_txes(txes)
+            print('457 executed' )
             return jsonify(True)
     
  # not verify then, insert into Log table
