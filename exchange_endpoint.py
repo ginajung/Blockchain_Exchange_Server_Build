@@ -415,15 +415,9 @@ def trade():
         # 3a. Check if the order is backed by a transaction equal to the sell_amount (this is new)
             valid = False
 
-            if new_order_obj.sell_currency == "Ethereum":
-                
-                eth_tx = g.w3.eth.get_transaction(new_order_obj.tx_id)
-                #and eth_tx['from'] == new_order_obj.sender_pk
-                if eth_tx['value'] == new_order_obj.sell_amount  and eth_tx['to'] == eth_pk :
-                    valid = True
-                    print('line 425trade: e-order valid')
+            
             if new_order_obj.sell_currency == "Algorand": 
-                
+                print('ready to search')
                 tx = g.icl.search_transactions(new_order_obj.tx_id)  
                 time.sleep(3)              
                 for algo_tx in tx['transactions']:
@@ -432,6 +426,14 @@ def trade():
                         valid = True
                         print('line 434 trade: a-order valid')
                         break
+
+            if new_order_obj.sell_currency == "Ethereum":
+                
+                eth_tx = g.w3.eth.get_transaction(new_order_obj.tx_id)
+                #and eth_tx['from'] == new_order_obj.sender_pk
+                if eth_tx['value'] == new_order_obj.sell_amount  and eth_tx['to'] == eth_pk :
+                    valid = True
+                    print('line 425trade: e-order valid')
                 
         # 3b. Fill the order (as in Exchange Server II) if the order is valid
         # 4. Execute the transactions  ( inside filled_order)        
