@@ -146,7 +146,6 @@ def send_tokens_eth(w3,sender_sk,txes):
     for i,tx in enumerate(txes):
 
         amt = tx['amount']
-        
         receiver_pk = tx['receiver_pk']
 
         tx_dict = {
@@ -159,7 +158,7 @@ def send_tokens_eth(w3,sender_sk,txes):
         signed_txn = w3.eth.account.sign_transaction(tx_dict, sender_sk)
         tx_id = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
         wait_for_confirmation_eth(w3, tx_id )
-        tx_ids.append(tx_id)
+        tx_ids.append(tx_id.hex())
     
     return tx_ids
 
