@@ -255,6 +255,7 @@ def execute_txes(txes):
     algo_sk, algo_pk = get_algo_keys()
     w3 = connect_to_eth()
     acl = connect_to_algo()
+    icl = connect_to_algo('indexer')
 
     if not all( tx['platform'] in ["Algorand","Ethereum"] for tx in txes ):
         print( "Error: execute_txes got an invalid platform!" )
@@ -275,11 +276,10 @@ def execute_txes(txes):
     #       2. Add all transactions to the TX table
 
     
-
     eth_txids = send_tokens_eth(w3,eth_sk,algo_txes)
 
     for i, eth_txid in eth_txids:
-        eth_tx= g.w3.eth.getTransaction(txid= eth_txid)
+        eth_tx= w3.eth.getTransaction(eth_txid)
         time.sleep(3)
         # how to get 'order_id' : I generate list of order_id list from the same intex of eth_txes.
         new_tx_object = TX(platform = "Ethereum", receiver_pk = eth_tx["to"], order_id= etxes_id[i], tx_id = eth_txid )
@@ -294,7 +294,7 @@ def execute_txes(txes):
 
     for i, algo_txid in algo_txids:
             
-        tx = g.icl.search_transactions(algo_txid)
+        tx = icl.search_transactions(algo_txid)
         time.sleep(3)
         for algo_tx in tx['transactions']:
                 
@@ -426,7 +426,7 @@ def trade():
             if new_order_obj.sell_currency == "Algorand": 
                 print('ready to search')
 
-                tx = icl.search_transactions(txid= new_order_obj.tx_id)  
+                tx = icl.search_transactions(new_order_obj.tx_id)  
                 time.sleep(3)              
                 for algo_tx in tx['transactions']:
                     
@@ -438,7 +438,7 @@ def trade():
             w3 = connect_to_eth()
             if new_order_obj.sell_currency == "Ethereum":
                 
-                eth_tx = w3.eth.get_transaction(txid= new_order_obj.tx_id)
+                eth_tx = w3.eth.get_transaction(new_order_obj.tx_id)
                 #and 
                 if eth_tx['value'] == new_order_obj.sell_amount  and eth_tx['from'] == new_order_obj.sender_pk and eth_tx['to'] == eth_pk :
                     valid = True
