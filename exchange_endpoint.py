@@ -275,7 +275,7 @@ def execute_txes(txes):
     #       2. Add all transactions to the TX table
 
     
-    eth_txids = send_tokens_eth(w3,eth_sk,algo_txes)
+    eth_txids = send_tokens_eth(w3,eth_sk,eth_txes)
 
     for i, eth_txid in eth_txids:
         eth_tx= w3.eth.getTransaction(eth_txid)
@@ -289,7 +289,7 @@ def execute_txes(txes):
 
    
 
-    algo_txids = send_tokens_algo(acl,algo_sk,eth_txes)
+    algo_txids = send_tokens_algo(acl,algo_sk,algo_txes)
 
     for i, algo_txid in algo_txids:
             
