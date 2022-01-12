@@ -9,7 +9,7 @@ This project is to build simple exchange server to actually execute trades on th
    (Signatures - an account on most blockchain platforms is simply a key-pair for an Elliptic-Curve Signature algorithm)
    
 
-### Exchange Server
+__Exchange Server__
   - create a server using Flask (https://flask-doc.readthedocs.io/en/latest/) with two endpoints (/trade , /order_book)
 
   - _Trades_ : accept Orders in JSON format.
