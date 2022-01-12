@@ -27,8 +27,6 @@ def send_tokens_algo( acl, sender_sk, txes):
     # get suggested parameters from Algod
     params = acl.suggested_params()
     
-    # TODO: You might want to adjust the first/last valid rounds in the suggested_params
-    #       See guide for details
     
     # gen = params.gen 
     # gh = params.gh
@@ -51,13 +49,13 @@ def send_tokens_algo( acl, sender_sk, txes):
         
         unsigned_tx = transaction.PaymentTxn(sender_pk, params, send_to_address, send_amount)
         
-        # TODO: Sign the transaction
+        # Sign the transaction
         signed_tx = unsigned_tx.sign(sender_sk)
         
         try:
             print(f"Sending {tx['amount']} microalgo from {sender_pk} to {tx['receiver_pk']}" )
             
-            # TODO: Send the transaction to the testnet
+            # Send the transaction to the testnet
             acl.send_transaction(signed_tx)
             
             tx_id = signed_tx.transaction.get_txid()
@@ -106,7 +104,7 @@ def connect_to_eth():
     PORT='8545'
 
     w3 = Web3(Web3.HTTPProvider('http://' + IP_ADDR + ':' + PORT))
-    w3.middleware_onion.inject(geth_poa_middleware, layer=0) #Required to work on a PoA chain (like our private network)
+    w3.middleware_onion.inject(geth_poa_middleware, layer=0) #Required to work on a PoA chain (like private network)
     w3.eth.account.enable_unaudited_hdwallet_features()
     if w3.isConnected():
         return w3
@@ -136,7 +134,7 @@ def send_tokens_eth(w3,sender_sk,txes):
     sender_account = w3.eth.account.privateKeyToAccount(sender_sk)
     sender_pk = sender_account._address
 
-    # TODO: For each of the txes, sign and send them to the testnet
+    # For each of the txes, sign and send them to the testnet
     # Make sure you track the nonce -locally-
     
     starting_nonce = w3.eth.get_transaction_count(sender_pk,"pending")

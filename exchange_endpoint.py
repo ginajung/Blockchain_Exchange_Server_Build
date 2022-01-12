@@ -19,7 +19,7 @@ from algosdk import mnemonic
 from algosdk import account
 from web3 import Web3
 
-# TODO: make sure you implement connect_to_algo, send_tokens_algo, and send_tokens_eth
+
 from send_tokens import connect_to_algo, connect_to_eth, send_tokens_algo, send_tokens_eth
 
 from models import Base, Order, TX, Log
@@ -29,8 +29,6 @@ DBSession = sessionmaker(bind=engine)
 
 
 app = Flask(__name__)
-
-""" Pre-defined methods (do not need to change) """
 
 
 @app.before_request
@@ -92,15 +90,11 @@ def connect_to_blockchains():
         g.w3 = connect_to_eth()
 
 
-""" End of pre-defined methods """
-
-""" Helper Methods (skeleton code for you to implement) """
-
 
 def log_message(message_dict):
     msg = json.dumps(message_dict)
 
-    # TODO: Add message to the Log table
+    # Add message to the Log table
 
     new_log_obj = Log(message=msg)
             # print( "Log generated" )
@@ -112,7 +106,7 @@ def log_message(message_dict):
 
 def get_algo_keys():
 
-    # TODO: Generate or read (using the mnemonic secret)
+    # Generate or read (using the mnemonic secret)
     # the algorand public/private keys
     mnemonic_secret = "such chapter crane ugly uncover fun kitten duty culture giant skirt reunion pizza pill web monster upon dolphin aunt close marble dune kangaroo ability merit"
                    
@@ -128,7 +122,7 @@ def get_eth_keys(filename = "eth_mnemonic.txt"):
     w3 = Web3()
     w3.eth.account.enable_unaudited_hdwallet_features()
     acct, mnemonic_secret = w3.eth.account.create_with_mnemonic()
-    # # #mnemonic_secret = "such chapter crane ugly uncover fun kitten duty culture giant skirt reunion pizza pill web monster upon dolphin aunt close marble dune kangaroo ability merit"
+    # mnemonic_secret = "such chapter crane ugly uncover fun kitten duty culture giant skirt reunion pizza pill web monster upon dolphin aunt close marble dune kangaroo ability merit"
     # acct = w3.eth.account.from_mnemonic(mnemonic_secret)
     eth_pk = acct._address
     eth_sk = acct._private_key.hex() #private key is of type HexBytes which is not JSON serializable, adding .hex() converts it to a string
@@ -137,7 +131,7 @@ def get_eth_keys(filename = "eth_mnemonic.txt"):
 
 
 def fill_order(new_order_obj, orders):
-    # TODO:
+    
     # Match orders (same as Exchange Server II)
     # Validate the order has a payment to back it (make sure the counterparty also made a payment)
     # Make sure that you end up executing all resulting transactions!
@@ -182,10 +176,10 @@ def fill_order(new_order_obj, orders):
             
 
 
-    # 3. If one of the orders is not completely filled (i.e. the counterparty’s sell_amount is less than buy_amount):
+    #  If one of the orders is not completely filled (i.e. the counterparty’s sell_amount is less than buy_amount):
         if new_order_obj.sell_amount > existing_order.buy_amount:
 
-    # 4 Create a new order for remaining balance
+    #  Create a new order for remaining balance
 
             child_order_new = {}
 
@@ -236,7 +230,7 @@ def fill_order(new_order_obj, orders):
             g.session.commit()
 
         
-    print('line 235: filled')
+#     print('line 235: filled')
     
     return txes
 
@@ -269,10 +263,9 @@ def execute_txes(txes):
     etxes_id = [tx['order_id'] for tx in eth_txes]
     
     
-    # TODO: 
-    #       1. Send tokens on the Algorand and eth testnets, appropriately
-    #          We've provided the send_tokens_algo and send_tokens_eth skeleton methods in send_tokens.py
-    #       2. Add all transactions to the TX table
+    
+    #  Send tokens on the Algorand and eth testnets      
+    #  Add all transactions to the TX table
 
     
     eth_txids = send_tokens_eth(w3,eth_sk,algo_txes)
@@ -285,7 +278,7 @@ def execute_txes(txes):
         g.session.add(new_tx_object)
         g.session.commit()
         i +=1
-        print('line 285 execute : eth_tx in TX table')
+#         print('line 285 execute : eth_tx in TX table')
 
    
 
@@ -304,7 +297,7 @@ def execute_txes(txes):
                 i+=1
                 break   
             
-        print('line 302: algo_tx in TX table')
+#         print('line 302: algo_tx in TX table')
     
     pass
 
@@ -328,8 +321,8 @@ def execute_txes(txes):
     #     g.session.commit()
 
     # pass
-""" End of Helper methods"""
   
+
 @app.route('/address', methods=['POST'])
 def address():
     if request.method == "POST":

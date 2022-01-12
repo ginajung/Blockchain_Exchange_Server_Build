@@ -66,8 +66,8 @@ def trade():
             log_message(content)
             return jsonify( False )
             
-        #Your code here
         
+        # process order
         sig = content['sig']
         pk = content['payload']['sender_pk']
         platform = content['payload']['platform']
@@ -109,8 +109,8 @@ def trade():
     
 @app.route('/order_book')
 def order_book():
-    #Your code here : return a list of all orders in the database.
-    #Note that you can access the database session using g.session   
+    
+    # access the database session using g.session   
     orders = g.session.query(Order).filter(Order.sender_pk !=None, Order.receiver_pk !=None, Order.buy_currency !=None, Order.sell_currency !=None, Order.buy_amount!=None, Order.sell_amount!=None, Order.signature!=None).all() 
 #     orders = g.session.query(Order).all()
     
